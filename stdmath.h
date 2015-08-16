@@ -16,6 +16,8 @@ extern "C" {
 
 #define lua_setConst(L,name) { lua_pushnumber(L,name); lua_setglobal(L,#name);}
 
+struct lua_State;
+
 // MATRICES
 
 typedef struct MN_MAT3
@@ -62,6 +64,7 @@ float *std_arc(float center[3],double radius,int divisions, int start, int end);
 // MAT4
 void mn_mat4_set( t_mn_mat4 *mat, float m[4][4]);
 void mn_mat4_free( t_mn_mat4 *mat);
+
 
 #ifdef __cplusplus
 }

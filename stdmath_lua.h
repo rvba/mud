@@ -29,6 +29,10 @@ typedef struct Lua_Vector
 
 }t_lua_vector;
 
+
+// STDMATH
+void lua_stdmath_register( struct lua_State *L);
+
 // ==========================================================
 // MAT4
 // ==========================================================

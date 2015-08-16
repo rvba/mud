@@ -1,6 +1,6 @@
-local S = require "stone"
+local S = stone
 local P = require "Primitive"
-local M = require "mat4"
+local M = mat4
 
 obj1 = S.new("1")
 obj2 = S.new("2")

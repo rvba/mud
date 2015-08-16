@@ -40,6 +40,7 @@ set(
 
 	stdmath_mat3_lua.c
 	stdmath_mat4_lua.c
+	stdmath_lua.c
 	)
 
 set(

@@ -1,5 +1,6 @@
 local P = require "Primitive"
-local M = require "mat4"
+--local M = require "mat4"
+local M = mat4
 
 t = 1
 
@@ -20,10 +21,10 @@ m1:multiply(m2)
 --m1:add(m2)
 
 m3:multiply(m1)
-m3:multiply(m3)
-m3:multiply(m3)
-m3:multiply(m3)
-m3:multiply(m3)
+--m3:multiply(m3)
+--m3:multiply(m3)
+--m3:multiply(m3)
+--m3:multiply(m3)
 
 cube = P.Cube:new("a",1,1,1)
 cube:add_modifier_matrix(m3)

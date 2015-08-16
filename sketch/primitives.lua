@@ -1,5 +1,5 @@
 local P = require "Primitive"
-local M = require "mat4"
+local M = mat4
 
 -- -------------------------------
 -- CUBE
