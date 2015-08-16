@@ -1,5 +1,6 @@
 local P = require "Primitive"
-local M = require "mat4"
+--local M = require "mat4"
+local M = mat4
 
 cube = P.Cube:new("aa",1,1,1)
 m1 = M.new()

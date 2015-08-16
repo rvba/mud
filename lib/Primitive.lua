@@ -1,5 +1,6 @@
-local stone = require "stone"
-local math = require "stdmath"
+--local stone = require "stone"
+--local math = require "stdmath"
+local math = stdmath
 local s = stone.new("s")
 local wrapper = {}
 local Cube = {}

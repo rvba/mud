@@ -1,5 +1,4 @@
-local S = require "stone"
-obj = S.new("a")
+obj = stone.new("a")
 
 function make_form(i,j)
 

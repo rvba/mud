@@ -157,6 +157,13 @@ void lua_make_table_mat4( lua_State *L)
 	luaL_setfuncs(L, mat4_methods, 0);
 }
 
+void lua_mat4_register( lua_State *L)
+{
+	lua_make_table_mat4( L);
+	luaL_newlib( L, mat4);
+	lua_setglobal( L, "mat4");
+}
+
 LUALIB_API int luaopen_mat4( lua_State *L)
 {
 	lua_make_table_mat4( L);

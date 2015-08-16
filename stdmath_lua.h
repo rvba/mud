@@ -42,6 +42,7 @@ typedef struct Lua_Mat4
 }t_lua_mat4;
 
 t_lua_mat4 *lua_mat4_check( lua_State *L, int index);
+void lua_mat4_register( lua_State *L);
 
 
 // ==========================================================
