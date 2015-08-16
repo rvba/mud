@@ -122,7 +122,7 @@ function Mastaba:build_layer(va,vb,vc,vd)
 	v4:mul(offset)
 
 	-- z
-	vz = math.new(0,0,height)
+	vz = smath.new(0,0,height)
 
 	-- a,b,c,d
 	a = self:add_vertex(get_points(va))
@@ -204,10 +204,10 @@ function Mastaba:new( name, w, h, z, count)
 	mastaba.z = z
 
 	-- initial points
-	va = math.new(0,0,0)
-	vb = math.new(w,0,0)
-	vc = math.new(w,h,0)
-	vd = math.new(0,h,0)
+	va = smath.new(0,0,0)
+	vb = smath.new(w,0,0)
+	vc = smath.new(w,h,0)
+	vd = smath.new(0,h,0)
 
 	self:build_layers(va,vb,vc,vd)
 

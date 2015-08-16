@@ -154,7 +154,7 @@ void lua_stdmath_register( lua_State *L)
 	lua_setConst(L,VEC_Y);
 	lua_setConst(L,VEC_Z);
 	luaL_newlib( L, stdmath);
-	lua_setglobal( L, "math");
+	lua_setglobal( L, "smath");
 }
 
 LUALIB_API int luaopen_stdmath( lua_State *L)
