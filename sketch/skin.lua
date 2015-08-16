@@ -1,5 +1,5 @@
-require "math"
-local S = require "stone"
+--require "math"
+local S = stone
 local obj = S.new("skin")
 
 local function add_edge(o,a,b)
