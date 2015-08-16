@@ -1,5 +1,5 @@
 --
-local S = require "stone"
+local S = stone
 local obj = S.new("a")
 local a = obj.add_vertex(obj,0,0,0)
 local b = obj:add_vertex(1,0,0)
@@ -88,7 +88,7 @@ end
 
 
 local test = Typo:new()
-test:print("c")
+test:print("a")
 test.object:build_object()
 
 
