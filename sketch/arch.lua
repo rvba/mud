@@ -1,0 +1,3 @@
+-- arch
+require "Arch"
+arch()
