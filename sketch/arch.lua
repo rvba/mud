@@ -1,3 +1,4 @@
 -- arch
-require "Arch"
-arch()
+local Arch = require "Arch"
+local arch = Arch:new()
+arch:print()
