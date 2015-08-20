@@ -3,6 +3,7 @@
 require "Class"
 
 local Arch = {}
+local Seed = {}
 
 
 function Arch:print()
@@ -46,10 +47,42 @@ function Arch:build_grid()
 		end
 end
 
+function Arch:add_square(x,y,d)
+	a = self:add_vertex(x-d,y-d,0)
+	b = self:add_vertex(x+d,y-d,0)
+	c = self:add_vertex(x+d,y+d,0)
+	d = self:add_vertex(x-d,y+d,0)
+	self:add_edge(a,b)
+	self:add_edge(b,c)
+	self:add_edge(c,d)
+	self:add_edge(d,a)
+end
+
+function Seed:new(x,y)
+	local seed = Seed
+	seed.x = x
+	seed.y = y
+	return seed
+end
+
+function Arch:add_seed(x,y)
+	seeds = self.seeds
+	seed = Seed:new()
+	seeds[seeds.count] = seed
+	seeds.count = seeds.count + 1
+	seed.x = x
+	seed.y = y
+	
+	self:add_square(x,y,.1)
+	return seed
+end
+
 function Arch:new()
 
 	local arch = Arch
 	setproto(arch,self,"arch")
+	self.seeds = {}
+	self.seeds.count = 0
 	return arch
 end
 
