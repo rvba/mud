@@ -4,9 +4,65 @@ require "Class"
 
 local Arch = {}
 local Seed = {}
+local Grid = {}
 
+-- GRID
+
+function Grid:new(arch,x,y)
+
+	local grid = Grid
+	grid.x = x
+	grid.y = y
+	grid.cells = {}
+	grid.arch = arch
+	n = 1
+	for j = 1, y do
+		for i = 1, x do
+				grid.cells[n] = {}
+				grid.cells[n].x = i
+				grid.cells[n].y = j
+				n = n + 1
+			end
+		end
+
+	return grid
+end
+
+function Grid:build()
+
+	n = 1
+	for j = 1, self.y do
+		for i = 1, self.x do
+				x = self.cells[n].x
+				y = self.cells[n].y
+				local arch = self.arch
+				arch:add_vertex(x,y,0)
+				n = n + 1
+			end
+		end
+end
+
+-- SEED
+
+function Seed:new(grid,x,y)
+
+	local seed = Seed
+	self.__index = self
+	setmetatable(seed,self)
+	seed.x = x
+	seed.y = y
+	seed.arch = arch
+	return seed
+end
+
+function Seed:grow()
+
+end
+
+-- ARCH
 
 function Arch:print()
+	print("Arch")
 	for j=1,self.y do
 		for i=1,self.x do
 				print( "point ", 
@@ -21,33 +77,12 @@ end
 
 function Arch:make_grid(x,y)
 
-	self.grid={}
-	self.x=x
-	self.y=y
-	n = 1
-	for j=1,y do
-		for i=1,x do
-				self.grid[n] = {}
-				self.grid[n].x = i
-				self.grid[n].y = j
-				n = n + 1
-			end
-		end
-end
-
-function Arch:build_grid()
-	n = 1
-	for j=1,self.y do
-		for i=1,self.x do
-				x = self.grid[n].x
-				y = self.grid[n].y
-				self:add_vertex(x,y,0)
-				n = n + 1
-			end
-		end
+	self.grid = Grid:new(self,x,y)
+	self.grid:build()
 end
 
 function Arch:add_square(x,y,d)
+
 	a = self:add_vertex(x-d,y-d,0)
 	b = self:add_vertex(x+d,y-d,0)
 	c = self:add_vertex(x+d,y+d,0)
@@ -58,30 +93,32 @@ function Arch:add_square(x,y,d)
 	self:add_edge(d,a)
 end
 
-function Seed:new(x,y)
-	local seed = Seed
-	seed.x = x
-	seed.y = y
-	return seed
+function Arch:grow()
+
+	i = 1
+	for _,v in pairs(self.seeds.seeds) do
+		i = i + 1
+		v.grow()
+	end
 end
 
 function Arch:add_seed(x,y)
-	seeds = self.seeds
-	seed = Seed:new()
-	seeds[seeds.count] = seed
-	seeds.count = seeds.count + 1
-	seed.x = x
-	seed.y = y
+
+	seed = Seed:new(self,x,y)
+	self.seeds.seeds[self.seeds.count] = seed
+	self.seeds.count = self.seeds.count + 1
 	
 	self:add_square(x,y,.1)
 	return seed
 end
+
 
 function Arch:new()
 
 	local arch = Arch
 	setproto(arch,self,"arch")
 	self.seeds = {}
+	self.seeds.seeds = {}
 	self.seeds.count = 0
 	return arch
 end
