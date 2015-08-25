@@ -60,12 +60,13 @@ end
 
 function Arch:print()
 	print("Arch")
-	for j=1,self.y do
-		for i=1,self.x do
+	grid  = self.grid
+	cells = grid.cells
+	for j=1,grid.y do
+		for i=1,grid.x do
 				print( "point ", 
-					"i ", i, "j ", j, "n", i+j,
-					"[", self.grid[i+j].x,
-					self.grid[i+j].y,
+					"[", cells[j][i].x,
+					cells[j][i].y,
 					"]"
 					)
 			end
