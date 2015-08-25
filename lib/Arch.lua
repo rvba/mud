@@ -15,13 +15,12 @@ function Grid:new(arch,x,y)
 	grid.y = y
 	grid.cells = {}
 	grid.arch = arch
-	n = 1
 	for j = 1, y do
+		grid.cells[j] = {}
 		for i = 1, x do
-				grid.cells[n] = {}
-				grid.cells[n].x = i
-				grid.cells[n].y = j
-				n = n + 1
+				grid.cells[j][i] = {}
+				grid.cells[j][i].x = i
+				grid.cells[j][i].y = j
 			end
 		end
 
@@ -30,14 +29,12 @@ end
 
 function Grid:build()
 
-	n = 1
 	for j = 1, self.y do
 		for i = 1, self.x do
-				x = self.cells[n].x
-				y = self.cells[n].y
+				x = self.cells[j][i].x
+				y = self.cells[j][i].y
 				local arch = self.arch
 				arch:add_vertex(x,y,0)
-				n = n + 1
 			end
 		end
 end
