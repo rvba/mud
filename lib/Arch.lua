@@ -81,7 +81,9 @@ function Cell:new(grid,x,y)
 	setmetatable(cell,self)
 	cell.x = x
 	cell.y = y
+	cell.d = .5
 	cell.grid = grid
+	cell.built = false
 	return cell
 end
 
@@ -96,25 +98,33 @@ end
 function Cell:get_close(dir)
 	
 	tuple = get_direction_tuple( dir)
-	print("tuple", tuple)
-	for k,v in pairs(tuple) do print(k,v) end
-	print("cell")
-	self:print()
-	a = tuple[1]
-	b = tuple[2]
-	print("a",a,"b",b)
-	--x = self.x + tuple[1]
-	--y = self.y + tuple[2]
-	print("self.x",self.x)
-	print("self.y",self.y)
-	print("get close")
+	x = self.x + tuple[1]
+	y = self.y + tuple[2]
 	close = self.grid:get_cell(x,y)
 	if close then
-		print("grow!")
-		cell = Cell:new(x,y)
-		cell:print()
+		return Cell:new(self.grid,x,y)
 	else
 		print("Can't grow")
+		return nil
+	end
+end
+
+function Cell:build(x,y,d)
+
+	if not cell.built then
+		x = self.x
+		y = self.y
+		d = self.d
+		arch = self.grid.arch
+		a = arch:add_vertex(x-d,y-d,0)
+		b = arch:add_vertex(x+d,y-d,0)
+		c = arch:add_vertex(x+d,y+d,0)
+		d = arch:add_vertex(x-d,y+d,0)
+		arch:add_edge(a,b)
+		arch:add_edge(b,c)
+		arch:add_edge(c,d)
+		arch:add_edge(d,a)
+		self.built = true
 	end
 end
 
@@ -130,7 +140,6 @@ function Seed:new(grid,x,y)
 	seed.y = y
 	seed.dir = get_random_direction()
 	seed.cells = {}
-	print("new seed")
 	table.insert(seed.cells, grid:get_cell( x, y))
 	seed.arch = arch
 	return seed
@@ -138,11 +147,14 @@ end
 
 function Seed:grow()
 
-	print(self.dir)
 	for _,cell in pairs( self.cells) do
-		print("growing")
+		print("growing ", self.dir, " from")
 		cell:print()
+		cell:build()
 		new = cell:get_close(self.dir)
+		print("to")
+		new:print()
+		new:build()
 	end
 end
 
@@ -169,24 +181,12 @@ function Arch:make_grid(x,y)
 	self.grid:build()
 end
 
-function Arch:add_square(x,y,d)
-
-	a = self:add_vertex(x-d,y-d,0)
-	b = self:add_vertex(x+d,y-d,0)
-	c = self:add_vertex(x+d,y+d,0)
-	d = self:add_vertex(x-d,y+d,0)
-	self:add_edge(a,b)
-	self:add_edge(b,c)
-	self:add_edge(c,d)
-	self:add_edge(d,a)
-end
-
 function Arch:grow()
 
 	i = 1
-	for _,v in pairs(self.seeds.seeds) do
+	for _, seed in pairs(self.seeds.seeds) do
 		i = i + 1
-		v:grow()
+		seed:grow()
 	end
 end
 
@@ -196,7 +196,6 @@ function Arch:add_seed(x,y)
 	self.seeds.seeds[self.seeds.count] = seed
 	self.seeds.count = self.seeds.count + 1
 	
-	self:add_square(x,y,.1)
 	return seed
 end
 
