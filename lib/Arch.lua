@@ -2,6 +2,8 @@
 
 require "Class"
 
+-- TABLES
+
 local Arch = {}
 local Seed = {}
 local Cell = {}
@@ -25,8 +27,60 @@ local function get_direction_scalar(dir)
 	end
 end
 
+-- ARCH
+
+function Arch:print()
+	print("Arch")
+	grid  = self.grid
+	cells = grid.cells
+	for j=1,grid.y do
+		for i=1,grid.x do
+				print( "point ", 
+					"[", cells[j][i].x,
+					cells[j][i].y,
+					"]"
+					)
+			end
+		end
+end
+
+function Arch:make_grid(x,y)
+
+	self.grid = Grid:new(self,x,y)
+	self.grid:build()
+end
+
+function Arch:grow()
+
+	i = 1
+	for _, seed in pairs(self.seeds.seeds) do
+		i = i + 1
+		seed:grow()
+	end
+end
+
+function Arch:add_seed(x,y)
+
+	seed = Seed:new(self.grid, x, y)
+	self.seeds.seeds[self.seeds.count] = seed
+	self.seeds.count = self.seeds.count + 1
+	
+	return seed
+end
+
+
+function Arch:new()
+
+	local arch = Arch
+	setproto( arch,self,"arch")
+	self.seeds = {}
+	self.seeds.seeds = {}
+	self.seeds.count = 0
+	return arch
+end
+
 local function get_direction_tuple( dir)
-	val = {{0,1}, {1,1,},{1,0},{1,-1},{0,-1},{-1,-1,},{-1,0},{-1,1},{1,0}}
+	val = {{0,1}, {1,1,}, {1,0}, {1,-1}, {0,-1}, {-1,-1,}, {-1,0}, {-1,1}, {1,0}}
 	return val[get_direction_scalar( dir)]
 end
 
@@ -71,6 +125,31 @@ function Grid:get_cell(x,y)
 	end
 end
 
+-- SEED
+
+function Seed:new(grid,x,y)
+
+	local seed = Seed
+	self.__index = self
+	setmetatable(seed,self)
+	seed.x = x
+	seed.y = y
+	seed.dir = get_random_direction()
+	seed.cells = {}
+	local cell = grid:get_cell( x, y)
+	cell:build()
+	table.insert(seed.cells, cell)
+	seed.arch = arch
+	return seed
+end
+
+function Seed:grow()
+
+	for _,cell in pairs( self.cells) do
+		new = cell:get_close(self.dir)
+		new:build()
+	end
+end
 
 -- CELL
 
@@ -128,88 +207,7 @@ function Cell:build(x,y,d)
 	end
 end
 
-
--- SEED
-
-function Seed:new(grid,x,y)
-
-	local seed = Seed
-	self.__index = self
-	setmetatable(seed,self)
-	seed.x = x
-	seed.y = y
-	seed.dir = get_random_direction()
-	seed.cells = {}
-	table.insert(seed.cells, grid:get_cell( x, y))
-	seed.arch = arch
-	return seed
-end
-
-function Seed:grow()
-
-	for _,cell in pairs( self.cells) do
-		print("growing ", self.dir, " from")
-		cell:print()
-		cell:build()
-		new = cell:get_close(self.dir)
-		print("to")
-		new:print()
-		new:build()
-	end
-end
-
--- ARCH
-
-function Arch:print()
-	print("Arch")
-	grid  = self.grid
-	cells = grid.cells
-	for j=1,grid.y do
-		for i=1,grid.x do
-				print( "point ", 
-					"[", cells[j][i].x,
-					cells[j][i].y,
-					"]"
-					)
-			end
-		end
-end
-
-function Arch:make_grid(x,y)
-
-	self.grid = Grid:new(self,x,y)
-	self.grid:build()
-end
-
-function Arch:grow()
-
-	i = 1
-	for _, seed in pairs(self.seeds.seeds) do
-		i = i + 1
-		seed:grow()
-	end
-end
-
-function Arch:add_seed(x,y)
-
-	seed = Seed:new(self.grid, x, y)
-	self.seeds.seeds[self.seeds.count] = seed
-	self.seeds.count = self.seeds.count + 1
-	
-	return seed
-end
-
-
-function Arch:new()
-
-	local arch = Arch
-	setproto(arch,self,"arch")
-	self.seeds = {}
-	self.seeds.seeds = {}
-	self.seeds.count = 0
-	return arch
-end
-
+-- RETURN
 
 local _Arch = Arch
 return _Arch
