@@ -1,7 +1,7 @@
 -- arch
 local Arch = require "Arch"
 local arch = Arch:new()
-arch:make_grid(5,5)
-arch:add_seed(2,2)
+arch:make_grid(30,30)
+arch:add_seed(15,15)
 arch:grow()
 arch:build_object()

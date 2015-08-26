@@ -121,7 +121,12 @@ function Grid:get_cell(x,y)
 	if x > self.x or x < 1 or y > self.y or y < 1 then
 		return nil
 	else
-		return self.cells[y][x]
+		local cell = self.cells[y][x]
+		if not cell.built then
+			return self.cells[y][x]
+		else
+			return nil
+		end
 	end
 end
 
@@ -140,6 +145,7 @@ function Seed:new(grid,x,y)
 	cell:build()
 	table.insert(seed.cells, cell)
 	seed.arch = arch
+	seed.power = 10
 	return seed
 end
 
