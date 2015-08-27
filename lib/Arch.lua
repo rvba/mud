@@ -121,12 +121,7 @@ function Grid:get_cell(x,y)
 	if x > self.x or x < 1 or y > self.y or y < 1 then
 		return nil
 	else
-		local cell = self.cells[y][x]
-		if not cell.built then
-			return self.cells[y][x]
-		else
-			return nil
-		end
+		return self.cells[y][x]
 	end
 end
 
