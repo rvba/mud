@@ -27,6 +27,11 @@ local function get_direction_scalar(dir)
 	end
 end
 
+local function get_direction_tuple( dir)
+	val = {{0,1}, {1,1,}, {1,0}, {1,-1}, {0,-1}, {-1,-1,}, {-1,0}, {-1,1}, {1,0}}
+	return val[get_direction_scalar( dir)]
+end
+
 -- ARCH
 
 function Arch:print()
@@ -76,12 +81,18 @@ function Arch:new()
 	self.seeds = {}
 	self.seeds.seeds = {}
 	self.seeds.count = 0
+	self.tempo = 10
 	return arch
 end
 
-local function get_direction_tuple( dir)
-	val = {{0,1}, {1,1,}, {1,0}, {1,-1}, {0,-1}, {-1,-1,}, {-1,0}, {-1,1}, {1,0}}
-	return val[get_direction_scalar( dir)]
+function Arch:update()
+
+	for i = 1, self.tempo do
+		print("------------ update arch")
+		for _, seed in pairs( self.seeds.seeds) do
+			seed:update()
+		end
+	end
 end
 
 -- GRID
@@ -136,6 +147,7 @@ function Seed:new(grid,x,y)
 	seed.y = y
 	seed.dir = get_random_direction()
 	seed.cells = {}
+	seed.cells_built = {}
 	local cell = grid:get_cell( x, y)
 	cell:build()
 	table.insert(seed.cells, cell)
@@ -146,9 +158,30 @@ end
 
 function Seed:grow()
 
+	local new_cells = {}
+
 	for _,cell in pairs( self.cells) do
 		new = cell:get_close(self.dir)
-		new:build()
+		if new then
+			if not new.built then
+				print("growing from")
+				cell:print()
+				print("to")
+				new:print()
+				new:build()
+				self.power = self.power - 1
+				table.insert(new_cells, new)
+				table.insert(self.cells_built, cell)
+			end
+		end
+	end
+
+	self.cells = new_cells
+end
+
+function Seed:update()
+	if self.power > 0 then
+		self:grow()
 	end
 end
 
@@ -168,11 +201,7 @@ function Cell:new(grid,x,y)
 end
 
 function Cell:print()
-	print("cell", self, "x", self.x, "y", self.y)
-end
-
-function Cell:get_close( dir)
-
+	print("cell", self, "x", self.x, "y", self.y, "built", self.built)
 end
 
 function Cell:get_close(dir)
