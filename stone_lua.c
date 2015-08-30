@@ -33,7 +33,7 @@
 #include "mesh.h"
 #include "vlst.h"
 
-void (* STONE_DRAW_FUNCTION)( t_lua_stone *stone) = NULL;
+void (* STONE_BUILD_FUNCTION)( t_lua_stone *stone) = NULL;
 
 // CHECK
 
@@ -286,9 +286,9 @@ static int lua_stone_build_object( lua_State *L)
 {
 	t_lua_stone *lua_stone = ( t_lua_stone *) luaL_checkudata( L, 1, L_STONE);
 
-	if( STONE_DRAW_FUNCTION)
+	if( STONE_BUILD_FUNCTION)
 	{
-		STONE_DRAW_FUNCTION( lua_stone);
+		STONE_BUILD_FUNCTION( lua_stone);
 	}
 
 	return 1;

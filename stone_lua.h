@@ -32,7 +32,7 @@ typedef struct Lua_Face
 }t_lua_face;
 
 
-extern void (* STONE_DRAW_FUNCTION)( t_lua_stone *stone);
+extern void (* STONE_BUILD_FUNCTION)( t_lua_stone *stone);
 void lua_stone_register( lua_State *L);
 
 #endif
