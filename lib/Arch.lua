@@ -88,7 +88,6 @@ end
 function Arch:update()
 
 	for i = 1, self.tempo do
-		print("------------ update arch")
 		for _, seed in pairs( self.seeds.seeds) do
 			seed:update()
 		end
@@ -164,10 +163,6 @@ function Seed:grow()
 		new = cell:get_close(self.dir)
 		if new then
 			if not new.built then
-				print("growing from")
-				cell:print()
-				print("to")
-				new:print()
 				new:build()
 				self.power = self.power - 1
 				table.insert(new_cells, new)
@@ -213,7 +208,6 @@ function Cell:get_close(dir)
 	if close then
 		return Cell:new(self.grid,x,y)
 	else
-		print("Can't grow")
 		return nil
 	end
 end
