@@ -241,7 +241,7 @@ int *stone_get_face_buffer( t_stone *stone)
 	int *f = NULL;
 	if( stone->face_count != 0)
 	{
-		int *f = ( int *) malloc( sizeof(int) * stone->face_count * 4);
+		f = ( int *) malloc( sizeof(int) * stone->face_count * 4);
 		int j = 0;
 		s_face *face;
 		t_lnode *node;
