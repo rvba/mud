@@ -341,9 +341,21 @@ static int lua_stone_add_face( lua_State *L)
 	t_lua_vertex *a = lua_stone_check_vertex( L, 2);
 	t_lua_vertex *b = lua_stone_check_vertex( L, 3);
 	t_lua_vertex *c = lua_stone_check_vertex( L, 4);
-	t_lua_vertex *d = lua_stone_check_vertex( L, 5);
+	t_lua_vertex *d = NULL;
 
-	s_face *face = stone_add_face( lua_stone->stone, a->v, b->v, c->v, d->v);
+	int n = lua_gettop( L);
+	s_face *face;
+
+	if( n == 5)
+	{
+		d = lua_stone_check_vertex( L, 5); 
+		face = stone_add_face( lua_stone->stone, a->v, b->v, c->v, d->v);
+	}
+	else
+	{
+		face = stone_add_face( lua_stone->stone, a->v, b->v, c->v, NULL);
+	}
+
 	lua_stone_push_face( L, face);
 
 	return 1;

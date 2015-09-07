@@ -236,30 +236,95 @@ float *stone_get_vertex_buffer( t_stone *stone)
 	return v;
 }
 
-int *stone_get_face_buffer( t_stone *stone)
+int stone_get_quad_count( t_stone *stone)
+{
+	int count = 0;
+	s_face *face;
+	t_lnode *node;
+	for( node = stone->face->first; node; node = node->next)
+	{
+		face = ( s_face *) node->data;
+		if( face->d) count++; 
+	}
+	return count;
+}
+
+int stone_get_tri_count( t_stone *stone)
+{
+	int count = 0;
+	s_face *face;
+	t_lnode *node;
+	for( node = stone->face->first; node; node = node->next)
+	{
+		face = ( s_face *) node->data;
+		if( !face->d) count++; 
+	}
+	return count;
+}
+
+int *stone_get_quad_buffer( t_stone *stone, int count)
 {
 	int *f = NULL;
-	if( stone->face_count != 0)
+	s_face *face;
+	t_lnode *node;
+
+	if( count != 0)
 	{
-		f = ( int *) malloc( sizeof(int) * stone->face_count * 4);
+		f = ( int *) malloc( sizeof(int) * count * 4);
 		int j = 0;
-		s_face *face;
-		t_lnode *node;
+
 		for( node = stone->face->first; node; node = node->next)
 		{
 			face = ( s_face *) node->data;
 
-			assert(face->a);
-			assert(face->b);
-			assert(face->c);
-			assert(face->d);
+			if( face->d)
+			{
+				assert(face->a);
+				assert(face->b);
+				assert(face->c);
+				assert(face->d);
 
-			f[j+0] = face->a->indice;
-			f[j+1] = face->b->indice;
-			f[j+2] = face->c->indice;
-			f[j+3] = face->d->indice;
+				f[j+0] = face->a->indice;
+				f[j+1] = face->b->indice;
+				f[j+2] = face->c->indice;
+				f[j+3] = face->d->indice;
 
-			j+=4;
+				j+=4;
+			}
+		}
+	}
+
+	return f;
+}
+
+int *stone_get_tri_buffer( t_stone *stone, int count)
+{
+	int *f = NULL;
+	s_face *face;
+	t_lnode *node;
+
+	if( count != 0)
+	{
+		f = ( int *) malloc( sizeof(int) * count * 3);
+		int j = 0;
+
+		// Make buffer
+		for( node = stone->face->first; node; node = node->next)
+		{
+			face = ( s_face *) node->data;
+
+			if( !face->d)
+			{
+				assert(face->a);
+				assert(face->b);
+				assert(face->c);
+
+				f[j+0] = face->a->indice;
+				f[j+1] = face->b->indice;
+				f[j+2] = face->c->indice;
+
+				j+=3;
+			}
 		}
 	}
 

@@ -74,7 +74,10 @@ void stone_translate( t_stone *stone, float *v);
 void stone_apply_vertex( t_stone *stone, void (* f)( s_vertex *v, void *d), void *data);
 
 float *stone_get_vertex_buffer( t_stone *stone);
-int *stone_get_face_buffer( t_stone *stone);
+int stone_get_quad_count( t_stone *stone);
+int stone_get_tri_count( t_stone *stone);
+int *stone_get_quad_buffer( t_stone *stone, int count);
+int *stone_get_tri_buffer( t_stone *stone, int count);
 int *stone_get_edge_buffer( t_stone *stone);
 float *stone_get_vertex_pointer( t_stone *stone);
 
