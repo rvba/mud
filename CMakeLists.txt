@@ -27,8 +27,6 @@ set(
 set(
 	SRC_UTIL
 
-	stash.h
-	stash.c
 	
 	llist.h
 	llist.c
@@ -53,6 +51,7 @@ include_directories(lib/blenlib/guardedalloc)
 include_directories(lib/lua/src)
 add_subdirectory(lib/blenlib)
 add_subdirectory(lib/lua)
+add_subdirectory(umber)
 
 add_library(stone_static STATIC ${SRC_STONE})
 add_library(stdutil_static STATIC ${SRC_UTIL})
