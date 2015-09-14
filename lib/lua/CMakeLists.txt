@@ -1,7 +1,7 @@
 PROJECT(lua)
 CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
 ADD_DEFINITIONS(-D_fPIC ) 
-
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O2 -Wall -Wl,-E -Wextra -DLUA_COMPAT_5_2 -DLUA_USE_LINUX") 
 SET (SRC
 	src/lapi.c
 	src/lauxlib.c
@@ -42,5 +42,5 @@ ADD_LIBRARY ( lualib ${SRC} )
 
 ADD_EXECUTABLE ( lua src/lua.c)
 
-TARGET_LINK_LIBRARIES ( lua lualib m)
+TARGET_LINK_LIBRARIES ( lua lualib m dl readline)
 

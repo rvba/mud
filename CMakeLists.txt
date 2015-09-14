@@ -10,8 +10,7 @@ add_executable(
     stonec.c
 )
 
-target_link_libraries(stone lualib m)
-
+target_link_libraries(stone lualib m dl readline)
 set(
 	SRC_STONE
 
