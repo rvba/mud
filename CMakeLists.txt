@@ -49,6 +49,7 @@ set(
 include_directories(lib/blenlib/blenlib)
 include_directories(lib/blenlib/guardedalloc)
 include_directories(lib/lua/src)
+include_directories(umber)
 add_subdirectory(lib/blenlib)
 add_subdirectory(lib/lua)
 add_subdirectory(umber)
