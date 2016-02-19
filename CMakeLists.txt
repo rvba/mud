@@ -53,10 +53,10 @@ add_subdirectory(lib/blenlib)
 add_subdirectory(lib/lua)
 add_subdirectory(umber)
 
-add_library(stone_static STATIC ${SRC_STONE})
-add_library(stdutil_static STATIC ${SRC_UTIL})
+add_library(stonelib ${LIB_TYPE} ${SRC_STONE})
+add_library(stdutil ${LIB_TYPE} ${SRC_UTIL})
 add_definitions(-lm)
-target_link_libraries(stdutil_static m)
+target_link_libraries(stdutil m)
 
 # STONE LUA LIB
 
@@ -68,7 +68,7 @@ set(
 find_library(LIB_STONE stone ${PATH_STONE} REQUIRED)
 find_library(LIB_UTIL stdutil ${PATH_STONE} REQUIRED)
 
-add_library(lua_stone STATIC ${STONE_LUA_SRC})
+add_library(lua_stone ${LIB_TYPE} ${STONE_LUA_SRC})
 
 # SWIG
 if(OPT_SWIG)
