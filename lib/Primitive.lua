@@ -1,8 +1,51 @@
 require "Class"
-
+local Curve = require "Curve"
+local Circle = {}
 local Cube = {}
 local Mastaba = {}
 local _M = _M or {} 
+
+-- Circle
+
+function Circle:new(name,resolution,radius)
+
+	local _circle = {}
+
+	-- Set Stone proto
+	setproto(_circle,self,name)
+
+	pt = nil
+	start = nil
+
+	points = Curve.circle(resolution,radius)
+
+	for k,v in pairs(points) do
+		print(v.x)
+		print(v.y)
+
+		_pt = _circle:add_vertex(v.x,v.y,0)
+
+		if pt ~= nil then
+			e = _circle:add_edge(_pt,pt)
+		end
+
+		pt = _pt
+
+		if start == nil then
+			print("add")
+			start = _pt
+		end
+
+	end
+
+	-- last edge
+	
+	_circle:add_edge(_pt,start)
+	_circle:build_object()
+
+	return _circle
+
+end
 
 -- Cube
 
@@ -170,6 +213,7 @@ function Mastaba:new( name, w, h, z, count)
 	return mastaba
 end
 
+_M.Circle = Circle
 _M.Cube = Cube
 _M.Mastaba = Mastaba
 
