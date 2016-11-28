@@ -2,7 +2,6 @@
 -- Stone module
 
 print("~Stone Sketch")
-local stone = require "stone"
 require "math"
 
 local Primtive = require "Primitive"
