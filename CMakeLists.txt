@@ -63,6 +63,7 @@ target_link_libraries(stdutil m)
 set(
 	STONE_LUA_SRC
 	stone_lua.c
+	lua_util.c
 	)
 
 find_library(LIB_STONE stone ${PATH_STONE} REQUIRED)
