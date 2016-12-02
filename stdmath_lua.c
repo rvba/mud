@@ -101,18 +101,26 @@ static int lua_vector_copy( lua_State *L)
 	return 1;
 }
 
-static int lua_vector_get( lua_State *L)
-{
-	t_lua_vector *v = lua_vector_check( L, 1);
-	int val = luaL_checkinteger( L, 2);
-	switch( val)
-	{
-		case VEC_X: lua_pushnumber( L, v->v->x); break;
-		case VEC_Y: lua_pushnumber( L, v->v->y); break;
-		case VEC_Z: lua_pushnumber( L, v->v->z); break;
-		default: lua_pushnumber( L, -1); break;
-	}
+/* get */
 
+static int lua_vector_get_x( lua_State *L, void *v)
+{
+	t_lua_vector *vec = ( t_lua_vector *) v;
+	lua_pushnumber( L, vec->v->x);
+	return 1;
+}
+
+static int lua_vector_get_y( lua_State *L, void *v)
+{
+	t_lua_vector *vec = ( t_lua_vector *) v;
+	lua_pushnumber( L, vec->v->y);
+	return 1;
+}
+
+static int lua_vector_get_z( lua_State *L, void *v)
+{
+	t_lua_vector *vec = ( t_lua_vector *) v;
+	lua_pushnumber( L, vec->v->z);
 	return 1;
 }
 
@@ -129,7 +137,6 @@ static const struct luaL_Reg vector_methods[] =
 	{"sub", lua_vector_sub},
 	{"mul", lua_vector_mul},
 	{"length", lua_vector_length},
-	{"get", lua_vector_get},
 	{"copy", lua_vector_copy},
 	{"print", lua_vector_print},
 	{ NULL, NULL}
@@ -142,19 +149,17 @@ static const struct luaL_Reg stdmath[] =
 };
 
 static const Xet_reg_pre vector_getters[] = {
-	//{"id",   get_int,    offsetof(t_lua_edge,id)   },
-	/*
-	{"a",    get_vertex_a, 0   },
-	{"b",    get_vertex_b, 0   },
-	*/
+	{"x",    lua_vector_get_x, 0 },
+	{"y",    lua_vector_get_y, 0 },
+	{"z",    lua_vector_get_z, 0 },
 	{0,0}
 };
 
 static const Xet_reg_pre vector_setters[] = {
 	/*
-	{"id",  set_int,    offsetof(t_lua_edge,id)  },
-	{"x",    set_number, offsetof(t_lua_edge,x)    },
-	{"y",    set_number, offsetof(t_lua_edge,y)    },
+	{"x",    lua_vector_set_x, 0 },
+	{"y",    lua_vector_set_y, 0 },
+	{"z",    lua_vector_set_z, 0 },
 	*/
 	{0,0}
 };
