@@ -58,3 +58,26 @@ int newindex_handler (lua_State *L)
 		luaL_error(L, "cannot set member '%s'", lua_tostring(L, 2));
 	return Xet_call(L);                      /* call set function */
 }
+
+void lua_set_getters_setters( lua_State *L, int methods, int metatable, Xet_reg getters , Xet_reg setters)
+{
+	lua_pushliteral(L, "__metatable");
+	lua_pushvalue(L, methods);    /* dup methods table*/
+	lua_rawset(L, metatable);     /* hide metatable:
+					 metatable.__metatable = methods */
+	lua_pushliteral(L, "__index");
+	lua_pushvalue(L, metatable);  /* upvalue index 1 */
+	Xet_add(L, getters);     /* fill metatable with getters */
+	lua_pushvalue(L, methods);    /* upvalue index 2 */
+	lua_pushcclosure(L, index_handler, 2);
+	lua_rawset(L, metatable);     /* metatable.__index = index_handler */
+
+	lua_pushliteral(L, "__newindex");
+	lua_newtable(L);              /* table for members you can set */
+	Xet_add(L, setters);     /* fill with setters */
+	lua_pushcclosure(L, newindex_handler, 1);
+	lua_rawset(L, metatable);     /* metatable.__newindex = newindex_handler */
+
+	lua_pop(L, 1);                /* drop metatable */
+	//return 1;                     /* return methods on the stack */
+}

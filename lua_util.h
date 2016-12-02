@@ -29,6 +29,8 @@ void Xet_add (lua_State *L, Xet_reg l);
 int index_handler (lua_State *L);
 int newindex_handler (lua_State *L);
 
+void lua_set_getters_setters( lua_State *L, int methods, int metatable, Xet_reg setters, Xet_reg getters);
+
 
 #ifdef __cplusplus
 }
