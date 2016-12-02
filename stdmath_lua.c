@@ -11,6 +11,8 @@
 #include "lauxlib.h"
 #include "lualib.h"
 
+#include "lua_util.h"
+
 #include <stdlib.h>
 #include <string.h>
 
@@ -139,12 +141,62 @@ static const struct luaL_Reg stdmath[] =
 	{ NULL, NULL}
 };
 
+static const Xet_reg_pre vector_getters[] = {
+	//{"id",   get_int,    offsetof(t_lua_edge,id)   },
+	/*
+	{"a",    get_vertex_a, 0   },
+	{"b",    get_vertex_b, 0   },
+	*/
+	{0,0}
+};
+
+static const Xet_reg_pre vector_setters[] = {
+	/*
+	{"id",  set_int,    offsetof(t_lua_edge,id)  },
+	{"x",    set_number, offsetof(t_lua_edge,x)    },
+	{"y",    set_number, offsetof(t_lua_edge,y)    },
+	*/
+	{0,0}
+};
+
+void lua_stdmath_make_meta_vector( lua_State *L, int methods, int metatable)
+{
+	lua_pushliteral(L, "__metatable");
+	lua_pushvalue(L, methods);    /* dup methods table*/
+	lua_rawset(L, metatable);     /* hide metatable:
+					 metatable.__metatable = methods */
+	lua_pushliteral(L, "__index");
+	lua_pushvalue(L, metatable);  /* upvalue index 1 */
+	Xet_add(L, vector_getters);     /* fill metatable with getters */
+	lua_pushvalue(L, methods);    /* upvalue index 2 */
+	lua_pushcclosure(L, index_handler, 2);
+	lua_rawset(L, metatable);     /* metatable.__index = index_handler */
+
+	lua_pushliteral(L, "__newindex");
+	lua_newtable(L);              /* table for members you can set */
+	Xet_add(L, vector_setters);     /* fill with setters */
+	lua_pushcclosure(L, newindex_handler, 1);
+	lua_rawset(L, metatable);     /* metatable.__newindex = newindex_handler */
+
+	lua_pop(L, 1);                /* drop metatable */
+	//return 1;                     /* return methods on the stack */
+}
+
 void lua_make_table_vector( lua_State *L)
 {
+	int methods, metatable;
+
 	luaL_newmetatable( L, L_VECTOR);
+
+	metatable = lua_gettop(L);
+
 	lua_pushvalue(L, -1);
 	lua_setfield(L, -2, "__index");
 	luaL_setfuncs(L, vector_methods, 0);
+
+	methods = lua_gettop(L);
+
+	lua_stdmath_make_meta_vector( L, methods, metatable);
 }
 
 void lua_stdmath_register( lua_State *L)
