@@ -134,6 +134,15 @@ t_mn_vector *mn_vector_cross( t_mn_vector *v1, t_mn_vector *v2)
 	return r;
 }
 
+void mn_vector_normalize( t_mn_vector *self)
+{
+	float v[3] = { self->x, self->y, self->z};
+	normalize_v3(v);
+	self->x = v[0];
+	self->y = v[1];
+	self->z = v[2];
+}
+
 float mn_vector_length( t_mn_vector *self)
 {
 	float v[] = {self->x, self->y, self->z};

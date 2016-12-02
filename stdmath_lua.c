@@ -106,6 +106,13 @@ static int lua_vector_length( lua_State *L)
 	return 1;
 }
 
+static int lua_vector_norm( lua_State *L)
+{
+	t_lua_vector *v = ( t_lua_vector *) luaL_checkudata( L, 1, L_VECTOR);
+	mn_vector_normalize( v->v);
+	return 0;
+}
+
 static int lua_vector_copy( lua_State *L)
 {
 	t_lua_vector *self = ( t_lua_vector *) luaL_checkudata( L, 1, L_VECTOR);
@@ -151,6 +158,7 @@ static const struct luaL_Reg vector_methods[] =
 	{"add", lua_vector_add},
 	{"sub", lua_vector_sub},
 	{"mul", lua_vector_mul},
+	{"norm", lua_vector_norm},
 	{"length", lua_vector_length},
 	{"copy", lua_vector_copy},
 	{"print", lua_vector_print},

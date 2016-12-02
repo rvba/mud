@@ -53,6 +53,7 @@ void mn_vector_free( t_mn_vector *v);
 void mn_vector_add( t_mn_vector *a, t_mn_vector *b);
 void mn_vector_sub( t_mn_vector *a, t_mn_vector *b);
 void mn_vector_mul( t_mn_vector *self, float i);
+void mn_vector_normalize( t_mn_vector *self);
 t_mn_vector *mn_vector_cross( t_mn_vector *v1, t_mn_vector *v2);
 float mn_vector_length( t_mn_vector *self);
 void mn_vector_print( t_mn_vector *self);
