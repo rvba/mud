@@ -49,9 +49,11 @@ typedef struct MN_Vector
 }t_mn_vector;
 
 t_mn_vector *mn_vector_new( float x, float y, float z);
+void mn_vector_free( t_mn_vector *v);
 void mn_vector_add( t_mn_vector *a, t_mn_vector *b);
 void mn_vector_sub( t_mn_vector *a, t_mn_vector *b);
 void mn_vector_mul( t_mn_vector *self, float i);
+t_mn_vector *mn_vector_cross( t_mn_vector *v1, t_mn_vector *v2);
 float mn_vector_length( t_mn_vector *self);
 void mn_vector_print( t_mn_vector *self);
 t_mn_vector *mn_vector_copy( t_mn_vector *self);

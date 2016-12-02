@@ -46,16 +46,21 @@ static t_lua_vector *lua_vector_push( lua_State *L, t_mn_vector *vector)
 
 // STONE
 
+void _lua_vector_new( lua_State *L, float x, float y, float z)
+{
+	t_mn_vector *vector = mn_vector_new( x,y,z);
+	t_lua_vector *lua_vector = ( t_lua_vector *) lua_newuserdata( L, sizeof( t_lua_vector));
+	lua_vector->v = vector;
+	luaL_setmetatable( L, L_VECTOR); 
+}
+
 static int lua_vector_new( lua_State *L)
 {
 	float x = luaL_checknumber( L, 1);
 	float y = luaL_checknumber( L, 2);
 	float z = luaL_checknumber( L, 3);
 
-	t_mn_vector *vector = mn_vector_new( x,y,z);
-	t_lua_vector *lua_vector = ( t_lua_vector *) lua_newuserdata( L, sizeof( t_lua_vector));
-	lua_vector->v = vector;
-	luaL_setmetatable( L, L_VECTOR); 
+	_lua_vector_new( L, x, y, z);
 
 	return 1;
 }
@@ -82,6 +87,16 @@ static int lua_vector_mul( lua_State *L)
 	float i = luaL_checknumber( L, 2);
 	mn_vector_mul( self->v, i);
 	return 0;
+}
+
+static int lua_vector_cross( lua_State *L)
+{
+	t_lua_vector *v1 = ( t_lua_vector *) luaL_checkudata( L, 1, L_VECTOR);
+	t_lua_vector *v2 = ( t_lua_vector *) luaL_checkudata( L, 2, L_VECTOR);
+	t_mn_vector *v = mn_vector_cross( v1->v, v2->v);
+	_lua_vector_new( L, v->x, v->y, v->z);
+	mn_vector_free(v);
+	return 1;
 }
 
 static int lua_vector_length( lua_State *L)
@@ -145,6 +160,7 @@ static const struct luaL_Reg vector_methods[] =
 static const struct luaL_Reg stdmath[] = 
 {
 	{"new", lua_vector_new},
+	{"cross", lua_vector_cross},
 	{ NULL, NULL}
 };
 
