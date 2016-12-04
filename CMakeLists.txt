@@ -23,6 +23,18 @@ set(
 	mod_rotation.c
 	mod_array.c
 	)
+
+if(OPT_TINYSPLINE)
+	set(
+		SRC_STONE
+		${SRC_STONE}
+		stone_spline.c
+		stone_spline.h
+		stone_spline_lua.c
+		stone_spline_lua.h
+		)
+endif()
+
 set(
 	SRC_UTIL
 
@@ -53,10 +65,19 @@ add_subdirectory(lib/blenlib)
 add_subdirectory(lib/lua)
 add_subdirectory(umber)
 
+if(OPT_TINYSPLINE)
+	include_directories(lib/tinyspline)
+	add_subdirectory(lib/tinyspline)
+endif()
+
 add_library(stonelib ${LIB_TYPE} ${SRC_STONE})
 add_library(stdutil ${LIB_TYPE} ${SRC_UTIL})
 add_definitions(-lm)
 target_link_libraries(stdutil m)
+
+if(OPT_TINYSPLINE)
+	target_link_libraries(stonelib tinyspline)
+endif()
 
 # STONE LUA LIB
 
