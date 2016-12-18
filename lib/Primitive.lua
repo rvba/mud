@@ -79,10 +79,6 @@ end
 
 -- Mastaba
 
-function get_points(vec)
-	return vec:get(VEC_X), vec:get(VEC_Y), vec:get(VEC_Z)
-end
-
 function Mastaba:build_layer(va,vb,vc,vd)
 
 	-- var
@@ -122,10 +118,10 @@ function Mastaba:build_layer(va,vb,vc,vd)
 	vz = smath.new(0,0,height)
 
 	-- a,b,c,d
-	a = self:add_vertex(get_points(va))
-	b = self:add_vertex(get_points(vb))
-	c = self:add_vertex(get_points(vc))
-	d = self:add_vertex(get_points(vd))
+	a = self:add_vertex(va.x,va.y,va.z)
+	b = self:add_vertex(vb.x,vb.y,vb.z)
+	c = self:add_vertex(vc.x,vc.y,vc.z)
+	d = self:add_vertex(vd.x,vd.y,vd.z)
 
 	-- e,f,g,h
 	ve = va:copy()
@@ -138,10 +134,10 @@ function Mastaba:build_layer(va,vb,vc,vd)
 	vg:add(vz)
 	vh:add(vz)
 
-	e = self:add_vertex(get_points(ve))
-	f = self:add_vertex(get_points(vf))
-	g = self:add_vertex(get_points(vg))
-	h = self:add_vertex(get_points(vh))
+	e = self:add_vertex(ve.x,ve.y,ve.z)
+	f = self:add_vertex(vf.x,vf.y,vf.z)
+	g = self:add_vertex(vg.x,vg.y,vg.z)
+	h = self:add_vertex(vh.x,vh.y,vh.z)
 
 	-- i, j, k, l
 	vi = center:copy()
@@ -159,10 +155,10 @@ function Mastaba:build_layer(va,vb,vc,vd)
 	vk:add(v3)
 	vl:add(v4)
 
-	i = self:add_vertex(get_points(vi))
-	j = self:add_vertex(get_points(vj))
-	k = self:add_vertex(get_points(vk))
-	l = self:add_vertex(get_points(vl))
+	i = self:add_vertex(vi.x,vi.y,vi.z)
+	j = self:add_vertex(vj.x,vj.y,vj.z)
+	k = self:add_vertex(vk.x,vk.y,vk.z)
+	l = self:add_vertex(vl.x,vl.y,vl.z)
 
 	-- faces
 	self:add_face(a,b,f,e)
