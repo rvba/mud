@@ -526,6 +526,18 @@ s_vertex *stone_get_vertex_by_indice( t_stone *stone, int indice)
 	return ( s_vertex *) node->data;
 }
 
+s_face *stone_get_face( t_stone *stone, int indice)
+{
+	t_lnode *node = llist_get_lnode_by_indice( stone->face, indice);
+	assert( node);
+	return ( s_face *) node->data;
+}
+
+s_vertex *stone_get_vertex( t_stone *stone, int indice)
+{
+	return stone_get_vertex_by_indice( stone, indice);
+}
+
 // Copy faces: add new face with updated vertex pointers
 void stone_copy_faces( t_stone *stone, t_stone *src)
 {

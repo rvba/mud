@@ -80,6 +80,8 @@ int *stone_get_quad_buffer( t_stone *stone, int count);
 int *stone_get_tri_buffer( t_stone *stone, int count);
 int *stone_get_edge_buffer( t_stone *stone);
 float *stone_get_vertex_pointer( t_stone *stone);
+s_vertex *stone_get_vertex( t_stone *stone, int indice);
+s_face *stone_get_face( t_stone *stone, int indice);
 
 void stone_show( t_stone *stone);
 void stone_vertex_show( s_vertex *v);

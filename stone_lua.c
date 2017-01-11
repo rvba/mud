@@ -25,6 +25,7 @@
 
 #include "stdmath_lua.h"
 #include "stone_lua.h"
+#include "lua_util.h"
 
 #include "object.h"
 #include "scene.h"
@@ -160,62 +161,6 @@ static int set_number (lua_State *L, void *v)
 }
 */
 
-
-typedef int (*Xet_func) (lua_State *L, void *v);
-
-/* member info for get and set handlers */
-typedef const struct{
-	const char *name;  /* member name */
-	Xet_func func;     /* get or set function for type of member */
-	size_t offset;     /* offset of member within your_t */
-}  Xet_reg_pre;
-
-typedef Xet_reg_pre * Xet_reg;
-
-static void Xet_add (lua_State *L, Xet_reg l)
-{
-	for (; l->name; l++) {
-		lua_pushstring(L, l->name);
-		lua_pushlightuserdata(L, (void*)l);
-		lua_settable(L, -3);
-	}
-}
-
-static int Xet_call (lua_State *L)
-{
-	/* for get: stack has userdata, index, lightuserdata */
-	/* for set: stack has userdata, index, value, lightuserdata */
-	Xet_reg m = (Xet_reg)lua_touserdata(L, -1);  /* member info */
-	lua_pop(L, 1);                               /* drop lightuserdata */
-	luaL_checktype(L, 1, LUA_TUSERDATA);
-	return m->func(L, (void *)((char *)lua_touserdata(L, 1) + m->offset));
-}
-
-static int index_handler (lua_State *L)
-{
-	/* stack has userdata, index */
-	lua_pushvalue(L, 2);                     /* dup index */
-	lua_rawget(L, lua_upvalueindex(1));      /* lookup member by name */
-	if (!lua_islightuserdata(L, -1)) {
-		lua_pop(L, 1);                         /* drop value */
-		lua_pushvalue(L, 2);                   /* dup index */
-		lua_gettable(L, lua_upvalueindex(2));  /* else try methods */
-		if (lua_isnil(L, -1))                  /* invalid member */
-			luaL_error(L, "cannot get member '%s'", lua_tostring(L, 2));
-		return 1;
-	}
-	return Xet_call(L);                      /* call get function */
-}
-
-static int newindex_handler (lua_State *L)
-{
-	/* stack has userdata, index, value */
-	lua_pushvalue(L, 2);                     /* dup index */
-	lua_rawget(L, lua_upvalueindex(1));      /* lookup member by name */
-	if (!lua_islightuserdata(L, -1))         /* invalid member */
-		luaL_error(L, "cannot set member '%s'", lua_tostring(L, 2));
-	return Xet_call(L);                      /* call set function */
-}
 
 // STONE
 
@@ -557,30 +502,6 @@ static const struct luaL_Reg stone[] =
 	{ NULL, NULL}
 };
 
-
-void lua_stone_make_meta_stone( lua_State *L, int methods, int metatable)
-{
-	lua_pushliteral(L, "__metatable");
-	lua_pushvalue(L, methods);    /* dup methods table*/
-	lua_rawset(L, metatable);     /* hide metatable:
-					 metatable.__metatable = methods */
-	lua_pushliteral(L, "__index");
-	lua_pushvalue(L, metatable);  /* upvalue index 1 */
-	Xet_add(L, stone_getters);     /* fill metatable with getters */
-	lua_pushvalue(L, methods);    /* upvalue index 2 */
-	lua_pushcclosure(L, index_handler, 2);
-	lua_rawset(L, metatable);     /* metatable.__index = index_handler */
-
-	lua_pushliteral(L, "__newindex");
-	lua_newtable(L);              /* table for members you can set */
-	Xet_add(L, stone_setters);     /* fill with setters */
-	lua_pushcclosure(L, newindex_handler, 1);
-	lua_rawset(L, metatable);     /* metatable.__newindex = newindex_handler */
-
-	lua_pop(L, 1);                /* drop metatable */
-	//return 1;                     /* return methods on the stack */
-}
-
 void lua_stone_make_table_stone( lua_State *L)
 {
 	int methods, metatable;
@@ -605,41 +526,12 @@ void lua_stone_make_table_stone( lua_State *L)
 
 	methods = lua_gettop(L);
 
-	lua_stone_make_meta_stone( L, methods, metatable);
+	lua_set_getters_setters( L, methods, metatable, stone_getters, stone_setters);
 }
 
 void lua_stone_make_table_vertex( lua_State *L)
 {
 	luaL_newmetatable( L, L_VERTEX);
-	/*
-	   lua_pushvalue(L, -1);
-	   lua_setfield(L, -2, "__index");
-	   luaL_setfuncs(L, stone_vertex_methods, 0);
-	   */
-}
-
-
-void lua_stone_make_meta_edge( lua_State *L, int methods, int metatable)
-{
-	lua_pushliteral(L, "__metatable");
-	lua_pushvalue(L, methods);    /* dup methods table*/
-	lua_rawset(L, metatable);     /* hide metatable:
-					 metatable.__metatable = methods */
-	lua_pushliteral(L, "__index");
-	lua_pushvalue(L, metatable);  /* upvalue index 1 */
-	Xet_add(L, edge_getters);     /* fill metatable with getters */
-	lua_pushvalue(L, methods);    /* upvalue index 2 */
-	lua_pushcclosure(L, index_handler, 2);
-	lua_rawset(L, metatable);     /* metatable.__index = index_handler */
-
-	lua_pushliteral(L, "__newindex");
-	lua_newtable(L);              /* table for members you can set */
-	Xet_add(L, edge_setters);     /* fill with setters */
-	lua_pushcclosure(L, newindex_handler, 1);
-	lua_rawset(L, metatable);     /* metatable.__newindex = newindex_handler */
-
-	lua_pop(L, 1);                /* drop metatable */
-	//return 1;                     /* return methods on the stack */
 }
 
 void lua_stone_make_table_edge( lua_State *L)
@@ -655,17 +547,13 @@ void lua_stone_make_table_edge( lua_State *L)
 
 	methods = lua_gettop(L);
 
-	lua_stone_make_meta_edge( L, methods, metatable);
+	//lua_stone_make_meta_edge( L, methods, metatable);
+	lua_set_getters_setters( L, methods, metatable, edge_getters, edge_setters);
 }
 
 void lua_stone_make_table_face( lua_State *L)
 {
 	luaL_newmetatable( L, L_FACE);
-	/*
-	   lua_pushvalue(L, -1);
-	   lua_setfield(L, -2, "__index");
-	   luaL_setfuncs(L, stone_face_methods, 0);
-	   */
 }
 
 void lua_stone_init( lua_State *L)

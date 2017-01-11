@@ -34,6 +34,7 @@ typedef struct Lua_Face
 
 extern void (* STONE_BUILD_FUNCTION)( t_lua_stone *stone);
 void lua_stone_register( lua_State *L);
+t_lua_stone *lua_stone_get( lua_State * L);
 
 #endif
 

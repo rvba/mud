@@ -98,6 +98,11 @@ t_mn_vector *mn_vector_new( float x, float y, float z)
 	return vector;
 }
 
+void mn_vector_free( t_mn_vector *v)
+{
+	free(v);
+}
+
 void mn_vector_add( t_mn_vector *self, t_mn_vector *v)
 {
 	self->x += v->x;
@@ -117,6 +122,25 @@ void mn_vector_mul( t_mn_vector *self, float i)
 	self->x *= i;
 	self->y *= i;
 	self->z *= i;
+}
+
+t_mn_vector *mn_vector_cross( t_mn_vector *v1, t_mn_vector *v2)
+{
+	float _r[3] = {0,0,0};
+	const float _v1[3] = {v1->x,v1->y,v1->z};
+	const float _v2[3] = {v2->x,v2->y,v2->z};
+	cross_v3_v3v3( _r, _v1, _v2);
+	t_mn_vector *r = mn_vector_new(_r[0],_r[1],_r[2]);
+	return r;
+}
+
+void mn_vector_normalize( t_mn_vector *self)
+{
+	float v[3] = { self->x, self->y, self->z};
+	normalize_v3(v);
+	self->x = v[0];
+	self->y = v[1];
+	self->z = v[2];
 }
 
 float mn_vector_length( t_mn_vector *self)
