@@ -162,6 +162,49 @@ static int set_number (lua_State *L, void *v)
 */
 
 
+static int lua_stone_set_vertex( lua_State *L)
+{
+	t_lua_stone *lua_stone = lua_stone_get( L);
+
+	int i = luaL_checkinteger( L, 2);
+	float x = luaL_checknumber( L, 3);
+	float y = luaL_checknumber( L, 4);
+	float z = luaL_checknumber( L, 5);
+
+	float vector[] = { x, y, z};
+
+	stone_vertex_update( lua_stone->stone, i, vector);
+
+	return 1;
+}
+
+static int lua_stone_get_vertex_count( lua_State *L, void *v)
+{
+	t_lua_stone *lua_stone = ( t_lua_stone *) v;
+	t_stone *stone = lua_stone->stone;
+	lua_pushinteger(L, stone->vertex_count);
+	return 1;
+}
+
+static int lua_stone_get_vertex_location( lua_State *L)
+{
+	t_lua_stone *lua_stone = lua_stone_get( L);
+	int i = luaL_checkinteger( L, 2);
+	s_vertex *vertex = stone_get_vertex( lua_stone->stone, i);
+	if( vertex)
+	{
+		lua_pushnumber(L, vertex->co[0]);
+		lua_pushnumber(L, vertex->co[1]);
+		lua_pushnumber(L, vertex->co[2]);
+		return 3;
+	}
+	else 
+	{
+		return 0;
+	}
+}
+
+
 // STONE
 
 static t_lua_stone *lua_stone_userdata_new( lua_State *L)
@@ -424,6 +467,8 @@ static int lua_stone_print( lua_State *L)
 
 static const struct luaL_Reg stone_methods[] =
 {
+	{"get_vertex_location", lua_stone_get_vertex_location},
+	{"set_vertex", lua_stone_set_vertex},
 	{"add_next", lua_stone_add_next},
 	{"add_face", lua_stone_add_face},
 	{"add_vertex", lua_stone_add_vertex},
@@ -445,6 +490,7 @@ static const struct luaL_Reg stone_methods[] =
 };
 
 static const Xet_reg_pre stone_getters[] = {
+	{"vertex_count", lua_stone_get_vertex_count},
 	{"id",    get_id, 0   },
 	{0,0}
 };
