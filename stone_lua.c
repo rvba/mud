@@ -96,16 +96,6 @@ static t_lua_vertex *lua_stone_push_vertex( lua_State *L, s_vertex *vertex)
 
 // GET
 
-static int get_id( lua_State *L, void *v)
-{
-	t_lua_stone *s = ( t_lua_stone *) v;
-	t_object *object = ( t_object *) s->object;
-	int id = object->id.id;
-	lua_pushinteger( L, id);
-
-	return 1;
-}
-
 t_lua_stone *lua_stone_get( lua_State * L)
 {
 	return ( t_lua_stone *) luaL_checkudata( L, 1, L_STONE);
@@ -175,6 +165,13 @@ static int lua_stone_set_vertex( lua_State *L)
 
 	stone_vertex_update( lua_stone->stone, i, vector);
 
+	return 1;
+}
+
+static int lua_stone_get_name( lua_State *L, void *v)
+{
+	t_lua_stone *lua_stone = ( t_lua_stone *) v;
+	lua_pushstring(L, lua_stone->name);
 	return 1;
 }
 
@@ -490,8 +487,8 @@ static const struct luaL_Reg stone_methods[] =
 };
 
 static const Xet_reg_pre stone_getters[] = {
+	{"name", lua_stone_get_name},
 	{"vertex_count", lua_stone_get_vertex_count},
-	{"id",    get_id, 0   },
 	{0,0}
 };
 

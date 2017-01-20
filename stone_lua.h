@@ -3,12 +3,9 @@
 
 // STRUCTS
 
-struct Object;
-
 typedef struct Lua_Stone
 {
 	t_stone *stone;
-	struct Object *object;
 	char *name;
 
 }t_lua_stone;

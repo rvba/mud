@@ -29,8 +29,7 @@ function v(i,x,y,z)
 end
 
 function anim()
-	id = obj.id
-	set_mesh(id,v)
+	set_mesh(obj.name,v)
 end
 
 make_form(20,20)

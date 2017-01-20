@@ -78,8 +78,7 @@ function v(i,x,y,z)
 end
 
 function anim()
-	id = obj.id
-	set_mesh(id,v)
+	set_mesh(obj.name,v)
 end
 
 add_circle(8,2)
