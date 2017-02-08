@@ -523,6 +523,12 @@ void stone_merge( t_stone *stone, t_stone *root)
 	// Merge next
 	if( stone->node->next)
 	{
+		// Prevent auto-references
+		if( stone->node->next == stone->node)
+		{
+			printf("[stone] Error, cannot merge self\n");
+			return;
+		}
 		if( root ) stone_merge( stone->node->next->data, root);
 		else stone_merge( stone->node->next->data, stone); // first pass, set this stone as root
 	}
