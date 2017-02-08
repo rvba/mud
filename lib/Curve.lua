@@ -1,5 +1,6 @@
 local _M = _M or {} 
 
+-- used by Primitive
 function circle(resolution,radius)
 
 	angle = math.pi * 2 / resolution
@@ -25,6 +26,27 @@ function circle(resolution,radius)
 	return circle
 end
 
+function circle2d(resolution,radius)
+
+	local angle = math.pi * 2 / resolution
+	local a = 0
+	local circle = {}
+
+	for i = 0,resolution-1
+	do
+		local x = math.cos(a) * radius
+		local y = math.sin(a) * radius
+
+		circle[i*2] = x
+		circle[i*2+1] = y
+
+		a = a + angle
+
+	end
+	return circle
+end
+
+_M.circle2d = circle2d
 _M.circle = circle
 
 return _M
