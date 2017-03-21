@@ -96,16 +96,6 @@ static t_lua_vertex *lua_stone_push_vertex( lua_State *L, s_vertex *vertex)
 
 // GET
 
-static int get_id( lua_State *L, void *v)
-{
-	t_lua_stone *s = ( t_lua_stone *) v;
-	t_object *object = ( t_object *) s->object;
-	int id = object->id.id;
-	lua_pushinteger( L, id);
-
-	return 1;
-}
-
 t_lua_stone *lua_stone_get( lua_State * L)
 {
 	return ( t_lua_stone *) luaL_checkudata( L, 1, L_STONE);
@@ -160,6 +150,56 @@ static int set_number (lua_State *L, void *v)
 	return 0;
 }
 */
+
+
+static int lua_stone_set_vertex( lua_State *L)
+{
+	t_lua_stone *lua_stone = lua_stone_get( L);
+
+	int i = luaL_checkinteger( L, 2);
+	float x = luaL_checknumber( L, 3);
+	float y = luaL_checknumber( L, 4);
+	float z = luaL_checknumber( L, 5);
+
+	float vector[] = { x, y, z};
+
+	stone_vertex_update( lua_stone->stone, i, vector);
+
+	return 1;
+}
+
+static int lua_stone_get_name( lua_State *L, void *v)
+{
+	t_lua_stone *lua_stone = ( t_lua_stone *) v;
+	lua_pushstring(L, lua_stone->name);
+	return 1;
+}
+
+static int lua_stone_get_vertex_count( lua_State *L, void *v)
+{
+	t_lua_stone *lua_stone = ( t_lua_stone *) v;
+	t_stone *stone = lua_stone->stone;
+	lua_pushinteger(L, stone->vertex_count);
+	return 1;
+}
+
+static int lua_stone_get_vertex_location( lua_State *L)
+{
+	t_lua_stone *lua_stone = lua_stone_get( L);
+	int i = luaL_checkinteger( L, 2);
+	s_vertex *vertex = stone_get_vertex( lua_stone->stone, i);
+	if( vertex)
+	{
+		lua_pushnumber(L, vertex->co[0]);
+		lua_pushnumber(L, vertex->co[1]);
+		lua_pushnumber(L, vertex->co[2]);
+		return 3;
+	}
+	else 
+	{
+		return 0;
+	}
+}
 
 
 // STONE
@@ -424,6 +464,8 @@ static int lua_stone_print( lua_State *L)
 
 static const struct luaL_Reg stone_methods[] =
 {
+	{"get_vertex_location", lua_stone_get_vertex_location},
+	{"set_vertex", lua_stone_set_vertex},
 	{"add_next", lua_stone_add_next},
 	{"add_face", lua_stone_add_face},
 	{"add_vertex", lua_stone_add_vertex},
@@ -445,7 +487,8 @@ static const struct luaL_Reg stone_methods[] =
 };
 
 static const Xet_reg_pre stone_getters[] = {
-	{"id",    get_id, 0   },
+	{"name", lua_stone_get_name},
+	{"vertex_count", lua_stone_get_vertex_count},
 	{0,0}
 };
 

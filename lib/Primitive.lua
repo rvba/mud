@@ -1,9 +1,40 @@
+--
+-- Primitives
+--
+-- local prim = <Primitive>:new(name,<opt>)
+-- local stone = prim.stone
+--
+
 require "Class"
+
 local Curve = require "Curve"
 local Circle = {}
 local Cube = {}
 local Mastaba = {}
+local Quad = {}
+
 local _M = _M or {} 
+
+-- Quad
+
+function Quad:new(name)
+
+	local _quad = {}
+
+	-- Set Stone proto
+	setproto(_quad,self,name)
+
+	local d = 2.1
+	local a = _quad:add_vertex(0+d,0,0)
+	local b = _quad:add_vertex(1+d,0,0)
+	local c = _quad:add_vertex(1+d,1,0)
+	local d = _quad:add_vertex(0+d,1,0)
+
+	_quad:add_face(a,b,c,d)
+	_quad:build_object()
+
+	return _quad
+end
 
 -- Circle
 
@@ -209,6 +240,7 @@ function Mastaba:new( name, w, h, z, count)
 	return mastaba
 end
 
+_M.Quad = Quad
 _M.Circle = Circle
 _M.Cube = Cube
 _M.Mastaba = Mastaba

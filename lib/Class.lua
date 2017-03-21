@@ -36,6 +36,7 @@ end
 function setproto(o,self,name)
 	setmetatable(o,wrapper)
 	o.__proto__ = stone.new(name)
+	o.stone = o.__proto__
 	o.__self__ = self
 end
 

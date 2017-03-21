@@ -56,6 +56,7 @@ typedef struct Stone
 
 }t_stone;
 
+void stone_vertex_update( t_stone *stone, int indice, float *vector);
 s_vertex *stone_add_vertex_v( t_stone *stone, float *vec);
 s_vertex *stone_add_vertex( t_stone *stone, float x, float y, float z);
 int stone_add_face_v( t_stone *stone, int *f);
