@@ -70,6 +70,10 @@ if(OPT_TINYSPLINE)
 	add_subdirectory(lib/tinyspline)
 endif()
 
+if(OPT_LPEG)
+	add_subdirectory(lib/lpeg)
+endif()
+
 add_library(stonelib ${LIB_TYPE} ${SRC_STONE})
 add_library(stdutil ${LIB_TYPE} ${SRC_UTIL})
 add_definitions(-lm)
