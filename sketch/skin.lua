@@ -17,4 +17,4 @@ for i=1,100,.1 do
 end
 
 obj:add_modifier_skin()
-obj:build_object()
+obj:build()

@@ -20,6 +20,6 @@ mat:set(
 cube2:add_modifier_matrix( mat)
 
 cube1:add_next(cube2.__proto__)
-cube1:build_object()
+cube1:build()
 
 

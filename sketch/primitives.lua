@@ -5,7 +5,7 @@ local M = mat4
 -- CUBE
 -- -------------------------------
 --cube = P.Cube:new(1,1,1.5)
---cube:build_object()
+--cube:build()
 
 -- -------------------------------
 -- MASTABA
@@ -49,6 +49,6 @@ mat:multiply(rotate)
 mastaba:add_modifier_matrix(mat)
 
 -- Build
-mastaba:build_object()
+mastaba:build()
 
 

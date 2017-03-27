@@ -28,4 +28,4 @@ m3:multiply(m1)
 
 cube = P.Cube:new("a",1,1,1)
 cube:add_modifier_matrix(m3)
-cube:build_object()
+cube:build()

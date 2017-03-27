@@ -54,7 +54,7 @@ end
 local function build_pyramid()
 
 	add_stack(300,.01)
-	obj:build_object()
+	obj:build()
 
 end
 
@@ -77,7 +77,7 @@ local function build_vertex_extrusion()
 	p8 = obj:extrude_vertex(p4, vx, vy, vz)
 	obj:add_face(p5,p6,p7,p8)
 
-	obj:build_object()
+	obj:build()
 
 end
 
@@ -86,7 +86,7 @@ function build_edge_extrusion()
 	p1 = obj:add_vertex(0,0,0)
 	p2 = obj:extrude_vertex( p1, 1, 0, 0)
 	obj:extrude_edge(0, 0,0,1)
-	obj:build_object()
+	obj:build()
 
 end
 
@@ -94,7 +94,7 @@ function build_circle()
 
 	obj:build_circle( 100, 3.2)
 	obj:translate( 0, 0, 1)
-	obj:build_object()
+	obj:build()
 end
 
 function build_two_circles()
@@ -109,8 +109,8 @@ function build_two_circles()
 	c2:build_circle( res, radius + offset)
 	c2:translate(0,0,1)
 
-	c1:build_object()
-	c2:build_object()
+	c1:build()
+	c2:build()
 end
 
 function build_face()
@@ -124,7 +124,7 @@ function build_face()
 	ob:add_face(a,b,c,d)
 
 	ob:translate(10,1,1)
-	ob:build_object()
+	ob:build()
 end
 
 function build_stack()
@@ -149,7 +149,7 @@ function build_stack()
 		end
 
 
-	ob:build_object()
+	ob:build()
 end
 
 
@@ -159,7 +159,7 @@ function build_edge()
 	a = ob:add_vertex(0,0,0)
 	e = ob:extrude_vertex(a,2,0,0)
 	f = ob:extrude_edge(e,0,0,1)
-	ob:build_object()
+	ob:build()
 end
 
 
@@ -180,7 +180,7 @@ function build_strange()
 		i = i + 1
 		r = r + .001
 	end
-	obj:build_object()
+	obj:build()
 end
 
 function build_face_extrusion()
@@ -196,7 +196,7 @@ function build_face_extrusion()
 	z = 2
 	ff = obj:extrude_face(f,x,y,z)
 
-	obj:build_object()
+	obj:build()
 end
 
 function build_loop()
@@ -216,7 +216,7 @@ function build_loop()
 		f = obj:extrude_face(f,x,y,z)
 	end
 
-	obj:build_object()
+	obj:build()
 end
 
 --build_circle()

@@ -86,7 +86,7 @@ function circle(resolution,radius)
 	-- last edge
 	circle:add_edge(_pt,start)
 
-	circle:build_object()
+	circle:build()
 	return circle
 end
 

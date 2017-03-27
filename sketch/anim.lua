@@ -33,6 +33,6 @@ function anim()
 end
 
 make_form(20,20)
-obj:build_object()
+obj:build()
 
 every_frame(anim)

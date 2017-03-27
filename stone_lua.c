@@ -267,7 +267,7 @@ static int lua_stone_delete( lua_State *L)
 	return 0;
 }
 
-static int lua_stone_build_object( lua_State *L)
+static int lua_stone_build( lua_State *L)
 {
 	t_lua_stone *lua_stone = ( t_lua_stone *) luaL_checkudata( L, 1, L_STONE);
 
@@ -477,7 +477,7 @@ static const struct luaL_Reg stone_methods[] =
 	{"extrude_vertex", lua_stone_extrude_vertex},
 	{"extrude_edge", lua_stone_extrude_edge},
 	{"extrude_face", lua_stone_extrude_face},
-	{"build_object", lua_stone_build_object},
+	{"build", lua_stone_build},
 	{"build_circle", lua_stone_build_circle},
 	{"translate", lua_stone_translate},
 	{"copy", lua_stone_copy},

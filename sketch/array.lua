@@ -13,4 +13,4 @@ m2:rotate('Z',10)
 
 m1:multiply(m2)
 cube:add_modifier_array(36,m1)
-cube:build_object()
+cube:build()

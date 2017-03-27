@@ -5,7 +5,7 @@ b = tri:add_vertex(1,0,0)
 c = tri:add_vertex(1,1,0)
 
 tri:add_face(a,b,c)
-tri:build_object()
+tri:build()
 
 quad = stone.new("b")
 
@@ -17,5 +17,5 @@ c = quad:add_vertex(1+d,1,0)
 d = quad:add_vertex(0+d,1,0)
 
 quad:add_face(a,b,c,d)
-quad:build_object()
+quad:build()
 

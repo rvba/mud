@@ -89,7 +89,7 @@ end
 
 local test = Typo:new()
 test:print("a")
-test.object:build_object()
+test.object:build()
 
 
 

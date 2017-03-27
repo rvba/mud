@@ -31,7 +31,7 @@ function Quad:new(name)
 	local d = _quad:add_vertex(0+d,1,0)
 
 	_quad:add_face(a,b,c,d)
-	_quad:build_object()
+	_quad:build()
 
 	return _quad
 end
@@ -72,7 +72,7 @@ function Circle:new(name,resolution,radius)
 	-- last edge
 	
 	_circle:add_edge(_pt,start)
-	_circle:build_object()
+	_circle:build()
 
 	return _circle
 
