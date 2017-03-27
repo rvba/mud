@@ -7,6 +7,30 @@
  *
  */
 
+/**
+ * @mainpage
+ * Stone
+ * =====
+ *
+ * A very simple mesh modeling toolkit.
+ *
+ * Intro
+ * -----
+ *  [**Project wiki page**](http://rvba.fr/waki/doku.php?id=code:dev:minuit:modules:stone)
+ *
+ * A Stone object is composed of lists of:
+ * - SVertex
+ * - SEdge
+ * - SFace
+ *
+ * Operators:
+ *
+ * - [extrude_vertex](@ref stone_extrude_vertex)
+ * - [extrude_edge](@ref stone_extrude_edge)
+ *
+ */
+
+
 #ifndef __STONE_H__
 #define __STONE_H__
 
@@ -16,13 +40,22 @@ struct Stash;
 struct Stone;
 struct Context;
 
+/**
+ * @brief A single vertex.
+ */
 typedef struct SVertex
 {
-	int indice;
-	float co[3];
+	int indice; /**< Indice (ID) of the vertex (Stored position in the list) */
+	float co[3]; /**<  Coordinates (x,y,z) of the vertex */
 
 }s_vertex;
 
+/**
+ * A single Face.
+ *
+ * Quad: four SVertex (a,b,c,d)
+ * Tri: three vertices (d is NULL)
+ */
 typedef struct SFace
 {
 	s_vertex *a;
@@ -37,6 +70,16 @@ typedef struct SEdge
 	s_vertex *b;
 }s_edge;
 
+/**
+ * @ref Stone
+ * @brief Main Object.
+ *
+ * Stores lists of
+ *
+ *- [vertex](@ref SVertex)
+ *- edges
+ *- faces
+ */
 typedef struct Stone 
 {
 	char name[STONE_NAME];

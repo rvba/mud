@@ -7,6 +7,11 @@
  *
  */
 
+/**
+ * @file Main Stone file
+ */
+
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
@@ -21,6 +26,11 @@
 
 // New
 
+/**
+ * @ref stone_vertex_set
+ * @fn void stone_vertex_set( s_vertex *vert, float *v)
+ * set x y z
+ */
 void stone_vertex_set( s_vertex *vert, float *v)
 {
 	vert->co[0] = v[0];
@@ -392,6 +402,13 @@ int *stone_get_edge_buffer( t_stone *stone)
 
 // Extrude
 
+/**
+ * @anchor extrude_vertex
+ * @ref extrude_vertex
+ * @fn s_vertex *_stone_extrude_vertex( t_stone *stone, s_vertex *vertex, float *v)
+ * @brief Extrude a single vertex
+ *
+ */
 s_vertex *_stone_extrude_vertex( t_stone *stone, s_vertex *vertex, float *v)
 {
 	float extrude[3];
@@ -402,6 +419,11 @@ s_vertex *_stone_extrude_vertex( t_stone *stone, s_vertex *vertex, float *v)
 	return p2;
 }
 
+/**
+ *
+ * @brief Extrude a single vertex
+ * @param[in] v (x,y,z) Vector 
+ */
 s_edge *stone_extrude_vertex( t_stone *stone, s_vertex *p1, float *v)
 {
 	s_vertex *p2 = _stone_extrude_vertex( stone, p1, v);

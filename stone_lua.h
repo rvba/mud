@@ -22,6 +22,11 @@ typedef struct Lua_Edge
 
 }t_lua_edge;
 
+/**
+ * @ref Lua_Face
+ * @brief lua face
+ * @struct Lua_Face
+ */
 typedef struct Lua_Face
 {
 	s_face *f;
