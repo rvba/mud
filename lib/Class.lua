@@ -10,12 +10,15 @@ function wrapper:__index(key)
 
 	-- Object's self functions
 	if f then
-		return function (me,...)
-			return f(me,...)
+		if type(f) == "function" then
+			return function (me,...)
+				return f(me,...)
+			end
+		else
+			return f
 		end
 	else
 		-- Stone's functions
-
 		local proto = rawget(self,"__proto__")
 		local field = proto and proto[key]
 		if type(field) ~= "function" then
