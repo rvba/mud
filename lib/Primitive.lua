@@ -48,7 +48,7 @@ function Circle:new(name,resolution,radius)
 	pt = nil
 	start = nil
 
-	points = Curve.circle(resolution,radius)
+	points = Curve.Circle(resolution,radius)
 
 	for k,v in pairs(points) do
 		print(v.x)
