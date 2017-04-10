@@ -51,8 +51,6 @@ function Circle:new(name,resolution,radius)
 	points = Curve.Circle(resolution,radius)
 
 	for k,v in pairs(points) do
-		print(v.x)
-		print(v.y)
 
 		_pt = _circle:add_vertex(v.x,v.y,0)
 
@@ -63,7 +61,6 @@ function Circle:new(name,resolution,radius)
 		pt = _pt
 
 		if start == nil then
-			print("add")
 			start = _pt
 		end
 
