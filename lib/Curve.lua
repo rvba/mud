@@ -1,7 +1,6 @@
 local _M = _M or {} 
 
--- used by Primitive
-function circle(resolution,radius)
+local function circle(resolution,radius)
 
 	angle = math.pi * 2 / resolution
 	a = 0

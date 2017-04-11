@@ -14,29 +14,22 @@ local Circle = {}
 local Cube = {}
 local Mastaba = {}
 local Quad = {}
+local Spline = {}
 
 local _M = _M or {} 
 
--- Quad
 
-function Quad:new()
+-- Spline
 
-	local _quad = {}
-	local name = Util.set_name("quad")
+function Spline:new()
+
+	local spline = {}
+	local name = Util.set_name("spline")
 
 	-- Set Stone proto
-	setproto(_quad,self,name)
+	setproto(spline,self,name)
 
-	local d = 2.1
-	local a = _quad:add_vertex(0+d,0,0)
-	local b = _quad:add_vertex(1+d,0,0)
-	local c = _quad:add_vertex(1+d,1,0)
-	local d = _quad:add_vertex(0+d,1,0)
-
-	_quad:add_face(a,b,c,d)
-	_quad:build()
-
-	return _quad
+	return spline
 end
 
 -- Circle
@@ -77,6 +70,28 @@ function Circle:new(resolution,radius)
 
 	return _circle
 
+end
+
+-- Quad
+
+function Quad:new()
+
+	local _quad = {}
+	local name = Util.set_name("quad")
+
+	-- Set Stone proto
+	setproto(_quad,self,name)
+
+	local d = 2.1
+	local a = _quad:add_vertex(0+d,0,0)
+	local b = _quad:add_vertex(1+d,0,0)
+	local c = _quad:add_vertex(1+d,1,0)
+	local d = _quad:add_vertex(0+d,1,0)
+
+	_quad:add_face(a,b,c,d)
+	_quad:build()
+
+	return _quad
 end
 
 -- Cube
@@ -247,6 +262,7 @@ _M.Quad = Quad
 _M.Circle = Circle
 _M.Cube = Cube
 _M.Mastaba = Mastaba
+_M.Spline = Spline
 
 return _M
 
