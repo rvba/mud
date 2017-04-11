@@ -12,7 +12,7 @@ local M = mat4
 -- -------------------------------
 
 -- New
-mastaba = P.Mastaba:new("mastaba",10,10,.1,20)
+mastaba = P.Mastaba:new(10,10,.1,20)
 mastaba2 = mastaba:copy()
 
 -- Matrices

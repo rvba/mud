@@ -7,8 +7,8 @@ obj2 = S.new("2")
 
 obj1:add_next(obj2)
 
-cube1 = P.Cube:new("cube1?",1,1,1)
-cube2 = P.Cube:new("cube2?",1,1,1)
+cube1 = P.Cube:new(1,1,1)
+cube2 = P.Cube:new(1,1,1)
 
 mat = M.new()
 mat:set(

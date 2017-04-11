@@ -7,7 +7,9 @@
 
 require "Class"
 
+local Util = require "Util"
 local Curve = require "Curve"
+
 local Circle = {}
 local Cube = {}
 local Mastaba = {}
@@ -17,9 +19,10 @@ local _M = _M or {}
 
 -- Quad
 
-function Quad:new(name)
+function Quad:new()
 
 	local _quad = {}
+	local name = Util.set_name("quad")
 
 	-- Set Stone proto
 	setproto(_quad,self,name)
@@ -38,9 +41,10 @@ end
 
 -- Circle
 
-function Circle:new(name,resolution,radius)
+function Circle:new(resolution,radius)
 
 	local _circle = {}
+	local name = Util.set_name("circle")
 
 	-- Set Stone proto
 	setproto(_circle,self,name)
@@ -77,9 +81,10 @@ end
 
 -- Cube
 
-function Cube:new(name,x,y,z)
+function Cube:new(x,y,z)
 
 	local cube =  {}
+	local name = Util.set_name("cube")
 
 	-- Set Stone proto
 	setproto(cube,self,name)
@@ -215,9 +220,10 @@ function Mastaba:build_layers(va,vb,vc,vd)
 
 end
 
-function Mastaba:new( name, w, h, z, count)
+function Mastaba:new( w, h, z, count)
 
 	local mastaba = Mastaba 
+	local name = Util.set_name("mastaba")
 
 	setproto(mastaba,self,name)
 
