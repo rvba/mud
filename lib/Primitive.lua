@@ -14,12 +14,23 @@ local Circle = {}
 local Cube = {}
 local Mastaba = {}
 local Quad = {}
-local Spline = {}
+local Spline = {
+	degree=3,
+	dimension=3,
+	count=0,
+	resolution=3,
+	points={}
+}
 
 local _M = _M or {} 
 
 
 -- Spline
+
+local function round(num, numDecimalPlaces)
+  local mult = 10^(numDecimalPlaces or 0)
+    return math.floor(num * mult + 0.5) / mult
+    end
 
 function Spline:new()
 
@@ -30,6 +41,57 @@ function Spline:new()
 	setproto(spline,self,name)
 
 	return spline
+end
+
+function Spline:add(x,y,z)
+
+	self.count = self.count +1
+	self.points[self.count] = {x,y,z}
+end
+
+function Spline:make()
+
+	self.spline = spline.new(self.degree,self.dimension,self.count)
+
+	for k,v in pairs(self.points) do
+		self.spline:set_point(k,v[1],v[2],v[3])
+	end
+
+	local f = 1 / self.resolution
+	local p = 0.0
+	local v1 = nil
+
+	local p = 0.001
+	for i=1,self.resolution do
+
+		local x,y,z
+		x,y,z = self.spline:eval(p)
+		x = round(x,2)
+		y = round(y,2)
+		z = round(z,2)
+		print("p" .. i .. "@" .. round(p,2) .. " (" .. x .. "," .. y .. "," .. z .. ")")
+		v2 = self:add_vertex(x,y,z)
+
+		if v1 ~= nil then
+			self:add_edge(v1,v2)
+		end
+
+		v1 = v2
+		p = p + f
+	end
+
+	self:build()
+end
+
+function Spline:print()
+
+	print(self.name)
+	print("degree " .. self.degree)
+	print("count " .. self.count)
+	print("resolution " .. self.resolution)
+	for k,v in pairs(self.points) do
+		print(k .. " (" .. v[1] .. "," .. v[2] .. "," .. v[3] .. ")")
+	end
 end
 
 -- Circle
