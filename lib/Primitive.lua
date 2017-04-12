@@ -53,34 +53,41 @@ function Spline:make()
 
 	self.spline = spline.new(self.degree,self.dimension,self.count)
 
-	for k,v in pairs(self.points) do
-		self.spline:set_point(k,v[1],v[2],v[3])
-	end
+	if self.count > self.degree then
 
-	local f = 1 / self.resolution
-	local p = 0.0
-	local v1 = nil
-
-	local p = 0
-	for i=0,self.resolution do
-
-		local x,y,z
-		x,y,z = self.spline:eval(p)
-		x = round(x,4)
-		y = round(y,4)
-		z = round(z,4)
-		print("p" .. i .. "@" .. round(p,2) .. " (" .. x .. "," .. y .. "," .. z .. ")")
-		v2 = self:add_vertex(x,y,z)
-
-		if v1 ~= nil then
-			self:add_edge(v1,v2)
+		for k,v in pairs(self.points) do
+			self.spline:set_point(k,v[1],v[2],v[3])
 		end
 
-		v1 = v2
-		p = p + f
-	end
+		local f = 1 / self.resolution
+		local p = 0.0
+		local v1 = nil
 
-	self:build()
+		local p = 0
+		for i=0,self.resolution do
+
+			local x,y,z
+			x,y,z = self.spline:eval(p)
+			x = round(x,4)
+			y = round(y,4)
+			z = round(z,4)
+
+			--print("p" .. i .. "@" .. round(p,2) .. " (" .. x .. "," .. y .. "," .. z .. ")")
+
+			v2 = self:add_vertex(x,y,z)
+
+			if v1 ~= nil then
+				self:add_edge(v1,v2)
+			end
+
+			v1 = v2
+			p = p + f
+		end
+
+		self:build()
+	else
+		print("[lua] Spline: point count [" .. self. count .. "] must be superior to curve degree [" .. self.degree .. "]")
+	end
 end
 
 function Spline:print()

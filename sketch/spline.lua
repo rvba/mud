@@ -34,5 +34,4 @@ local function s2()
 	s:make()
 end
 
-s1()
 s2()
