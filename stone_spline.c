@@ -32,9 +32,6 @@ t_spline *stone_spline_new( int degree, int dimension, int count)
 
 void stone_spline_point_set( t_spline *self, int indice, float x, float y, float z)
 {
-	#if 1
-	printf("stone spline add: %f %f %f\n", x, y, z);
-	#endif
 	if( indice < self->count)
 	{
 		int d = self->dimension;
@@ -42,6 +39,10 @@ void stone_spline_point_set( t_spline *self, int indice, float x, float y, float
 		self->spline.ctrlp[(indice*d)+1] = y;
 		self->spline.ctrlp[(indice*d)+2] = z;
 	}
+
+	#if 1
+	printf("stone spline set: %d %f %f %f\n",indice,  x, y, z);
+	#endif
 }
 
 void stone_spline_change_type( t_spline *self, int type)
@@ -57,9 +58,11 @@ void stone_spline_eval( t_spline *self, float p, float r[3])
 {
 	tsDeBoorNet net;
 	ts_bspline_evaluate(&self->spline, p, &net);
+
 	#if 1
 	printf("stone spline eval: (%f) %f %f %f\n", p, net.result[0], net.result[1], net.result[2]);
 	#endif
+
 	r[0] = net.result[0];
 	r[1] = net.result[1];
 	r[2] = net.result[2];

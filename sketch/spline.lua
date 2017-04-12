@@ -1,17 +1,38 @@
 
 
+-- Point count must be strictly superior to curve degree
+--
 -- ts_internal_bspline_new
 -- if (deg >= n_ctrlp)
--- point count must be at least equal to curve degree
 
 local P = require "Primitive"
-local s = P.Spline:new()
-s.degree = 4
-s.resolution = 15
-s:add(1,2,0)
-s:add(3,3,0)
-s:add(6,0,0)
-s:add(9,3,0)
-s:add(12,0,0)
-s:print()
-s:make()
+
+local function s1()
+	local s = P.Spline:new()
+	s.degree = 3
+	s.resolution = 10
+	s:add(-1.75,-1,0)
+	s:add(-1.5,-0.5,0)
+	s:add(-1.5,0,0)
+	s:add(-1.25,0.5,0)
+	s:add(-0.75,0.75,0)
+	s:add(0,0.5,0)
+	s:add(0.5,0,0)
+	s:print()
+	s:make()
+end
+
+local function s2()
+	local s = P.Spline:new()
+	s.degree = 3
+	s.resolution = 10
+	s:add(-10.75,-1,0)
+	s:add(-1.5,-0.5,0)
+	s:add(-1.5,0,0)
+	s:add(-1.25,10.5,0)
+	s:print()
+	s:make()
+end
+
+s1()
+s2()

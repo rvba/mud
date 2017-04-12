@@ -41,7 +41,8 @@ static int lua_stone_spline_point_set( lua_State *L)
 	float x = luaL_checknumber( L, 3);
 	float y = luaL_checknumber( L, 4);
 	float z = luaL_checknumber( L, 5);
-	stone_spline_point_set( spline->spline, indice, x, y,  z);
+	/* WARNING : indice -1 (lua->c) */
+	stone_spline_point_set( spline->spline, indice -1 , x, y,  z);
 	return 0;
 }
 

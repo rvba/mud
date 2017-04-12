@@ -45,7 +45,7 @@ end
 
 function Spline:add(x,y,z)
 
-	self.count = self.count +1
+	self.count = self.count + 1 
 	self.points[self.count] = {x,y,z}
 end
 
@@ -61,14 +61,14 @@ function Spline:make()
 	local p = 0.0
 	local v1 = nil
 
-	local p = 0.001
-	for i=1,self.resolution do
+	local p = 0
+	for i=0,self.resolution do
 
 		local x,y,z
 		x,y,z = self.spline:eval(p)
-		x = round(x,2)
-		y = round(y,2)
-		z = round(z,2)
+		x = round(x,4)
+		y = round(y,4)
+		z = round(z,4)
 		print("p" .. i .. "@" .. round(p,2) .. " (" .. x .. "," .. y .. "," .. z .. ")")
 		v2 = self:add_vertex(x,y,z)
 
