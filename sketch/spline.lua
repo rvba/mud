@@ -38,8 +38,11 @@ end
 
 local s = s2()
 local pierre = s.stone
+
 print("Vertex count:" .. pierre.vertex_count)
 for i,v in pairs(pierre.vertices) do
-	print(i,v)
+	local co = v.co
+	print(i,co[1],co[2],co[3])
 end
+
 

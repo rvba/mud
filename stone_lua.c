@@ -294,7 +294,6 @@ static int lua_stone_get_vertex_list( lua_State *L, void *v)
 	int newTable = lua_gettop(L);
 	int index = 1;
 
-
 	t_lnode *node;
 	for( node = stone->vertex->first; node; node = node->next)
 	{
@@ -303,6 +302,30 @@ static int lua_stone_get_vertex_list( lua_State *L, void *v)
 		lua_rawseti(L, newTable, index);
 		++index;
 	}
+
+	return 1;
+}
+
+static int lua_stone_get_vertex_co( lua_State *L, void *v)
+{
+	t_lua_vertex *_v = ( t_lua_vertex *) v;
+	s_vertex *vertex = ( s_vertex *) _v->v;
+
+	lua_createtable(L, 3, 0);
+	int newTable = lua_gettop(L);
+	int index = 1;
+
+	lua_pushnumber(L, vertex->co[0]);
+	lua_rawseti(L, newTable, index);
+	++index;
+
+	lua_pushnumber(L, vertex->co[1]);
+	lua_rawseti(L, newTable, index);
+	++index;
+
+	lua_pushnumber(L, vertex->co[2]);
+	lua_rawseti(L, newTable, index);
+	++index;
 
 	return 1;
 }
@@ -332,7 +355,6 @@ static int lua_stone_add_vertex( lua_State *L)
 	return 1;
 }
 
-//static int lua_stone_add_edge( lua_State *L)
 static int lua_stone_add_edge( lua_State *L)
 {
 	t_lua_stone *lua_stone;
@@ -543,6 +565,20 @@ static int lua_stone_edge_get_b( lua_State *L)
 	return 1;
 }
 
+static const Xet_reg_pre vertex_getters[] = {
+	{"co", lua_stone_get_vertex_co},
+	{0,0}
+};
+
+static const Xet_reg_pre vertex_setters[] = {
+	{0,0}
+};
+
+static const struct luaL_Reg stone_vertex_methods[] =
+{
+	{ NULL, NULL}
+};
+
 static const struct luaL_Reg stone_edge_methods[] =
 {
 	{"get_a", lua_stone_edge_get_a},
@@ -603,7 +639,18 @@ void lua_stone_make_table_stone( lua_State *L)
 
 void lua_stone_make_table_vertex( lua_State *L)
 {
+	int methods, metatable;
 	luaL_newmetatable( L, L_VERTEX);
+
+	metatable = lua_gettop(L);
+
+	lua_pushvalue(L, -1);
+	lua_setfield(L, -2, "__index");
+	luaL_setfuncs(L, stone_vertex_methods, 0);
+
+	methods = lua_gettop(L);
+
+	lua_set_getters_setters( L, methods, metatable, vertex_getters, vertex_setters);
 }
 
 void lua_stone_make_table_edge( lua_State *L)
@@ -619,7 +666,6 @@ void lua_stone_make_table_edge( lua_State *L)
 
 	methods = lua_gettop(L);
 
-	//lua_stone_make_meta_edge( L, methods, metatable);
 	lua_set_getters_setters( L, methods, metatable, edge_getters, edge_setters);
 }
 
