@@ -17,7 +17,13 @@ local function set_name(name)
 	return name .. "_" .. count 
 end
 
+local function round(num, numDecimalPlaces)
+  local mult = 10^(numDecimalPlaces or 0)
+    return math.floor(num * mult + 0.5) / mult
+    end
+
 _M.set_name = set_name
+_M.round = round
 return _M
 
 

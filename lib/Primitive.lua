@@ -27,10 +27,6 @@ local _M = _M or {}
 
 -- Spline
 
-local function round(num, numDecimalPlaces)
-  local mult = 10^(numDecimalPlaces or 0)
-    return math.floor(num * mult + 0.5) / mult
-    end
 
 function Spline:extrude()
 
@@ -73,9 +69,9 @@ function Spline:make()
 
 			local x,y,z
 			x,y,z = self.spline:eval(p)
-			x = round(x,4)
-			y = round(y,4)
-			z = round(z,4)
+			x = Util.round(x,4)
+			y = Util.round(y,4)
+			z = Util.round(z,4)
 
 			--print("p" .. i .. "@" .. round(p,2) .. " (" .. x .. "," .. y .. "," .. z .. ")")
 

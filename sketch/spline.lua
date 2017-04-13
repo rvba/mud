@@ -6,6 +6,9 @@
 -- if (deg >= n_ctrlp)
 
 local P = require "Primitive"
+local F = require "Frame"
+local U = require "Util"
+local edges = {}
 
 local function build_spline()
 
@@ -13,10 +16,10 @@ local function build_spline()
 
 	s.degree = 3
 	s.resolution = 10
-	s:add(-10.75,-1,0)
-	s:add(-1.5,-0.5,0)
-	s:add(-1.5,0,0)
-	s:add(-1.25,10.5,0)
+	s:add(0,0,0)
+	s:add(3,0,3)
+	s:add(6,0,0)
+	s:add(9,0,3)
 	--s:print()
 	
 	s:make()
@@ -38,7 +41,8 @@ end
 local function extrude_edges(stone)
 
 	for i,edge in pairs(stone.edges) do
-		face = stone:extrude_edge(edge,0,0,3)
+		edges[i] = edge
+		face = stone:extrude_edge(edge,0,3,0)
 	end
 
 	stone:build()
@@ -47,16 +51,51 @@ end
 local function extrude_faces(stone)
 
 	for i,face in pairs(stone.faces) do
-		stone:extrude_face(face,-2,3,0)
+		stone:extrude_face(face,0,0,-.2)
 	end
 
 	stone:build()
+end
+
+local function add_frames()
+
+	for i,edge in pairs(edges) do
+
+		local a = edge.a
+		local b = edge.b
+
+		ax = a.co[1]
+		ay = a.co[2]
+		az = a.co[3]
+		bx = b.co[1]
+		by = b.co[2]
+		bz = b.co[3]
+
+		local vup = smath.new(0,0,5)
+		local va = smath.new(ax,ay,az)
+		local vb = smath.new(bx,by,bz)
+		local vc = va:copy()
+		local vd = vb:copy()
+
+		vc:add(vup)
+		vd:add(vup)
+
+		vb:sub(va)
+		vc:sub(va)
+		vd:sub(va)
+
+		local frame = F.frame:new(va,vb,vc,vd)
+
+		frame:construct()
+	end
 end
 
 local spline = build_spline()
 
 extrude_edges(spline.stone)
 extrude_faces(spline.stone)
+add_frames()
+
 
 
 

@@ -377,6 +377,16 @@ static int lua_stone_get_vertex_co( lua_State *L, void *v)
 	return 1;
 }
 
+static int lua_stone_get_indice( lua_State *L, void *v)
+{
+	t_lua_vertex *_v = ( t_lua_vertex *) v;
+	s_vertex *vertex = ( s_vertex *) _v->v;
+
+	lua_pushinteger(L, vertex->indice);
+
+	return 1;
+}
+
 // ADD
 
 static int lua_stone_add_next( lua_State *L)
@@ -603,6 +613,7 @@ static int lua_stone_edge_get_b( lua_State *L)
 }
 
 static const Xet_reg_pre vertex_getters[] = {
+	{"indice", lua_stone_get_indice},
 	{"co", lua_stone_get_vertex_co},
 	{0,0}
 };
