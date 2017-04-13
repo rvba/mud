@@ -330,6 +330,29 @@ static int lua_stone_get_edge_list( lua_State *L, void *v)
 	return 1;
 }
 
+static int lua_stone_get_face_list( lua_State *L, void *v)
+{
+	t_lua_stone *lua_stone = ( t_lua_stone *) v;
+	
+	t_stone *stone = lua_stone->stone;
+	int count = stone->face_count;
+
+	lua_createtable(L, count+1, 0);
+	int newTable = lua_gettop(L);
+	int index = 1;
+
+	t_lnode *node;
+	for( node = stone->face->first; node; node = node->next)
+	{
+		s_face *face = ( s_face *) node->data;
+		lua_stone_push_face( L, face);
+		lua_rawseti(L, newTable, index);
+		++index;
+	}
+
+	return 1;
+}
+
 static int lua_stone_get_vertex_co( lua_State *L, void *v)
 {
 	t_lua_vertex *_v = ( t_lua_vertex *) v;
@@ -553,6 +576,7 @@ static const Xet_reg_pre stone_getters[] = {
 	{"vertex_count", lua_stone_get_vertex_count},
 	{"vertices", lua_stone_get_vertex_list},
 	{"edges", lua_stone_get_edge_list},
+	{"faces", lua_stone_get_face_list},
 	{0,0}
 };
 

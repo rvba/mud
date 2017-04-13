@@ -44,8 +44,19 @@ local function extrude_edges(stone)
 	stone:build()
 end
 
+local function extrude_faces(stone)
+
+	for i,face in pairs(stone.faces) do
+		stone:extrude_face(face,-2,3,0)
+	end
+
+	stone:build()
+end
+
 local spline = build_spline()
+
 extrude_edges(spline.stone)
+extrude_faces(spline.stone)
 
 
 
