@@ -18,8 +18,9 @@ local function s1()
 	s:add(-0.75,0.75,0)
 	s:add(0,0.5,0)
 	s:add(0.5,0,0)
-	s:print()
+	--s:print()
 	s:make()
+	return s
 end
 
 local function s2()
@@ -30,8 +31,15 @@ local function s2()
 	s:add(-1.5,-0.5,0)
 	s:add(-1.5,0,0)
 	s:add(-1.25,10.5,0)
-	s:print()
+	--s:print()
 	s:make()
+	return s
 end
 
-s2()
+local s = s2()
+local pierre = s.stone
+print("Vertex count:" .. pierre.vertex_count)
+for i,v in pairs(pierre.vertices) do
+	print(i,v)
+end
+

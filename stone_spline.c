@@ -40,7 +40,7 @@ void stone_spline_point_set( t_spline *self, int indice, float x, float y, float
 		self->spline.ctrlp[(indice*d)+2] = z;
 	}
 
-	#if 1
+	#if 0
 	printf("stone spline set: %d %f %f %f\n",indice,  x, y, z);
 	#endif
 }
@@ -59,7 +59,7 @@ void stone_spline_eval( t_spline *self, float p, float r[3])
 	tsDeBoorNet net;
 	ts_bspline_evaluate(&self->spline, p, &net);
 
-	#if 1
+	#if 0
 	printf("stone spline eval: (%f) %f %f %f\n", p, net.result[0], net.result[1], net.result[2]);
 	#endif
 

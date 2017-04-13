@@ -19,7 +19,7 @@ local Spline = {
 	dimension=3,
 	count=0,
 	resolution=3,
-	points={}
+	points={},
 }
 
 local _M = _M or {} 
@@ -31,6 +31,11 @@ local function round(num, numDecimalPlaces)
   local mult = 10^(numDecimalPlaces or 0)
     return math.floor(num * mult + 0.5) / mult
     end
+
+function Spline:extrude()
+
+
+end
 
 function Spline:new()
 

@@ -14,6 +14,8 @@
 #include "stone.h"
 #include "modifier.h"
 #include "stash.h"
+#include "llist.h"
+
 #include <stdlib.h>
 #include <string.h>
 #include <stddef.h>
@@ -279,6 +281,32 @@ static int lua_stone_build( lua_State *L)
 	return 1;
 }
 
+// GET
+
+static int lua_stone_get_vertex_list( lua_State *L, void *v)
+{
+	t_lua_stone *lua_stone = ( t_lua_stone *) v;
+	
+	t_stone *stone = lua_stone->stone;
+	int count = stone->vertex_count;
+
+	lua_createtable(L, count+1, 0);
+	int newTable = lua_gettop(L);
+	int index = 1;
+
+
+	t_lnode *node;
+	for( node = stone->vertex->first; node; node = node->next)
+	{
+		s_vertex *vertex = ( s_vertex *) node->data;
+		lua_stone_push_vertex( L, vertex);
+		lua_rawseti(L, newTable, index);
+		++index;
+	}
+
+	return 1;
+}
+
 // ADD
 
 static int lua_stone_add_next( lua_State *L)
@@ -489,6 +517,7 @@ static const struct luaL_Reg stone_methods[] =
 static const Xet_reg_pre stone_getters[] = {
 	{"name", lua_stone_get_name},
 	{"vertex_count", lua_stone_get_vertex_count},
+	{"vertices", lua_stone_get_vertex_list},
 	{0,0}
 };
 
