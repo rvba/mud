@@ -111,10 +111,7 @@ s_edge *stone_extrude_vertex( t_stone *stone, s_vertex *p1, float *v);
 s_face *stone_extrude_edge( t_stone *stone, s_edge *edge, float *v);
 s_face *stone_extrude_face( t_stone *stone, s_face *face, float *v);
 
-void stone_build_circle( t_stone *stone, int resolution, float radius);
-
 void stone_translate( t_stone *stone, float *v);
-
 void stone_apply_vertex( t_stone *stone, void (* f)( s_vertex *v, void *d), void *data);
 
 float *stone_get_vertex_buffer( t_stone *stone);

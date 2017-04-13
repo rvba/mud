@@ -43,6 +43,10 @@ print("Vertex count:" .. pierre.vertex_count)
 for i,v in pairs(pierre.vertices) do
 	local co = v.co
 	print(i,co[1],co[2],co[3])
+	edge = pierre:extrude_vertex(v,0,0,3)
+	print(edge.a)
 end
+
+pierre:build()
 
 

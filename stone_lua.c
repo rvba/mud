@@ -212,6 +212,7 @@ static t_lua_stone *lua_stone_userdata_new( lua_State *L)
 	t_lua_stone *lua_stone = ( t_lua_stone *) lua_newuserdata( L, sizeof( t_lua_stone));
 	lua_stone->stone = NULL;
 	lua_stone->name = NULL;
+	lua_stone->is_built = 0;
 
 	// Set the metatable on the userdata
 	luaL_setmetatable( L, L_STONE); 
@@ -481,17 +482,6 @@ static int lua_stone_extrude_face( lua_State *L)
 	return 1;
 }
 
-static int lua_stone_build_circle( lua_State *L)
-{
-	t_lua_stone *lua_stone = lua_stone_get( L);
-	int resolution  = luaL_checkinteger( L, 2);
-	float radius = luaL_checknumber( L, 3);
-
-	stone_build_circle( lua_stone->stone, resolution, radius);
-
-	return 0;
-}
-
 static int lua_stone_translate( lua_State *L)
 {
 	t_lua_stone *lua_stone = lua_stone_get( L);
@@ -528,7 +518,6 @@ static const struct luaL_Reg stone_methods[] =
 	{"extrude_edge", lua_stone_extrude_edge},
 	{"extrude_face", lua_stone_extrude_face},
 	{"build", lua_stone_build},
-	{"build_circle", lua_stone_build_circle},
 	{"translate", lua_stone_translate},
 	{"copy", lua_stone_copy},
 	{"delete", lua_stone_delete},

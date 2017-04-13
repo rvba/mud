@@ -467,22 +467,6 @@ s_face *stone_extrude_face( t_stone *stone, s_face *face, float *v)
 	return f;
 }
 
-// Build
-
-void stone_build_circle( t_stone *stone, int resolution, float radius)
-{
-	float center[3] = { 0, 0, 0};
-	float *points = std_circle( center, (double)radius, resolution);
-	int i;
-	int j=0;
-	for ( i = 0; i < resolution; i++)
-	{
-		stone_add_vertex( stone, points[j], points[j+1], points[j+2]);
-		j += 3;
-	}
-	free( points);
-}
-
 // Transform
 
 void stone_apply_vertex( t_stone *stone, void (* f)( s_vertex *v, void *d), void *data)

@@ -7,6 +7,7 @@ typedef struct Lua_Stone
 {
 	t_stone *stone;
 	char *name;
+	short is_built;
 
 }t_lua_stone;
 
