@@ -20,6 +20,7 @@ local Spline = {
 	count=0,
 	resolution=3,
 	points={},
+	is_built=false,
 }
 
 local _M = _M or {} 
@@ -32,6 +33,7 @@ function Spline:extrude()
 
 
 end
+
 
 function Spline:new()
 
@@ -86,8 +88,19 @@ function Spline:make()
 		end
 
 		self:build()
+		self.is_built = true
 	else
 		print("[lua] Spline: point count [" .. self. count .. "] must be superior to curve degree [" .. self.degree .. "]")
+	end
+end
+
+function Spline:eval(p)
+	if self.is_built then
+			x,y,z = self.spline:eval(p)
+			return x,y,z
+	else
+		self:make()
+		self:eval()
 	end
 end
 
