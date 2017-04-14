@@ -64,6 +64,7 @@ end
 
 local function add_frames()
 
+	local frames = {}
 	for i,edge in pairs(edges) do
 
 		local a = edge.a
@@ -90,16 +91,20 @@ local function add_frames()
 		vd:sub(va)
 
 		local frame = F.frame:new(va,vb,vc,vd)
+		frames[i] = frame
 
 		frame:construct()
 	end
+
+	return frames
 end
 
 local function build()
 	local spline = build_spline()
 	extrude_edges(spline.stone)
 	extrude_faces(spline.stone)
-	add_frames()
+	local frames = add_frames()
+	return frames
 end
 
 _M.build = build

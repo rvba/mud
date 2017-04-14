@@ -8,18 +8,23 @@ local function circle(resolution,radius)
 	start = nil
 	circle = {}
 
+	j = 0
 	for i = 1,resolution
 	do
-		local p = {}
 		x = math.cos(a) * radius
 		y = math.sin(a) * radius
-		p.x = x
-		p.y = y
+		z = 0
 
-		table.insert(circle,p)
+		circle[j+0] = x
+		circle[j+1] = y
+		circle[j+2] = z
 
-		pt = _pt
+		table.insert(circle,x)
+		table.insert(circle,y)
+		table.insert(circle,z)
+
 		a = a + angle
+		j = j + 3
 
 	end
 	return circle
