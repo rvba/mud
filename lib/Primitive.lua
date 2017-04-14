@@ -12,6 +12,7 @@ local Curve = require "Curve"
 
 local Circle = {}
 local Cube = {}
+local Sphere = {}
 local Mastaba = {}
 local Quad = {}
 local Spline = {
@@ -152,6 +153,168 @@ function Circle:new(resolution,radius)
 	_circle:build()
 
 	return _circle
+
+end
+
+-- Sphere
+
+function Sphere:new(radius,resolution)
+
+	local sphere = {}
+	local name = Util.set_name("sphere")
+
+	-- Set Stone proto
+	setproto(sphere,self,name)
+
+	local angle = math.pi * 2 / resolution
+	local a = angle   
+
+	local top = sphere:add_vertex(0,0,radius)
+	local down = sphere:add_vertex(0,0,-radius)
+
+	print("alpha:",angle)
+	local pts = Curve.Circle(resolution,radius)
+	local id = 0
+
+	local center = {}
+	for j = 1,resolution do
+		local p = sphere:add_vertex(pts[id],pts[id+1],pts[id+2])
+		center[j] = p
+		id = id + 3
+	end
+
+	local up = {}
+	local bottom = {}
+	local pass = resolution / 4 - 1
+	local last 
+	for i=1,pass do
+		local id = 0
+		local r = radius * math.sin(a)
+		local h = radius * math.cos(a)
+		local pts = Curve.Circle(resolution,r)
+		print("CIRCLE")
+		print("angle",a)
+		print("radius",r)
+		print("h",h)
+		local u = {}
+		local b = {}
+		for j = 1,resolution do
+			--print(pts[id],pts[id+1],pts[id+2])
+			u[j] = sphere:add_vertex(pts[id],pts[id+1],h)
+			b[j] = sphere:add_vertex(pts[id],pts[id+1],-h)
+			id = id + 3
+		end
+
+		up[i] = u
+		bottom[i] = b
+
+		-- triangles
+		if i == 1 then
+
+			local _up = up[i]
+			local _bottom = bottom[i]
+
+			for p = 1,resolution do
+
+				local a,b
+				local e,f
+
+				a = _up[p]
+				e = _bottom[p]
+
+				if p == resolution then
+					b = _up[1]
+					f = _bottom[1]
+				else
+					b = _up[p+1]
+					f = _bottom[p+1]
+				end
+
+				sphere:add_face(a,top,b)
+				sphere:add_face(e,f,down)
+			end
+
+		-- quads
+		else
+			local up_previous = up[i-1]
+			local up_next = up[i]
+			local bottom_previous = bottom[i-1]
+			local bottom_next = bottom[i]
+
+			for p = 1,resolution do
+
+				local a,b,c,d
+				local e,f,g,h
+
+				a = up_previous[p]
+				e = bottom_previous[p]
+
+				if p == resolution then
+					--print("last")
+					b = up_previous[1]
+					c = up_next[1]
+					f = bottom_previous[1]
+					g = bottom_next[1]
+				else
+					--print("next")
+					b = up_previous[p+1]
+					c = up_next[p+1]
+					f = bottom_previous[p+1]
+					g = bottom_next[p+1]
+				end
+
+				d = up_next[p]
+				h = bottom_next[p]
+
+				--sphere:add_face(a,b,c,d)
+				sphere:add_face(a,d,c,b)
+				sphere:add_face(e,f,g,h)
+
+			end
+		end
+
+		a = a + angle 
+		last = i
+	end
+
+	local up_previous = up[last]
+	local up_next = center
+	local bottom_previous = bottom[last]
+	local bottom_next = center
+
+	for p = 1,resolution do
+
+		local a,b,c,d
+		local e,f,g,h
+
+		a = up_previous[p]
+		e = bottom_previous[p]
+
+		if p == resolution then
+			--print("last")
+			b = up_previous[1]
+			c = up_next[1]
+			f = bottom_previous[1]
+			g = bottom_next[1]
+		else
+			--print("next")
+			b = up_previous[p+1]
+			c = up_next[p+1]
+			f = bottom_previous[p+1]
+			g = bottom_next[p+1]
+		end
+
+		d = up_next[p]
+		h = bottom_next[p]
+
+		sphere:add_face(a,d,c,b)
+		sphere:add_face(e,f,g,h)
+
+	end
+
+	sphere:build()
+
+	return sphere
 
 end
 
@@ -346,6 +509,7 @@ _M.Circle = Circle
 _M.Cube = Cube
 _M.Mastaba = Mastaba
 _M.Spline = Spline
+_M.Sphere = Sphere
 
 return _M
 
