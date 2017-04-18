@@ -15,13 +15,7 @@ local function circle(resolution,radius)
 		y = math.sin(a) * radius
 		z = 0
 
-		circle[j+0] = x
-		circle[j+1] = y
-		circle[j+2] = z
-
-		table.insert(circle,x)
-		table.insert(circle,y)
-		table.insert(circle,z)
+		circle[i] = {x,y,z}
 
 		a = a + angle
 		j = j + 3

@@ -133,7 +133,7 @@ function Circle:new(resolution,radius)
 
 	for k,v in pairs(points) do
 
-		_pt = _circle:add_vertex(v.x,v.y,0)
+		_pt = _circle:add_vertex(v[1],v[2],v[3])
 
 		if pt ~= nil then
 			e = _circle:add_edge(_pt,pt)
