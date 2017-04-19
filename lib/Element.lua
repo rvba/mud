@@ -94,6 +94,7 @@ local function add_frames()
 		frames[i] = frame
 
 		frame:construct()
+		frame:build()
 	end
 
 	return frames

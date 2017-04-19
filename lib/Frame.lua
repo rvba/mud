@@ -223,7 +223,7 @@ end
 
 function Frame:construct()
 	self:add_frame()
-	self:build()
+	--self:build()
 end
 
 _M.frame = Frame
