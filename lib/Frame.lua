@@ -2,6 +2,7 @@
 --
 
 require "Class"
+local U = require "Util"
 
 local _M = _M or {} 
 
@@ -10,15 +11,6 @@ local Frame = {
 	depth = .2,
 	thick = .1,
 }
-
-local name_prefix = "frame_"
-local name_indice = 1
-
-local function set_name()
-	name_indice = name_indice + 1
-	return name_prefix .. name_indice
-end
-
 
 -- Todo: frame plaine == Block.lua (face+extrusion)
 
@@ -84,7 +76,6 @@ function Frame:add_frame()
 	v3:add(vb)
 
 	-- frame
-	--local frame = stone.new(set_name())
 	local frame = self
 
 	local vv2 = v2:copy()
@@ -211,7 +202,7 @@ function Frame:new(o,a,b,c)
 	local _frame = {}
 
 	-- Set Stone proto
-	setproto(_frame,self,set_name())
+	setproto(_frame,self,U.set_name("frame"))
 
 	_frame.vo = o
 	_frame.va = a
