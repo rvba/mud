@@ -223,8 +223,8 @@ function Sphere:new(radius,resolution)
 					f = _bottom[p+1]
 				end
 
-				sphere:add_face(a,top,b)
-				sphere:add_face(e,f,down)
+				sphere:add_face(b,top,a)
+				sphere:add_face(e,down,f)
 			end
 
 		-- quads
@@ -243,13 +243,11 @@ function Sphere:new(radius,resolution)
 				e = bottom_previous[p]
 
 				if p == resolution then
-					--print("last")
 					b = up_previous[1]
 					c = up_next[1]
 					f = bottom_previous[1]
 					g = bottom_next[1]
 				else
-					--print("next")
 					b = up_previous[p+1]
 					c = up_next[p+1]
 					f = bottom_previous[p+1]
@@ -259,7 +257,6 @@ function Sphere:new(radius,resolution)
 				d = up_next[p]
 				h = bottom_next[p]
 
-				--sphere:add_face(a,b,c,d)
 				sphere:add_face(a,d,c,b)
 				sphere:add_face(e,f,g,h)
 
