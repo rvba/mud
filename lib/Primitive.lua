@@ -172,15 +172,13 @@ function Sphere:new(radius,resolution)
 	local top = sphere:add_vertex(0,0,radius)
 	local down = sphere:add_vertex(0,0,-radius)
 
-	print("alpha:",angle)
 	local pts = Curve.Circle(resolution,radius)
-	local id = 0
 
 	local center = {}
 	for j = 1,resolution do
-		local p = sphere:add_vertex(pts[id],pts[id+1],pts[id+2])
+		local _p = pts[j]
+		local p = sphere:add_vertex(_p[1],_p[2],_p[3])
 		center[j] = p
-		id = id + 3
 	end
 
 	local up = {}
@@ -192,17 +190,12 @@ function Sphere:new(radius,resolution)
 		local r = radius * math.sin(a)
 		local h = radius * math.cos(a)
 		local pts = Curve.Circle(resolution,r)
-		print("CIRCLE")
-		print("angle",a)
-		print("radius",r)
-		print("h",h)
 		local u = {}
 		local b = {}
 		for j = 1,resolution do
-			--print(pts[id],pts[id+1],pts[id+2])
-			u[j] = sphere:add_vertex(pts[id],pts[id+1],h)
-			b[j] = sphere:add_vertex(pts[id],pts[id+1],-h)
-			id = id + 3
+			local p = pts[j]
+			u[j] = sphere:add_vertex(p[1],p[2],h)
+			b[j] = sphere:add_vertex(p[1],p[2],-h)
 		end
 
 		up[i] = u
