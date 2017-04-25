@@ -175,7 +175,14 @@ void stone_vertex_show( s_vertex *v)
 
 void stone_face_show( s_face *f)
 {
-	printf("Face [%d %d %d %d]\n", f->a->indice, f->b->indice, f->c->indice, f->d->indice);
+	if(f->d)
+	{
+		printf("Face Quad [%d %d %d %d]\n", f->a->indice, f->b->indice, f->c->indice, f->d->indice);
+	}
+	else
+	{
+		printf("Face Tri [%d %d %d]\n", f->a->indice, f->b->indice, f->c->indice);
+	}
 }
 
 void stone_edge_show( s_edge *e)

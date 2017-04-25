@@ -158,7 +158,7 @@ end
 
 -- Sphere
 
-function Sphere:new(radius,resolution)
+function Sphere:new(radius,rx,ry)
 
 	local sphere = {}
 	local name = Util.set_name("sphere")
@@ -166,140 +166,118 @@ function Sphere:new(radius,resolution)
 	-- Set Stone proto
 	setproto(sphere,self,name)
 
-	local angle = math.pi * 2 / resolution
-	local a = angle   
+	-- Fraction of angles
+	local ax = math.pi * 2 / rx
+	local ay = math.pi * 2 / (ry * 2) 
 
+	-- current altitude angle
+	local phi = ay
+	local rho = ax
+
+	-- Top & Bottom vertices
 	local top = sphere:add_vertex(0,0,radius)
 	local down = sphere:add_vertex(0,0,-radius)
 
-	local pts = Curve.Circle(resolution,radius)
+	-- array of circles
+	local circles = {}
 
-	local center = {}
-	for j = 1,resolution do
-		local _p = pts[j]
-		local p = sphere:add_vertex(_p[1],_p[2],_p[3])
-		center[j] = p
-	end
+	-- from pole to equator do
+	-- ry - 1
+	for i=1,ry do
 
-	local up = {}
-	local bottom = {}
-	local pass = resolution / 4 - 1
-	local last 
-	for i=1,pass do
-		local id = 0
-		local r = radius * math.sin(a)
-		local h = radius * math.cos(a)
-		local pts = Curve.Circle(resolution,r)
-		local u = {}
-		local b = {}
-		for j = 1,resolution do
-			local p = pts[j]
-			u[j] = sphere:add_vertex(p[1],p[2],h)
-			b[j] = sphere:add_vertex(p[1],p[2],-h)
-		end
+		-- radius 
+		local r = radius * math.sin(phi)
 
-		up[i] = u
-		bottom[i] = b
+		-- height
+		local h = radius * math.cos(phi)
 
-		-- triangles
+		-- top triangles pole
 		if i == 1 then
 
-			local _up = up[i]
-			local _bottom = bottom[i]
+			local points = Curve.Circle(rx,r)
+			local circle = {}
 
-			for p = 1,resolution do
+			for j = 1,rx do
 
-				local a,b
-				local e,f
+				-- add up point 
+				local p = points[j]
+				circle[j] = sphere:add_vertex(p[1],p[2],h)
+			end
 
-				a = _up[p]
-				e = _bottom[p]
+			-- store current circle
+			circles[i] = circle
 
-				if p == resolution then
-					b = _up[1]
-					f = _bottom[1]
+			-- set faces
+			for p = 1,rx do
+
+				local a = circle[p]
+				if p == rx then
+					b = circle[1]
 				else
-					b = _up[p+1]
-					f = _bottom[p+1]
+					b = circle[p+1]
 				end
 
 				sphere:add_face(b,top,a)
-				sphere:add_face(e,down,f)
+			end
+
+		-- bottom triangles pole
+		elseif i == ry then
+
+			local circle = circles[i-1]
+
+			-- set faces
+			for p = 1,rx do
+
+				local a = circle[p]
+				if p == rx then
+					b = circle[1]
+				else
+					b = circle[p+1]
+				end
+
+				sphere:add_face(a,down,b)
 			end
 
 		-- quads
 		else
-			local up_previous = up[i-1]
-			local up_next = up[i]
-			local bottom_previous = bottom[i-1]
-			local bottom_next = bottom[i]
 
-			for p = 1,resolution do
+			local points = Curve.Circle(rx,r)
+			local circle = {}
+
+			for j = 1,rx do
+
+				local p = points[j]
+
+				-- add up point 
+				circle[j] = sphere:add_vertex(p[1],p[2],h)
+			end
+
+			circles[i] = circle
+
+			for p = 1,rx do
 
 				local a,b,c,d
-				local e,f,g,h
+				local previous = circles[i-1]
+				local current  = circles[i]
 
-				a = up_previous[p]
-				e = bottom_previous[p]
+				a = current[p]
 
-				if p == resolution then
-					b = up_previous[1]
-					c = up_next[1]
-					f = bottom_previous[1]
-					g = bottom_next[1]
+				if p == rx then
+					b = current[1]
+					c = previous[1]
 				else
-					b = up_previous[p+1]
-					c = up_next[p+1]
-					f = bottom_previous[p+1]
-					g = bottom_next[p+1]
+					b = current[p+1]
+					c = previous[p+1]
 				end
 
-				d = up_next[p]
-				h = bottom_next[p]
+				d = previous[p]
 
-				sphere:add_face(a,d,c,b)
-				sphere:add_face(e,f,g,h)
+				sphere:add_face(a,b,c,d)
 
 			end
 		end
 
-		a = a + angle 
-		last = i
-	end
-
-	local up_previous = up[last]
-	local up_next = center
-	local bottom_previous = bottom[last]
-	local bottom_next = center
-
-	for p = 1,resolution do
-
-		local a,b,c,d
-		local e,f,g,h
-
-		a = up_previous[p]
-		e = bottom_previous[p]
-
-		if p == resolution then
-			--print("last")
-			b = up_previous[1]
-			c = up_next[1]
-			f = bottom_previous[1]
-			g = bottom_next[1]
-		else
-			--print("next")
-			b = up_previous[p+1]
-			c = up_next[p+1]
-			f = bottom_previous[p+1]
-			g = bottom_next[p+1]
-		end
-
-		d = up_next[p]
-		h = bottom_next[p]
-
-		sphere:add_face(a,d,c,b)
-		sphere:add_face(e,f,g,h)
-
+		phi = phi + ay
 	end
 
 	sphere:build()
