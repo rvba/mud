@@ -457,19 +457,36 @@ s_face *stone_extrude_face( t_stone *stone, s_face *face, float *v)
 	s_edge *ea = stone_extrude_vertex( stone, a, v);
 	s_edge *eb = stone_extrude_vertex( stone, b, v);
 	s_edge *ec = stone_extrude_vertex( stone, c, v);
-	s_edge *ed = stone_extrude_vertex( stone, d, v);
+	s_edge *ed = NULL;
+
+	/* quad */
+	if(d) ed = stone_extrude_vertex( stone, d, v);
 
 	s_vertex *aa = ea->b;
 	s_vertex *bb = eb->b;
 	s_vertex *cc = ec->b;
-	s_vertex *dd = ed->b;
+	s_vertex *dd = NULL;
+
+	/* quad */
+	if(d) dd = ed->b;
 
 	stone_add_face( stone, a, b, bb, aa);
 	stone_add_face( stone, b, c, cc, bb);
-	stone_add_face( stone, c, d, dd, cc);
-	stone_add_face( stone, d, a, aa, dd);
 
-	s_face *f = stone_add_face( stone, aa, bb, cc, dd);
+	/* quad */
+	if(d)
+	{
+		stone_add_face( stone, d, a, aa, dd);
+		stone_add_face( stone, c, d, dd, cc);
+	}	
+	else
+	{
+		stone_add_face( stone, c, a, cc, aa);
+	}
+
+	/* quad */
+	s_face *f = NULL;
+	f = stone_add_face( stone, aa, bb, cc, dd);
 
 	return f;
 }
