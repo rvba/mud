@@ -598,7 +598,9 @@ void stone_copy_faces( t_stone *stone, t_stone *src)
 		s_vertex *a = stone_get_vertex_by_indice( stone, face->a->indice);
 		s_vertex *b = stone_get_vertex_by_indice( stone, face->b->indice);
 		s_vertex *c = stone_get_vertex_by_indice( stone, face->c->indice);
-		s_vertex *d = stone_get_vertex_by_indice( stone, face->d->indice);
+		s_vertex *d = NULL;
+		if(face->d) d = stone_get_vertex_by_indice( stone, face->d->indice);
+
 		stone_add_face( stone, a, b, c, d);
 	}
 }
