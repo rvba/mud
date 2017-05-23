@@ -551,6 +551,14 @@ static int lua_stone_translate( lua_State *L)
 	return 0;
 }
 
+static int lua_stone_tessellate( lua_State *L)
+{
+	t_lua_stone *lua_stone = lua_stone_get( L);
+	t_stone *stone = lua_stone->stone;
+	stone_tessellate( stone);
+	return 0;
+}
+
 static int lua_stone_print( lua_State *L)
 {
 	t_lua_stone *lua_stone = lua_stone_get( L);
@@ -578,6 +586,7 @@ static const struct luaL_Reg stone_methods[] =
 	{"copy", lua_stone_copy},
 	{"delete", lua_stone_delete},
 	{"print", lua_stone_print},
+	{"tessellate", lua_stone_tessellate},
 	{ NULL, NULL}
 };
 

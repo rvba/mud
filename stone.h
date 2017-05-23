@@ -136,4 +136,5 @@ void stone_module_init( struct Context *C);
 
 t_stone *stone_copy( t_stone *stucco);
 
+void stone_tessellate( t_stone *stone);
 #endif

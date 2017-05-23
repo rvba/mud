@@ -22,6 +22,7 @@ set(
 	mod_matrix.c
 	mod_rotation.c
 	mod_array.c
+	stone_tessellate.c
 	)
 
 if(OPT_TINYSPLINE)
