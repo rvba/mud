@@ -8,6 +8,7 @@
 #define STONE_TESS_FAN 1
 #define STONE_TESS_STRIP 2
 #define STONE_TESS_TRI 3
+#define STONE_TESS_DB 1
 
 static t_stone *STONE = NULL;
 static s_vertex *a;
@@ -54,6 +55,7 @@ const char* getPrimitiveType(GLenum type)
     }
 }
 
+static int db = 1;
 static int TESS;
 static s_vertex *fan_start = NULL;
 static s_vertex *fan_a = NULL;
@@ -62,7 +64,7 @@ static int TESS_EVEN = 1;
 
 void stone_tess_begin( GLenum type)
 {
-	//printf("begin %s\n", getPrimitiveType(type));
+	if( db) printf("begin %s\n", getPrimitiveType(type));
 
 	if( type == 0x0006) TESS = STONE_TESS_FAN;
 	else if (type == 0x0005) TESS = STONE_TESS_STRIP;
@@ -76,7 +78,7 @@ void stone_tess_begin( GLenum type)
 
 void stone_tess_vertex( void *vertex)
 {
-	//printf("point\n");
+	if(db) printf("point\n");
 	if( TESS == STONE_TESS_FAN)
 	{
 		if( fan_start == NULL)
@@ -90,7 +92,7 @@ void stone_tess_vertex( void *vertex)
 		else
 		{
 			fan_b = ( s_vertex *) vertex;
-			//printf("add face %d %d %d\n", fan_start->indice, fan_a->indice, fan_b->indice);
+			if(db) printf("add face %d %d %d\n", fan_start->indice, fan_a->indice, fan_b->indice);
 			stone_add_face( STONE, fan_start, fan_a, fan_b, NULL);
 			fan_a = vertex;
 		}
@@ -109,7 +111,7 @@ void stone_tess_vertex( void *vertex)
 		else if( fan_b == NULL)
 		{
 			fan_b = ( s_vertex *) vertex;
-			//printf("add face %d %d %d\n", fan_start->indice, fan_a->indice, fan_b->indice);
+			if(db) printf("add face %d %d %d\n", fan_start->indice, fan_a->indice, fan_b->indice);
 			stone_add_face( STONE, fan_start, fan_a, fan_b, NULL);
 		}
 		// next
@@ -152,7 +154,7 @@ void stone_tess_vertex( void *vertex)
 	}
 	else
 	{
-		//printf("tessellation not implemented\n");
+		if(db) printf("tessellation not implemented\n");
 
 	}
 
@@ -160,12 +162,11 @@ void stone_tess_vertex( void *vertex)
 
 void stone_tess_end( void)
 {
-	//printf("tess end\n");
+	if(db) printf("tess end\n");
 }
 
 void stone_tessellate( t_stone *stone)
 {
-	//printf("tessellate!!!\n");
 	GLUtesselator* t = gluNewTess();
 
 	gluTessCallback(t, GLU_TESS_BEGIN_DATA, (GLvoid (*)()) stone_tess_begin);
@@ -182,21 +183,6 @@ void stone_tessellate( t_stone *stone)
 	gluTessBeginPolygon(t, NULL);
 	gluTessBeginContour(t);
 
-	/*
-	s_vertex *vertex;
-	s_edge *edge;
-	t_lnode *node;
-	STONE = stone;
-
-	for( node = stone->edge->first;node;node=node->next)
-	{
-		edge = ( s_edge *) node->data;
-		vertex = edge->a;
-		double p[3] = {vertex->co[0],vertex->co[1],0};
-		gluTessVertex(t,p,vertex);
-	}
-	*/
-
 	s_vertex *vertex;
 	t_lnode *node;
 	STONE = stone;
@@ -204,7 +190,7 @@ void stone_tessellate( t_stone *stone)
 	for( node = stone->vertex->first;node;node=node->next)
 	{
 		vertex = ( s_vertex *) node->data;
-		//printf("add point %d\n", vertex->indice);
+		if(db) printf("add point %d\n", vertex->indice);
 		double p[3] = {(double)vertex->co[0],(double)vertex->co[1],0};
 		gluTessVertex(t,p,vertex);
 	}
