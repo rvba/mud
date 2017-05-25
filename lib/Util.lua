@@ -59,11 +59,16 @@ local function round(num, numDecimalPlaces)
     return math.floor(num * mult + 0.5) / mult
     end
 
+local function reset()
+	names = {}
+end
+
 _M.set_name = set_name
 _M.round = round
 _M.clock = clock
 _M.delta = delta
 _M.test = test
+_M.reset = reset
 
 
 return _M
