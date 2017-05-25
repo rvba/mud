@@ -185,6 +185,14 @@ static int lua_stone_get_vertex_count( lua_State *L, void *v)
 	return 1;
 }
 
+static int lua_stone_get_face_count( lua_State *L, void *v)
+{
+	t_lua_stone *lua_stone = ( t_lua_stone *) v;
+	t_stone *stone = lua_stone->stone;
+	lua_pushinteger(L, stone->face_count);
+	return 1;
+}
+
 static int lua_stone_get_vertex_location( lua_State *L)
 {
 	t_lua_stone *lua_stone = lua_stone_get( L);
@@ -593,6 +601,7 @@ static const struct luaL_Reg stone_methods[] =
 static const Xet_reg_pre stone_getters[] = {
 	{"name", lua_stone_get_name},
 	{"vertex_count", lua_stone_get_vertex_count},
+	{"face_count", lua_stone_get_face_count},
 	{"vertices", lua_stone_get_vertex_list},
 	{"edges", lua_stone_get_edge_list},
 	{"faces", lua_stone_get_face_list},
