@@ -55,7 +55,7 @@ const char* getPrimitiveType(GLenum type)
     }
 }
 
-static int db = 1;
+static int db = 0;
 static int TESS;
 static s_vertex *fan_start = NULL;
 static s_vertex *fan_a = NULL;
