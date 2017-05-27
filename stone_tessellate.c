@@ -55,7 +55,7 @@ const char* getPrimitiveType(GLenum type)
     }
 }
 
-static int db = 0;
+static int db = 1;
 static int TESS;
 static s_vertex *fan_start = NULL;
 static s_vertex *fan_a = NULL;
@@ -76,9 +76,17 @@ void stone_tess_begin( GLenum type)
 	c = NULL;
 }
 
+void stone_tess_reset( void)
+{
+	fan_start = NULL;
+	fan_a = NULL;
+	fan_b = NULL;
+
+}
+
 void stone_tess_vertex( void *vertex)
 {
-	if(db) printf("point\n");
+	//if(db) printf("point\n");
 	if( TESS == STONE_TESS_FAN)
 	{
 		if( fan_start == NULL)
@@ -167,6 +175,8 @@ void stone_tess_end( void)
 
 void stone_tessellate( t_stone *stone)
 {
+
+	stone_tess_reset();
 	GLUtesselator* t = gluNewTess();
 
 	gluTessCallback(t, GLU_TESS_BEGIN_DATA, (GLvoid (*)()) stone_tess_begin);
@@ -190,7 +200,7 @@ void stone_tessellate( t_stone *stone)
 	for( node = stone->vertex->first;node;node=node->next)
 	{
 		vertex = ( s_vertex *) node->data;
-		if(db) printf("add point %d\n", vertex->indice);
+		if(db) printf("add point indice:%d %f %f %f\n", vertex->indice, vertex->co[0],vertex->co[1],0.0);
 		double p[3] = {(double)vertex->co[0],(double)vertex->co[1],0};
 		gluTessVertex(t,p,vertex);
 	}

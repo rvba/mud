@@ -128,9 +128,13 @@ end
 function Spline:print()
 
 	print(self.name)
-	print("degree " .. self.degree)
-	print("count " .. self.count)
-	print("resolution " .. self.resolution)
+	print("degree:" .. self.degree)
+	print("resolution:" .. self.resolution)
+	print("knots:" .. self.knots_count)
+	for k,v in pairs(self.knots) do
+		print(k .. " (" .. v[1] .. "," .. v[2] .. "," .. v[3] .. ")")
+	end
+	print("points:" .. self.points_count)
 	for k,v in pairs(self.points) do
 		print(k .. " (" .. v[1] .. "," .. v[2] .. "," .. v[3] .. ")")
 	end
