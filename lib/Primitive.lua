@@ -18,10 +18,11 @@ local Quad = {}
 local Spline = {
 	degree=3,
 	dimension=3,
-	count=0,
+	knots_count=0,
+	points_count=0,
 	resolution=3,
-	points={},
-	is_built=false,
+	knots={},		-- ctrl points
+	points={},		-- eval points
 }
 
 local _M = _M or {} 
@@ -31,10 +32,7 @@ local _M = _M or {}
 
 
 function Spline:extrude()
-
-
 end
-
 
 function Spline:new()
 
@@ -49,19 +47,27 @@ end
 
 function Spline:add(x,y,z)
 
-	self.count = self.count + 1 
-	self.points[self.count] = {x,y,z}
+	self.knots_count = self.knots_count + 1 
+	self.knots[self.knots_count] = {x,y,z}
+end
+
+function Spline:init()
+
+	for k,v in pairs(self.knots) do
+		self.spline:set_point(k,v[1],v[2],v[3])
+	end
+
+	self.init = true
 end
 
 function Spline:make()
 
-	self.spline = spline.new(self.degree,self.dimension,self.count)
+	self.spline = spline.new(self.degree,self.dimension,self.knots_count)
 
-	if self.count > self.degree then
+	if self.knots_count > self.degree then
 
-		for k,v in pairs(self.points) do
-			self.spline:set_point(k,v[1],v[2],v[3])
-		end
+		-- init
+		self:init()
 
 		local f = 1 / self.resolution
 		local p = 0.0
@@ -76,29 +82,43 @@ function Spline:make()
 			y = Util.round(y,4)
 			z = Util.round(z,4)
 
+			-- store point
+			self.points[i] = {x,y,z}
+			self.points_count = self.points_count + 1
+
 			--print("p" .. i .. "@" .. round(p,2) .. " (" .. x .. "," .. y .. "," .. z .. ")")
-
-			v2 = self:add_vertex(x,y,z)
-
-			if v1 ~= nil then
-				self:add_edge(v1,v2)
-			end
-
-			v1 = v2
 			p = p + f
 		end
 
-		self:build()
-		self.is_built = true
 	else
-		print("[lua] Spline: point count [" .. self. count .. "] must be superior to curve degree [" .. self.degree .. "]")
+		print("[lua] Spline: point count [" .. self.knots_count .. "] must be superior to curve degree [" .. self.degree .. "]")
 	end
 end
 
+function Spline:build()
+
+	local p1 = nil
+	--for _,p in pairs(self.points) do
+	for i=0,self.resolution do
+
+		local p = self.points[i]
+		local p2 = self:add_vertex(p[1],p[2],p[3])
+
+		if p1 ~= nil then
+			self:add_edge(p1,p2)
+		end
+
+		p1 = p2
+	end
+
+	self.stone:build()
+end
+
 function Spline:eval(p)
-	if self.is_built then
-			x,y,z = self.spline:eval(p)
-			return x,y,z
+
+	if self.init then
+		x,y,z = self.spline:eval(p)
+		return x,y,z
 	else
 		self:make()
 		self:eval()
