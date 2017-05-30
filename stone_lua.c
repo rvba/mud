@@ -251,8 +251,10 @@ static int lua_stone_copy( lua_State *L)
 {
 	t_lua_stone *lua_stone = lua_stone_get( L);
 	t_lua_stone *lua_stone_new  = lua_stone_userdata_new( L);
-	lua_stone_new->stone = stone_copy( lua_stone->stone);
-	lua_stone->name = strdup( lua_stone->name);
+
+	t_stone *new = stone_copy( lua_stone->stone);
+	lua_stone_new->stone = new;
+	lua_stone_new->name = strdup( lua_stone_new->stone->name);
 
 	return 1;
 }
