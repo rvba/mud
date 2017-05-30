@@ -576,6 +576,15 @@ static int lua_stone_print( lua_State *L)
 	return 0;
 }
 
+static int lua_stone_rename( lua_State *L)
+{
+	t_lua_stone *lua_stone = lua_stone_get( L);
+	const char *name = luaL_checkstring(L, 2);
+	lua_stone->name = strdup( name);
+	strncpy( lua_stone->stone->name, name, STONE_NAME);
+	return 0;
+}
+
 static const struct luaL_Reg stone_methods[] =
 {
 	{"get_vertex_location", lua_stone_get_vertex_location},
@@ -596,6 +605,7 @@ static const struct luaL_Reg stone_methods[] =
 	{"copy", lua_stone_copy},
 	{"delete", lua_stone_delete},
 	{"print", lua_stone_print},
+	{"rename", lua_stone_rename},
 	{"tessellate", lua_stone_tessellate},
 	{ NULL, NULL}
 };
