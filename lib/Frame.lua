@@ -12,6 +12,10 @@ local Frame = {
 	thick = .1,
 }
 
+-- b----c
+-- |	|		
+-- o----a	
+--
 -- Frame
 function Frame:add_frame()
 
@@ -47,42 +51,47 @@ function Frame:add_frame()
 	local vv3 = vbo:copy()
 
 	-- Make thickness vectors
-	local vt1 = va:copy()
-	vt1:norm()
-	vt1:mul(self.thick)
+	-- FIXME wrong names
+	-- FIXME vto -> vob
+	local vto = vo:copy()
+	vto:sub(vbo)
+	vto:norm()
+	vto:mul(self.thick)
 
-	local vt2 = vco:copy()
-	vt2:sub(vao)
-	vt2:norm()
-	vt2:mul(self.thick)
+	local vta = va:copy()
+	vta:norm()
+	vta:mul(self.thick)
 
-	local vt3 = vbo:copy()
-	vt3:sub(vco)
-	vt3:norm()
-	vt3:mul(self.thick)
+	-- vbc
+	local vtb = vbo:copy()
+	vtb:sub(vco)
+	vtb:norm()
+	vtb:mul(self.thick)
 
-	local vt4 = vo:copy()
-	vt4:sub(vbo)
-	vt4:norm()
-	vt4:mul(self.thick)
+	-- vca
+	local vtc = vco:copy()
+	vtc:sub(vao)
+	vtc:norm()
+	vtc:mul(self.thick)
+
 
 	-------------------------- Inner Points 
 	
 	local v4 = vo:copy()
-	v4:add(vt1)
-	v4:sub(vt4)
+	v4:add(vta)
+	v4:sub(vto)
 
 	local v5 = vao:copy()
-	v5:sub(vt1)
-	v5:add(vt2)
+	v5:sub(vta)
+	v5:add(vtc)
 
 	local v6 = vco:copy()
-	v6:sub(vt2)
-	v6:add(vt3)
+	v6:sub(vtc)
+	v6:add(vtb)
 
 	local v7 = vbo:copy()
-	v7:sub(vt3)
-	v7:add(vt4)
+	v7:sub(vtb)
+	v7:add(vto)
 
 	-- front outer points
 	local p0 = self:add_vertex(vo.x,vo.y,vo.z)
