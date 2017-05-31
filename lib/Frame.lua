@@ -51,17 +51,23 @@ end
 -- frame
 function Frame:add_frame()
 
-	-- Get Values
 	local vo = self.vo
-	local va = self.va
-	local vb = self.vb
-	local vc = self.vc
+	-- Duplicate Points
+	local va = self.va:copy()
+	local vb = self.vb:copy()
+	local vc = self.vc:copy()
+	-- Vectorize them
+	va:sub(vo)
+	vb:sub(vo)
+	vc:sub(vo)
+
 	local depth = self.depth
 	local thick = self.thick
 
 	-- Duplicate Origin
 	local vo = vo:copy()
 
+	-- FIXME Build vectors from raw a b c d
 	-- Build Perpendicular Cross Vector from Va and Vb
 	local vcross = smath.cross(vb,va)
 	vcross:norm()
@@ -69,6 +75,7 @@ function Frame:add_frame()
 	vcross:mul(depth)
 
 	-------------------------- Outer Points 
+	-- FIXME Use raw a b c d
 	-- Duplicate Origin
 	local v1 = vo:copy()
 	local v2 = vo:copy()
