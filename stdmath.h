@@ -56,6 +56,7 @@ void mn_vector_mul( t_mn_vector *self, float i);
 void mn_vector_normalize( t_mn_vector *self);
 t_mn_vector *mn_vector_cross( t_mn_vector *v1, t_mn_vector *v2);
 float mn_vector_length( t_mn_vector *self);
+float mn_vector_angle2d( t_mn_vector *self, float x, float y);
 void mn_vector_print( t_mn_vector *self);
 t_mn_vector *mn_vector_copy( t_mn_vector *self);
 

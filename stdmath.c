@@ -149,6 +149,14 @@ float mn_vector_length( t_mn_vector *self)
 	return len_v3( v);
 }
 
+float mn_vector_angle2d( t_mn_vector *self, float x, float y)
+{
+	const float v1[] = {x,y};
+	float v2[] = {self->x, self->y, self->z};
+	float a = angle_v2v2(v1,v2);
+	return a;
+}
+
 void mn_vector_print( t_mn_vector *v)
 {
 	printf("[%f %f %f]\n", v->x, v->y, v->z);

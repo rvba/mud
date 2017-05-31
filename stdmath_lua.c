@@ -105,6 +105,16 @@ static int lua_vector_length( lua_State *L)
 	return 1;
 }
 
+static int lua_vector_angle2d( lua_State *L)
+{
+	t_lua_vector *self = ( t_lua_vector *) luaL_checkudata( L, 1, L_VECTOR);
+	float x = luaL_checknumber(L, 2);
+	float y = luaL_checknumber(L, 3);
+	float a = mn_vector_angle2d(self->v,x,y);
+	lua_pushnumber( L, a);
+	return 1;
+}
+
 static int lua_vector_norm( lua_State *L)
 {
 	t_lua_vector *v = ( t_lua_vector *) luaL_checkudata( L, 1, L_VECTOR);
@@ -185,6 +195,7 @@ static const struct luaL_Reg vector_methods[] =
 	{"mul", lua_vector_mul},
 	{"norm", lua_vector_norm},
 	{"length", lua_vector_length},
+	{"angle2d", lua_vector_angle2d},
 	{"copy", lua_vector_copy},
 	{"print", lua_vector_print},
 	{ NULL, NULL}
