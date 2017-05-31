@@ -49,9 +49,9 @@ local function add_frame_plain( vo, va, vb, vc)
 end
 
 -- frame
---local function add_frame( vo, va, vb, vc, depth, thick, slab)
 function Frame:add_frame()
 
+	-- Get Values
 	local vo = self.vo
 	local va = self.va
 	local vb = self.vb
@@ -59,18 +59,21 @@ function Frame:add_frame()
 	local depth = self.depth
 	local thick = self.thick
 
+	-- Duplicate Origin
 	local vo = vo:copy()
 
-	-- cross vector
+	-- Build Perpendicular Cross Vector from Va and Vb
 	local vcross = smath.cross(vb,va)
 	vcross:norm()
+	-- Give depth to it
 	vcross:mul(depth)
 
-	-- outer vectors
+	-------------------------- Outer Points 
+	-- Duplicate Origin
 	local v1 = vo:copy()
 	local v2 = vo:copy()
 	local v3 = vo:copy()
-
+	-- And translate to each Corner
 	v1:add(va)
 	v2:add(vc) 
 	v3:add(vb)
@@ -78,11 +81,11 @@ function Frame:add_frame()
 	-- frame
 	local frame = self
 
+	-- Keep this points
 	local vv2 = v2:copy()
 	local vv3 = v3:copy()
 
-	-- thickness
-	
+	-- Make thickness vectors
 	local vt1 = va:copy()
 	vt1:norm()
 	vt1:mul(thick)
@@ -102,7 +105,7 @@ function Frame:add_frame()
 	vt4:norm()
 	vt4:mul(thick)
 
-	-- inner vectors
+	-------------------------- Inner Points 
 	
 	local v4 = vo:copy()
 	v4:add(vt1)
