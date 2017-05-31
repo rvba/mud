@@ -31,7 +31,6 @@ function Frame:add_frame()
 	-- Duplicate Origin
 	local vo = vo:copy()
 
-	-- FIXME Build vectors from raw a b c d
 	-- Build Perpendicular Cross Vector from Va and Vb
 	local vcross = smath.cross(vb,va)
 	vcross:norm()
@@ -39,17 +38,10 @@ function Frame:add_frame()
 	vcross:mul(depth)
 
 	-------------------------- Outer Points 
-	-- FIXME Use raw a b c d
-	-- Duplicate Origin
-	local v1 = vo:copy()
-	local v2 = vo:copy()
-	local v3 = vo:copy()
 
-	-- FIXME Use "raw a b c d"
-	-- And translate to each Corner
-	v1:add(va)
-	v2:add(vc) 
-	v3:add(vb)
+	local v1 = self.va:copy() -- a
+	local v2 = self.vc:copy() -- c
+	local v3 = self.vb:copy() -- b
 
 	-- frame
 	local frame = self
