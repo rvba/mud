@@ -12,43 +12,7 @@ local Frame = {
 	thick = .1,
 }
 
--- Todo: frame plaine == Block.lua (face+extrusion)
-
--- frame plain
---local function add_frame_plain( vo, va, vb, vc, depth, thick, slab)
-local function add_frame_plain( vo, va, vb, vc)
-
-	local vo = vo:copy()
-
-	-- cross vector
-	local vcross = smath.cross(vb,va)
-	vcross:norm()
-	vcross:mul(depth)
-
-	-- outer vectors
-	local v1 = vo:copy()
-	local v2 = vo:copy()
-	local v3 = vo:copy()
-
-	v1:add(va)
-	v2:add(vc) 
-	v3:add(vb)
-
-	-- frame
-	local frame = stone.new("frame")
-
-	-- plain face
-	local p0 = frame:add_vertex(vo.x,vo.y,vo.z)
-	local p1 = frame:add_vertex(v1.x,v1.y,v1.z)
-	local p2 = frame:add_vertex(v2.x,v2.y,v2.z)
-	local p3 = frame:add_vertex(v3.x,v3.y,v3.z)
-	frame:add_face(p0,p1,p2,p3)
-	-- frame:build()
-
-	self.stone = frame
-end
-
--- frame
+-- Frame
 function Frame:add_frame()
 
 	local vo = self.vo
