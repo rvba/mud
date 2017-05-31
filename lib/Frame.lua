@@ -16,17 +16,16 @@ local Frame = {
 function Frame:add_frame()
 
 	local vo = self.vo
+
 	-- Duplicate Points
 	local va = self.va:copy()
 	local vb = self.vb:copy()
 	local vc = self.vc:copy()
+
 	-- Vectorize them
 	va:sub(vo)
 	vb:sub(vo)
 	vc:sub(vo)
-
-	local depth = self.depth
-	local thick = self.thick
 
 	-- Duplicate Origin
 	local vo = vo:copy()
@@ -35,7 +34,7 @@ function Frame:add_frame()
 	local vcross = smath.cross(vb,va)
 	vcross:norm()
 	-- Give depth to it
-	vcross:mul(depth)
+	vcross:mul(self.depth)
 
 	-------------------------- Outer Points 
 
@@ -53,22 +52,22 @@ function Frame:add_frame()
 	-- Make thickness vectors
 	local vt1 = va:copy()
 	vt1:norm()
-	vt1:mul(thick)
+	vt1:mul(self.thick)
 
 	local vt2 = v2:copy()
 	vt2:sub(v1)
 	vt2:norm()
-	vt2:mul(thick)
+	vt2:mul(self.thick)
 
 	local vt3 = v3:copy()
 	vt3:sub(v2)
 	vt3:norm()
-	vt3:mul(thick)
+	vt3:mul(self.thick)
 
 	local vt4 = vo:copy()
 	vt4:sub(v3)
 	vt4:norm()
-	vt4:mul(thick)
+	vt4:mul(self.thick)
 
 	-------------------------- Inner Points 
 	
