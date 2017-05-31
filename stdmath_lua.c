@@ -145,6 +145,32 @@ static int lua_vector_get_z( lua_State *L, void *v)
 	return 1;
 }
 
+/* set */
+
+static int lua_vector_set_x( lua_State *L, void *v)
+{
+	t_lua_vector *vec = ( t_lua_vector *) v;
+	float val = luaL_checknumber( L, 3);
+	vec->v->x = val;
+	return 0;
+}
+
+static int lua_vector_set_y( lua_State *L, void *v)
+{
+	t_lua_vector *vec = ( t_lua_vector *) v;
+	float val = luaL_checknumber( L, 3);
+	vec->v->y = val;
+	return 0;
+}
+
+static int lua_vector_set_z( lua_State *L, void *v)
+{
+	t_lua_vector *vec = ( t_lua_vector *) v;
+	float val = luaL_checknumber( L, 3);
+	vec->v->z = val;
+	return 0;
+}
+
 static int lua_vector_print( lua_State *L)
 {
 	t_lua_vector *v = lua_vector_check( L, 1);
@@ -179,11 +205,9 @@ static const Xet_reg_pre vector_getters[] = {
 };
 
 static const Xet_reg_pre vector_setters[] = {
-	/*
 	{"x",    lua_vector_set_x, 0 },
 	{"y",    lua_vector_set_y, 0 },
 	{"z",    lua_vector_set_z, 0 },
-	*/
 	{0,0}
 };
 
