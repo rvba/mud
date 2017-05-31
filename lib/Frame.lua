@@ -42,9 +42,6 @@ function Frame:add_frame()
 	local vbo = self.vb:copy() 
 	local vco = self.vc:copy() 
 
-	-- frame
-	local frame = self
-
 	-- Keep this points
 	local vv2 = vco:copy()
 	local vv3 = vbo:copy()
