@@ -38,34 +38,34 @@ function Frame:add_frame()
 
 	-------------------------- Outer Points 
 
-	local v1 = self.va:copy() -- a
-	local v2 = self.vc:copy() -- c
-	local v3 = self.vb:copy() -- b
+	local vao = self.va:copy() 
+	local vbo = self.vb:copy() 
+	local vco = self.vc:copy() 
 
 	-- frame
 	local frame = self
 
 	-- Keep this points
-	local vv2 = v2:copy()
-	local vv3 = v3:copy()
+	local vv2 = vco:copy()
+	local vv3 = vbo:copy()
 
 	-- Make thickness vectors
 	local vt1 = va:copy()
 	vt1:norm()
 	vt1:mul(self.thick)
 
-	local vt2 = v2:copy()
-	vt2:sub(v1)
+	local vt2 = vco:copy()
+	vt2:sub(vao)
 	vt2:norm()
 	vt2:mul(self.thick)
 
-	local vt3 = v3:copy()
-	vt3:sub(v2)
+	local vt3 = vbo:copy()
+	vt3:sub(vco)
 	vt3:norm()
 	vt3:mul(self.thick)
 
 	local vt4 = vo:copy()
-	vt4:sub(v3)
+	vt4:sub(vbo)
 	vt4:norm()
 	vt4:mul(self.thick)
 
@@ -75,23 +75,23 @@ function Frame:add_frame()
 	v4:add(vt1)
 	v4:sub(vt4)
 
-	local v5 = v1:copy()
+	local v5 = vao:copy()
 	v5:sub(vt1)
 	v5:add(vt2)
 
-	local v6 = v2:copy()
+	local v6 = vco:copy()
 	v6:sub(vt2)
 	v6:add(vt3)
 
-	local v7 = v3:copy()
+	local v7 = vbo:copy()
 	v7:sub(vt3)
 	v7:add(vt4)
 
 	-- front outer points
 	local p0 = self:add_vertex(vo.x,vo.y,vo.z)
-	local p1 = self:add_vertex(v1.x,v1.y,v1.z)
-	local p2 = self:add_vertex(v2.x,v2.y,v2.z)
-	local p3 = self:add_vertex(v3.x,v3.y,v3.z)
+	local p1 = self:add_vertex(vao.x,vao.y,vao.z)
+	local p2 = self:add_vertex(vco.x,vco.y,vco.z)
+	local p3 = self:add_vertex(vbo.x,vbo.y,vbo.z)
 
 	local pp0 = p0
 	local pp1 = p1
@@ -119,9 +119,9 @@ function Frame:add_frame()
 	-- rear vectors
 	
 	vo:add(vcross)
-	v1:add(vcross)
-	v2:add(vcross)
-	v3:add(vcross)
+	vao:add(vcross)
+	vco:add(vcross)
+	vbo:add(vcross)
 
 	v4:add(vcross)
 	v5:add(vcross)
@@ -129,9 +129,9 @@ function Frame:add_frame()
 	v7:add(vcross)
 
 	p0 = self:add_vertex(vo.x,vo.y,vo.z)
-	p1 = self:add_vertex(v1.x,v1.y,v1.z)
-	p2 = self:add_vertex(v2.x,v2.y,v2.z)
-	p3 = self:add_vertex(v3.x,v3.y,v3.z)
+	p1 = self:add_vertex(vao.x,vao.y,vao.z)
+	p2 = self:add_vertex(vco.x,vco.y,vco.z)
+	p3 = self:add_vertex(vbo.x,vbo.y,vbo.z)
 
 	p4 = self:add_vertex(v4.x,v4.y,v4.z)
 	p5 = self:add_vertex(v5.x,v5.y,v5.z)
