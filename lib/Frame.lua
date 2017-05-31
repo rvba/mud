@@ -126,50 +126,45 @@ function Frame:add_frame()
 
 
 	-- rear vectors
-	if 1 == 1 then
 	
-		vo:add(vcross)
-		v1:add(vcross)
-		v2:add(vcross)
-		v3:add(vcross)
+	vo:add(vcross)
+	v1:add(vcross)
+	v2:add(vcross)
+	v3:add(vcross)
 
-		v4:add(vcross)
-		v5:add(vcross)
-		v6:add(vcross)
-		v7:add(vcross)
+	v4:add(vcross)
+	v5:add(vcross)
+	v6:add(vcross)
+	v7:add(vcross)
 
-		p0 = frame:add_vertex(vo.x,vo.y,vo.z)
-		p1 = frame:add_vertex(v1.x,v1.y,v1.z)
-		p2 = frame:add_vertex(v2.x,v2.y,v2.z)
-		p3 = frame:add_vertex(v3.x,v3.y,v3.z)
+	p0 = frame:add_vertex(vo.x,vo.y,vo.z)
+	p1 = frame:add_vertex(v1.x,v1.y,v1.z)
+	p2 = frame:add_vertex(v2.x,v2.y,v2.z)
+	p3 = frame:add_vertex(v3.x,v3.y,v3.z)
 
-		p4 = frame:add_vertex(v4.x,v4.y,v4.z)
-		p5 = frame:add_vertex(v5.x,v5.y,v5.z)
-		p6 = frame:add_vertex(v6.x,v6.y,v6.z)
-		p7 = frame:add_vertex(v7.x,v7.y,v7.z)
+	p4 = frame:add_vertex(v4.x,v4.y,v4.z)
+	p5 = frame:add_vertex(v5.x,v5.y,v5.z)
+	p6 = frame:add_vertex(v6.x,v6.y,v6.z)
+	p7 = frame:add_vertex(v7.x,v7.y,v7.z)
 
-		frame:add_face(p0,p4,p5,p1)
-		frame:add_face(p1,p5,p6,p2)
-		frame:add_face(p2,p6,p7,p3)
-		frame:add_face(p3,p7,p4,p0)
+	frame:add_face(p0,p4,p5,p1)
+	frame:add_face(p1,p5,p6,p2)
+	frame:add_face(p2,p6,p7,p3)
+	frame:add_face(p3,p7,p4,p0)
 
-		-- inner sides
-		--
-		frame:add_face(p4,p5,pp5,pp4)
-		frame:add_face(p5,p6,pp6,pp5)
-		frame:add_face(p6,p7,pp7,pp6)
-		frame:add_face(p7,p4,pp4,pp7)
+	-- inner sides
+	--
+	frame:add_face(p4,p5,pp5,pp4)
+	frame:add_face(p5,p6,pp6,pp5)
+	frame:add_face(p6,p7,pp7,pp6)
+	frame:add_face(p7,p4,pp4,pp7)
 
-		-- outer sides
-		
-		frame:add_face(p0,p1,pp1,pp0)
-		frame:add_face(p0,p3,pp3,pp0)
-		frame:add_face(p3,p2,pp2,pp3)
-		frame:add_face(p1,p2,pp2,pp1)
-
-	end
-
-	--self.stone = frame
+	-- outer sides
+	
+	frame:add_face(p0,p1,pp1,pp0)
+	frame:add_face(p0,p3,pp3,pp0)
+	frame:add_face(p3,p2,pp2,pp3)
+	frame:add_face(p1,p2,pp2,pp1)
 
 end
 
@@ -190,7 +185,6 @@ end
 
 function Frame:construct()
 	self:add_frame()
-	--self:build()
 end
 
 _M.frame = Frame
