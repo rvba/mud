@@ -1,6 +1,11 @@
 local wrapper = {}
+local use_debug = false
 
 -- Wrapper
+
+local function find(table,key)
+	local content = table[key]
+end
 
 function wrapper:__index(key)
 
@@ -20,7 +25,15 @@ function wrapper:__index(key)
 	else
 		-- Stone's functions
 		local proto = rawget(self,"__proto__")
+		if use_debug then
+			if pcall(proto,find(key)) then
+			else
+				print(debug.traceback())
+			end
+		end
+
 		local field = proto and proto[key]
+
 		if type(field) ~= "function" then
 			return field
 		else
