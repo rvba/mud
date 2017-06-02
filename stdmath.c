@@ -162,6 +162,11 @@ void mn_vector_print( t_mn_vector *v)
 	printf("[%f %f %f]\n", v->x, v->y, v->z);
 }
 
+void mn_vector_print_with_name( t_mn_vector *v, const char *name)
+{
+	printf("%s [%f %f %f]\n", name, v->x, v->y, v->z);
+}
+
 t_mn_vector *mn_vector_copy( t_mn_vector *self)
 {
 	return mn_vector_new(self->x, self->y, self->z);

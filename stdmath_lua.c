@@ -188,6 +188,14 @@ static int lua_vector_print( lua_State *L)
 	return 0;
 }
 
+static int lua_vector_print_with_name( lua_State *L)
+{
+	t_lua_vector *v = lua_vector_check( L, 1);
+	const char *name = luaL_checkstring( L, 2);
+	mn_vector_print_with_name(v->v, name);
+	return 0;
+}
+
 static const struct luaL_Reg vector_methods[] =
 {
 	{"add", lua_vector_add},
@@ -198,6 +206,7 @@ static const struct luaL_Reg vector_methods[] =
 	{"angle2d", lua_vector_angle2d},
 	{"copy", lua_vector_copy},
 	{"print", lua_vector_print},
+	{"print_with_name", lua_vector_print_with_name},
 	{ NULL, NULL}
 };
 

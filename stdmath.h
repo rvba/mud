@@ -58,6 +58,7 @@ t_mn_vector *mn_vector_cross( t_mn_vector *v1, t_mn_vector *v2);
 float mn_vector_length( t_mn_vector *self);
 float mn_vector_angle2d( t_mn_vector *self, float x, float y);
 void mn_vector_print( t_mn_vector *self);
+void mn_vector_print_with_name( t_mn_vector *v, const char *name);
 t_mn_vector *mn_vector_copy( t_mn_vector *self);
 
 
