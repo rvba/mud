@@ -86,6 +86,11 @@ void stone_tess_reset( void)
 	fan_a = NULL;
 	fan_b = NULL;
 
+	a = NULL;
+	b = NULL;
+	c = NULL;
+
+
 }
 
 void stone_tess_vertex( void *vertex)
