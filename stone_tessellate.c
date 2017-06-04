@@ -15,6 +15,13 @@ static s_vertex *a;
 static s_vertex *b;
 static s_vertex *c;
 
+static int db = 1;
+static int TESS;
+static s_vertex *fan_start = NULL;
+static s_vertex *fan_a = NULL;
+static s_vertex *fan_b = NULL;
+static int TESS_EVEN = 1;
+
 const char* getPrimitiveType(GLenum type)
 {
     switch(type)
@@ -55,13 +62,6 @@ const char* getPrimitiveType(GLenum type)
     }
 }
 
-static int db = 0;
-static int TESS;
-static s_vertex *fan_start = NULL;
-static s_vertex *fan_a = NULL;
-static s_vertex *fan_b = NULL;
-static int TESS_EVEN = 1;
-
 void stone_tess_begin( GLenum type)
 {
 	if( db) printf("begin %s\n", getPrimitiveType(type));
@@ -74,6 +74,10 @@ void stone_tess_begin( GLenum type)
 	a = NULL;
 	b = NULL;
 	c = NULL;
+
+	fan_start = NULL;
+	fan_a = NULL;
+	fan_b = NULL;
 }
 
 void stone_tess_reset( void)
@@ -157,6 +161,7 @@ void stone_tess_vertex( void *vertex)
 		else
 		{
 			fan_b = ( s_vertex *) vertex;
+			if(db) printf("add face %d %d %d\n", fan_start->indice, fan_a->indice, fan_b->indice);
 			stone_add_face( STONE, fan_start, fan_a, fan_b, NULL);
 		}
 	}
@@ -173,17 +178,26 @@ void stone_tess_end( void)
 	if(db) printf("tess end\n");
 }
 
+void stone_tess_combine( void)
+{
+	if(db) printf("tess combine ???\n");
+}
+
+void stone_tess_error( void)
+{
+	if(db) printf("tess error ???\n");
+}
+
 void stone_tessellate( t_stone *stone)
 {
-
 	stone_tess_reset();
 	GLUtesselator* t = gluNewTess();
 
 	gluTessCallback(t, GLU_TESS_BEGIN_DATA, (GLvoid (*)()) stone_tess_begin);
 	gluTessCallback(t, GLU_TESS_VERTEX_DATA, (GLvoid (*)()) stone_tess_vertex);
-	//gluTessCallback(t, GLU_TESS_COMBINE_DATA, (GLvoid (*)()) cb_combine);
+	gluTessCallback(t, GLU_TESS_COMBINE_DATA, (GLvoid (*)()) stone_tess_combine);
 	gluTessCallback(t, GLU_TESS_END_DATA, (GLvoid (*)()) stone_tess_end);
-	//gluTessCallback(t, GLU_TESS_ERROR_DATA, (GLvoid (*)()) cb_error);
+	gluTessCallback(t, GLU_TESS_ERROR_DATA, (GLvoid (*)()) stone_tess_error);
 
 	gluTessProperty(t, GLU_TESS_WINDING_RULE, GLU_TESS_WINDING_NONZERO);
 
