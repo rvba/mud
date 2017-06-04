@@ -74,7 +74,8 @@ function Spline:make()
 		local v1 = nil
 
 		local p = 0
-		for i=0,self.resolution do
+		--for i=0,self.resolution do
+		for i=1,self.resolution+1 do
 
 			local x,y,z
 			x,y,z = self.spline:eval(p)
@@ -99,7 +100,7 @@ function Spline:build()
 
 	local p1 = nil
 	--for _,p in pairs(self.points) do
-	for i=0,self.resolution do
+	for i=1,self.resolution+1 do
 
 		local p = self.points[i]
 		local p2 = self:add_vertex(p[1],p[2],p[3])

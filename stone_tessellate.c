@@ -15,7 +15,7 @@ static s_vertex *a;
 static s_vertex *b;
 static s_vertex *c;
 
-static int db = 1;
+static int db = 0;
 static int TESS;
 static s_vertex *fan_start = NULL;
 static s_vertex *fan_a = NULL;
