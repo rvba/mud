@@ -84,7 +84,7 @@ function Spline:make()
 			z = Util.round(z,4)
 
 			-- store point
-			self.points[i] = {x,y,z}
+			self.points[i] = smath.new(x,y,z)
 			self.points_count = self.points_count + 1
 
 			--print("p" .. i .. "@" .. round(p,2) .. " (" .. x .. "," .. y .. "," .. z .. ")")
@@ -103,7 +103,7 @@ function Spline:build()
 	for i=1,self.resolution+1 do
 
 		local p = self.points[i]
-		local p2 = self:add_vertex(p[1],p[2],p[3])
+		local p2 = self:add_vertex(p.x,p.y,p.z)
 
 		if p1 ~= nil then
 			self:add_edge(p1,p2)
