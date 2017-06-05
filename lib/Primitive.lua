@@ -42,6 +42,9 @@ function Spline:new()
 	-- Set Stone proto
 	setproto(spline,self,name)
 
+	spline.knots= {}
+	spline.points = {}
+
 	return spline
 end
 
