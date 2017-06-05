@@ -15,7 +15,7 @@ static s_vertex *a;
 static s_vertex *b;
 static s_vertex *c;
 
-static int db = 0;
+static int db = 1;
 static int TESS;
 static s_vertex *fan_start = NULL;
 static s_vertex *fan_a = NULL;
@@ -78,6 +78,8 @@ void stone_tess_begin( GLenum type)
 	fan_start = NULL;
 	fan_a = NULL;
 	fan_b = NULL;
+
+	TESS_EVEN = 1;
 }
 
 void stone_tess_reset( void)
@@ -141,6 +143,7 @@ void stone_tess_vertex( void *vertex)
 				fan_a = fan_a;
 				fan_b = ( s_vertex *) vertex;
 				stone_add_face( STONE, fan_start, fan_a, fan_b, NULL);
+				if(db) printf("add face even %d %d %d\n", fan_start->indice, fan_a->indice, fan_b->indice);
 			}
 			else
 			{
@@ -149,6 +152,7 @@ void stone_tess_vertex( void *vertex)
 				fan_a = fan_b;
 				fan_b = ( s_vertex *) vertex;
 				stone_add_face( STONE, fan_start, fan_a, fan_b, NULL);
+				if(db) printf("add face odd %d %d %d\n", fan_start->indice, fan_a->indice, fan_b->indice);
 			}
 		}
 

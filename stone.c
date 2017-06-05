@@ -169,6 +169,9 @@ void stone_free( t_stone *stone)
 
 // Show
 
+static int print_tri_count = 0;
+static int print_quad_count = 0;
+
 void stone_vertex_show( s_vertex *v)
 {
 	printf("Vertex %d [%f %f %f]\n", v->indice, v->co[0], v->co[1], v->co[2]);
@@ -178,11 +181,13 @@ void stone_face_show( s_face *f)
 {
 	if(f->d)
 	{
-		printf("Face Quad [%d %d %d %d]\n", f->a->indice, f->b->indice, f->c->indice, f->d->indice);
+		printf("Face Quad %d [%d %d %d %d]\n", print_quad_count, f->a->indice, f->b->indice, f->c->indice, f->d->indice);
+		print_quad_count++;
 	}
 	else
 	{
-		printf("Face Tri [%d %d %d]\n", f->a->indice, f->b->indice, f->c->indice);
+		printf("Face Tri %d [%d %d %d]\n", print_tri_count, f->a->indice, f->b->indice, f->c->indice);
+		print_tri_count++;
 	}
 }
 
@@ -211,6 +216,8 @@ void stone_show_edge( void *d)
 
 void stone_show( t_stone *stone)
 {
+	print_tri_count = 0;
+	print_quad_count = 0;
 	printf("---------------------\n");
 	printf("[STONE] %s\n", stone->name);
 	printf("Vertex: %d\n", stone->vertex_count);
