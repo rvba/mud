@@ -51,7 +51,7 @@ local function set_name(name)
 		count = names[name]["count"]
 	end
 	
-	return name .. "_" .. count 
+	return name .. "-" .. count 
 end
 
 local function round(num, numDecimalPlaces)
