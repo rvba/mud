@@ -27,15 +27,15 @@ local Spline = {
 
 local _M = _M or {} 
 
+local db = false
 
--- Spline
-
-
-function Spline:extrude()
-end
+-----------------------------------------------------
+-- Spline 
+-----------------------------------------------------
 
 function Spline:new()
 
+	-- Based on Spline Table (see up)
 	local spline = {}
 	local name = Util.set_name("spline")
 
@@ -45,12 +45,14 @@ function Spline:new()
 	return spline
 end
 
+-- Add a knot
 function Spline:add(x,y,z)
 
 	self.knots_count = self.knots_count + 1 
 	self.knots[self.knots_count] = {x,y,z}
 end
 
+--- Init: Add knots to C struct 
 function Spline:init()
 
 	for k,v in pairs(self.knots) do
@@ -60,34 +62,37 @@ function Spline:init()
 	self.init = true
 end
 
+-- Calculate points on curve
 function Spline:make()
 
 	self.spline = spline.new(self.degree,self.dimension,self.knots_count)
 
 	if self.knots_count > self.degree then
 
-		-- init
+		-- Init
+		-- Add knots to C struct
 		self:init()
 
+		-- Calculate fractions
 		local f = 1 / self.resolution
-		local p = 0.0
 		local v1 = nil
 
+		-- Parameter from 0 to 1
 		local p = 0
-		--for i=0,self.resolution do
 		for i=1,self.resolution+1 do
 
 			local x,y,z
+			-- Eval point position
 			x,y,z = self.spline:eval(p)
+			-- Round value
 			x = Util.round(x,4)
 			y = Util.round(y,4)
 			z = Util.round(z,4)
-
-			-- store point
+			-- Store new point
 			self.points[i] = smath.new(x,y,z)
 			self.points_count = self.points_count + 1
-
-			--print("p" .. i .. "@" .. round(p,2) .. " (" .. x .. "," .. y .. "," .. z .. ")")
+			if(db) then print("p" .. i .. "@" .. round(p,2) .. " (" .. x .. "," .. y .. "," .. z .. ")") end
+			-- Calculate new parameter 
 			p = p + f
 		end
 
@@ -96,10 +101,10 @@ function Spline:make()
 	end
 end
 
+-- Build a Stone Line by edges
 function Spline:build()
 
 	local p1 = nil
-	--for _,p in pairs(self.points) do
 	for i=1,self.resolution+1 do
 
 		local p = self.points[i]
@@ -115,17 +120,22 @@ function Spline:build()
 	self.stone:build()
 end
 
+-- Calculate Point on curve at parameter (from 0 to 1)
 function Spline:eval(p)
 
+	-- Check if inited
 	if self.init then
 		x,y,z = self.spline:eval(p)
 		return x,y,z
+	-- Else init
 	else
 		self:make()
+		-- and come back
 		self:eval()
 	end
 end
 
+-- Print Spline
 function Spline:print()
 
 	print(self.name)
@@ -141,7 +151,9 @@ function Spline:print()
 	end
 end
 
--- Circle
+-----------------------------------------------------
+-- Circle 
+-----------------------------------------------------
 
 function Circle:new(resolution,radius)
 
