@@ -137,4 +137,6 @@ void stone_module_init( struct Context *C);
 t_stone *stone_copy( t_stone *stucco);
 
 void stone_tessellate( t_stone *stone);
+void stone_tess_debug( int val);
+void stone_tess_set( const char *what, void *data);
 #endif

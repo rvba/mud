@@ -1,3 +1,4 @@
+#include <string.h>
 #include "opengl.h"
 #include "stone.h"
 #include "llist.h"
@@ -21,6 +22,50 @@ static s_vertex *fan_start = NULL;
 static s_vertex *fan_a = NULL;
 static s_vertex *fan_b = NULL;
 static int TESS_EVEN = 1;
+static double tess_tolerance = 0;
+static GLenum tess_winding_rule = GLU_TESS_WINDING_NONZERO;
+
+void stone_tess_debug( int val)
+{
+	db = val;
+}
+
+void stone_tess_set( const char *what, void *data)
+{
+	if( strcmp( what, "tolerance") == 0)
+	{
+		tess_tolerance = *((double *) data);
+	}
+	else if( strcmp( what, "winding") == 0)
+	{
+		char *which = (char *) data;
+		if( strcmp( which, "odd") != -1) tess_winding_rule = GLU_TESS_WINDING_ODD;
+		else if( strcmp( which, "nonzero") != -1) tess_winding_rule = GLU_TESS_WINDING_NONZERO;
+		else if( strcmp( which, "positive") != -1) tess_winding_rule = GLU_TESS_WINDING_POSITIVE;
+		else if( strcmp( which, "negative") != -1) tess_winding_rule = GLU_TESS_WINDING_NEGATIVE;
+		else if( strcmp( which, "abs") != -1) tess_winding_rule = GLU_TESS_WINDING_ABS_GEQ_TWO;
+		else printf("Stone tesselate error: can't set winding rule\n");
+	}
+}
+
+static const char *get_rule( void)
+{
+	static const char *odd = "odd";
+	static const char *nonzero = "nonzero";
+	static const char *positive = "positive";
+	static const char *negative = "negative";
+	static const char *abs = "abs";
+	static const char *unknown = "unknown";
+	switch(tess_winding_rule)
+	{
+		case GLU_TESS_WINDING_ODD: return odd; break;
+		case GLU_TESS_WINDING_NONZERO: return nonzero; break;
+		case GLU_TESS_WINDING_POSITIVE: return positive; break;
+		case GLU_TESS_WINDING_NEGATIVE: return negative; break;
+		case GLU_TESS_WINDING_ABS_GEQ_TWO: return abs; break;
+		default: return unknown; break;
+	}
+}
 
 const char* getPrimitiveType(GLenum type)
 {
@@ -192,9 +237,9 @@ void stone_tess_combine( void)
 	if(db) printf("tess combine ???\n");
 }
 
-void stone_tess_error( void)
+void stone_tess_error( GLenum err)
 {
-	if(db) printf("tess error ???\n");
+	if(db) printf("tess ERROR: %s\n\n", gluErrorString(err));
 }
 
 void stone_tessellate( t_stone *stone)
@@ -208,9 +253,15 @@ void stone_tessellate( t_stone *stone)
 	gluTessCallback(t, GLU_TESS_END_DATA, (GLvoid (*)()) stone_tess_end);
 	gluTessCallback(t, GLU_TESS_ERROR_DATA, (GLvoid (*)()) stone_tess_error);
 
-	gluTessProperty(t, GLU_TESS_WINDING_RULE, GLU_TESS_WINDING_NONZERO);
+	if(db)
+	{
+		printf("[stone] tess tolerance:%f\n", tess_tolerance);
+		printf("[stone] tess rule:%s\n", get_rule());
+	}
 
-	gluTessProperty(t, GLU_TESS_TOLERANCE, 0);
+	gluTessProperty(t, GLU_TESS_WINDING_RULE, tess_winding_rule);
+
+	gluTessProperty(t, GLU_TESS_TOLERANCE, tess_tolerance);
 	gluTessNormal(t, 0.0f, 0.0f, 1.0f);
 
 	gluTessBeginPolygon(t, NULL);

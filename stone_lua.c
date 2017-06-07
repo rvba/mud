@@ -40,6 +40,32 @@ void (* STONE_BUILD_FUNCTION)( t_lua_stone *stone) = NULL;
 
 // CHECK
 
+static int lua_stone_set( lua_State * L)
+{
+	const char *name = luaL_checkstring( L ,1);
+	if( is(name,"tesselate"))
+	{
+		const char *what = luaL_checkstring( L ,2);
+		if( is(what,"debug"))
+		{
+			int val = lua_toboolean( L, 3);
+			stone_tess_debug(val);
+		}
+		else if( is( what, "tolerance"))
+		{
+			double val = luaL_checknumber( L, 3);
+			stone_tess_set("tolerance", &val);
+		}
+		else if( is( what, "winding"))
+		{
+			/* odd, nonzero, positive, negative, abs */
+			const char *which = luaL_checkstring( L ,3);
+			stone_tess_set("winding", (void *) which);
+		}
+	}
+	return 0;
+}
+
 static t_lua_vertex *lua_stone_check_vertex( lua_State *L, int index)
 {
 	t_lua_vertex *v;
@@ -685,6 +711,7 @@ static const Xet_reg_pre edge_setters[] = {
 static const struct luaL_Reg stone[] = 
 {
 	{"new", lua_stone_new},
+	{"set", lua_stone_set},
 	{ NULL, NULL}
 };
 
