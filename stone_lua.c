@@ -285,6 +285,19 @@ static int lua_stone_copy( lua_State *L)
 	return 1;
 }
 
+static int lua_stone_copy_with_name( lua_State *L)
+{
+	t_lua_stone *lua_stone = lua_stone_get( L);
+	const char *name = luaL_checkstring(L, 2);
+	t_lua_stone *lua_stone_new  = lua_stone_userdata_new( L);
+
+	t_stone *new = stone_copy_with_name( lua_stone->stone,name);
+	lua_stone_new->stone = new;
+	lua_stone_new->name = strdup( lua_stone_new->stone->name);
+
+	return 1;
+}
+
 static int lua_stone_delete( lua_State *L)
 {
 	t_lua_stone *lua_stone = lua_stone_get( L);
@@ -663,6 +676,7 @@ static const struct luaL_Reg stone_methods[] =
 	{"build", lua_stone_build},
 	{"translate", lua_stone_translate},
 	{"copy", lua_stone_copy},
+	{"copy_with_name", lua_stone_copy_with_name},
 	{"delete", lua_stone_delete},
 	{"print", lua_stone_print},
 	{"rename", lua_stone_rename},

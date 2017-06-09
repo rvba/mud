@@ -25,6 +25,8 @@
 #include "stdmath.h"
 #include "base.h"
 
+static short debug_merge = 1;
+
 // New
 
 /**
@@ -528,6 +530,11 @@ void stone_insert_vertex( t_stone *stone, s_vertex *v, int offset)
 {
 	v->indice += offset;
 	llist_push_front( stone->vertex, v);
+	if( debug_merge)
+	{
+		printf("[stone] merge offset: %d vertex ", offset);
+		stone_vertex_show( v);
+	}
 	stone->vertex_count++;
 }
 
@@ -558,6 +565,17 @@ void stone_merge_faces( t_stone *stone, t_stone *root)
 
 void stone_merge( t_stone *stone, t_stone *root)
 {
+	if( debug_merge)
+	{
+		if( root)
+		{
+			printf("[stone] merge\n");
+			printf("[stone] root\n");
+			stone_show(root);
+			printf("[stone] target\n");
+			stone_show(stone);
+		}
+	}
 	// Merge next
 	if( stone->node->next)
 	{
@@ -617,6 +635,15 @@ t_stone *stone_copy( t_stone *stone)
 {
 	t_stone *new = stone_new( stone->name);
 	s_increment( new->name, STONE_NAME);
+	stone_copy_points( new, stone);
+	stone_copy_faces( new, stone);
+	//new->node->next = stone->node->next;
+	return new;
+}
+
+t_stone *stone_copy_with_name( t_stone *stone, const char *name)
+{
+	t_stone *new = stone_new( name);
 	stone_copy_points( new, stone);
 	stone_copy_faces( new, stone);
 	//new->node->next = stone->node->next;
