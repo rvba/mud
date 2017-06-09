@@ -134,6 +134,7 @@ t_stone *stone_new( const char *name);
 void stone_merge( t_stone *stone, t_stone *root);
 void stone_module_init( struct Context *C);
 
+s_vertex *stone_copy_vertex( s_vertex *v);
 t_stone *stone_copy( t_stone *stucco);
 t_stone *stone_copy_with_name( t_stone *stone, const char *name);
 

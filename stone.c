@@ -596,7 +596,11 @@ void stone_merge( t_stone *stone, t_stone *root)
 	if( root) stone_merge_points( stone, root);
 }
 
-// Copy
+// Copy a single "detached" vertex
+s_vertex *stone_copy_vertex( s_vertex *v)
+{
+	return stone_vertex_new( 0, v->co);
+}
 
 // Copy vertices: create new vertices from src 
 void stone_copy_points( t_stone *stone, t_stone *src)

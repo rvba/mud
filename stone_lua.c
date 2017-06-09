@@ -436,6 +436,28 @@ static int lua_stone_vertex_z( lua_State *L, void *v)
 	return 1;
 }
 
+static int lua_stone_vertex_copy( lua_State *L)
+{
+	t_lua_vertex *vertex = lua_stone_check_vertex( L, 1);
+	s_vertex *_v = vertex->v;
+	s_vertex *copy = stone_copy_vertex(_v);
+	lua_stone_push_vertex( L, copy);
+	return 1;
+}
+
+static int lua_stone_vertex_translate( lua_State *L)
+{
+	t_lua_vertex *vertex = lua_stone_check_vertex( L, 1);
+	float x = luaL_checknumber( L, 2);
+	float y = luaL_checknumber( L, 3);
+	float z = luaL_checknumber( L, 4);
+	s_vertex *_v = vertex->v;
+	_v->co[0]+= x;
+	_v->co[1]+= y;
+	_v->co[2]+= z;
+	return 0;
+}
+
 static int lua_stone_get_vertex_co( lua_State *L, void *v)
 {
 	t_lua_vertex *_v = ( t_lua_vertex *) v;
@@ -740,6 +762,8 @@ static const Xet_reg_pre vertex_setters[] = {
 static const struct luaL_Reg stone_vertex_methods[] =
 {
 	{"print", lua_stone_vertex_print},
+	{"copy", lua_stone_vertex_copy},
+	{"translate", lua_stone_vertex_translate},
 	{ NULL, NULL}
 };
 
