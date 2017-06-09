@@ -619,6 +619,6 @@ t_stone *stone_copy( t_stone *stone)
 	s_increment( new->name, STONE_NAME);
 	stone_copy_points( new, stone);
 	stone_copy_faces( new, stone);
-	new->node->next = stone->node->next;
+	//new->node->next = stone->node->next;
 	return new;
 }

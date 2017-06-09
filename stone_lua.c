@@ -389,6 +389,40 @@ static int lua_stone_get_face_list( lua_State *L, void *v)
 	return 1;
 }
 
+// VERTEX
+
+static int lua_stone_vertex_print( lua_State *L)
+{
+	t_lua_vertex *vertex = lua_stone_check_vertex( L, 1);
+	s_vertex *v = vertex->v;
+	printf("[stone lua] vertex: %d %f %f %f\n",v->indice,v->co[0],v->co[1],v->co[2]);
+	return 0;
+}
+
+static int lua_stone_vertex_x( lua_State *L, void *v)
+{
+	t_lua_vertex *vertex = ( t_lua_vertex *) v;
+	s_vertex *_v = vertex->v;
+	lua_pushnumber(L, _v->co[0]);
+	return 1;
+}
+
+static int lua_stone_vertex_y( lua_State *L, void *v)
+{
+	t_lua_vertex *vertex = ( t_lua_vertex *) v;
+	s_vertex *_v = vertex->v;
+	lua_pushnumber(L, _v->co[1]);
+	return 1;
+}
+
+static int lua_stone_vertex_z( lua_State *L, void *v)
+{
+	t_lua_vertex *vertex = ( t_lua_vertex *) v;
+	s_vertex *_v = vertex->v;
+	lua_pushnumber(L, _v->co[2]);
+	return 1;
+}
+
 static int lua_stone_get_vertex_co( lua_State *L, void *v)
 {
 	t_lua_vertex *_v = ( t_lua_vertex *) v;
@@ -668,9 +702,20 @@ static int lua_stone_edge_get_b( lua_State *L)
 	return 1;
 }
 
+static int lua_stone_edge_print( lua_State *L)
+{
+	t_lua_edge *edge = lua_stone_check_edge( L, 1);
+	//s_vertex *v = edge->e->b;
+	printf("[stone lua] edge: a:%d b:%d\n",edge->e->a->indice, edge->e->b->indice);
+	return 0;
+}
+
 static const Xet_reg_pre vertex_getters[] = {
 	{"indice", lua_stone_get_indice},
 	{"co", lua_stone_get_vertex_co},
+	{"x", lua_stone_vertex_x},
+	{"y", lua_stone_vertex_y},
+	{"z", lua_stone_vertex_z},
 	{0,0}
 };
 
@@ -680,6 +725,7 @@ static const Xet_reg_pre vertex_setters[] = {
 
 static const struct luaL_Reg stone_vertex_methods[] =
 {
+	{"print", lua_stone_vertex_print},
 	{ NULL, NULL}
 };
 
@@ -687,6 +733,7 @@ static const struct luaL_Reg stone_edge_methods[] =
 {
 	{"get_a", lua_stone_edge_get_a},
 	{"get_b", lua_stone_edge_get_b},
+	{"print", lua_stone_edge_print},
 	{ NULL, NULL}
 };
 
