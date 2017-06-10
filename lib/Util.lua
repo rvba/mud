@@ -5,15 +5,25 @@ local records = {}
 local _M = {}
 
 local function adapt()
+
+
 	local screen_width = 800
 	local screen_height = 500
+
+	-- Host
+	local handle = io.popen("hostname")
+	local host = handle:read()
+	handle.close()
+
 	if host == "thinkpad" then
 		screen_width = 1280 / 2
 		screen_height = 355 
 	end
 
+	-- Reshape
 	reshape(screen_width,screen_height)
 
+	-- Move
 	local w = win_get()
 	if w == 1 then win_move(screen_width,0) -- right top
 	elseif w == 2 then win_move(screen_width,screen_height) --right down
