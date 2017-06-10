@@ -4,6 +4,23 @@ local records = {}
 
 local _M = {}
 
+local function adapt()
+	local screen_width = 800
+	local screen_height = 500
+	if host == "thinkpad" then
+		screen_width = 1280 / 2
+		screen_height = 355 
+	end
+
+	reshape(screen_width,screen_height)
+
+	local w = win_get()
+	if w == 1 then win_move(screen_width,0) -- right top
+	elseif w == 2 then win_move(screen_width,screen_height) --right down
+	elseif w == 3 then win_move(0,screen_height) --left down
+	elseif w == 4 then win_move(0,0)
+	end
+end
 
 local function clock(name,interval)
 
@@ -69,6 +86,7 @@ _M.clock = clock
 _M.delta = delta
 _M.test = test
 _M.reset = reset
+_M.adapt = adapt
 
 
 return _M
