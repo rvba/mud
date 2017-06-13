@@ -35,6 +35,8 @@
 #define __STONE_H__
 
 #define STONE_NAME 32
+#define STONE_FACE_EXISTS 1
+#define STONE_FACE_DELETED 2
 
 struct Stash;
 struct Stone;
@@ -62,6 +64,7 @@ typedef struct SFace
 	s_vertex *b;
 	s_vertex *c;
 	s_vertex *d;
+	short status;
 }s_face;
 
 typedef struct SEdge
@@ -106,6 +109,8 @@ int stone_add_face_v( t_stone *stone, int *f);
 s_face *stone_add_face( t_stone *stone, s_vertex *a, s_vertex *b, s_vertex *c, s_vertex *d);
 s_edge *stone_add_edge( t_stone *stone, s_vertex *a, s_vertex *b);
 void stone_add_next( t_stone *this, t_stone *next);
+
+void stone_delete_face( t_stone *stone, s_face *face);
 
 s_edge *stone_extrude_vertex( t_stone *stone, s_vertex *p1, float *v);
 s_face *stone_extrude_edge( t_stone *stone, s_edge *edge, float *v);

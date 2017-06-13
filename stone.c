@@ -69,6 +69,7 @@ s_face *stone_face_new( s_vertex *a, s_vertex *b, s_vertex *c, s_vertex *d)
 {
 	s_face *face = ( s_face *) calloc( 1, sizeof( s_face));
 	stone_face_set( face, a, b, c, d);
+	face->status = STONE_FACE_EXISTS;
 	return face;
 }
 
@@ -274,6 +275,17 @@ void stone_add_next( t_stone *this, t_stone *next)
 	lnode_add_next( this->node, next->node);
 }
 
+// Delete
+
+
+/* TODO: use this deleted face to be filled with new faces
+ * TODO: add a resize function to get rid off unused faces
+ */
+void stone_delete_face( t_stone *stone, s_face *face)
+{
+	face->status = STONE_FACE_DELETED;
+}
+
 // Get
 
 float *stone_get_vertex_buffer( t_stone *stone)
@@ -334,7 +346,7 @@ int *stone_get_quad_buffer( t_stone *stone, int count)
 		{
 			face = ( s_face *) node->data;
 
-			if( face->d)
+			if( face->d && face->status == STONE_FACE_EXISTS)
 			{
 				assert(face->a);
 				assert(face->b);
@@ -370,7 +382,7 @@ int *stone_get_tri_buffer( t_stone *stone, int count)
 		{
 			face = ( s_face *) node->data;
 
-			if( !face->d)
+			if( !face->d && face->status == STONE_FACE_EXISTS)
 			{
 				assert(face->a);
 				assert(face->b);

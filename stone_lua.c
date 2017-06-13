@@ -558,6 +558,17 @@ static int lua_stone_add_face( lua_State *L)
 	return 1;
 }
 
+static int lua_stone_delete_face( lua_State *L)
+{
+	t_lua_stone *lua_stone = lua_stone_get( L);
+	t_lua_face *face = lua_stone_check_face( L, 2);
+	t_stone *s = lua_stone->stone;
+	s_face *f = face->f;
+	stone_delete_face(s,f);
+
+	return 0;
+}
+
 static int lua_stone_add_modifier_matrix( lua_State *L)
 {
 	t_lua_stone *lua_stone = lua_stone_get( L);
@@ -688,6 +699,7 @@ static const struct luaL_Reg stone_methods[] =
 	{"add_face", lua_stone_add_face},
 	{"add_vertex", lua_stone_add_vertex},
 	{"add_edge", lua_stone_add_edge},
+	{"delete_face", lua_stone_delete_face},
 	{"add_modifier_matrix", lua_stone_add_modifier_matrix},
 	{"add_modifier_skin", lua_stone_add_modifier_skin},
 	{"add_modifier_rotation", lua_stone_add_modifier_rotation},
