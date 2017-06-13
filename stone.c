@@ -313,7 +313,7 @@ int stone_get_quad_count( t_stone *stone)
 	for( node = stone->face->first; node; node = node->next)
 	{
 		face = ( s_face *) node->data;
-		if( face->d) count++; 
+		if( face->d && face->status == STONE_FACE_EXISTS) count++; 
 	}
 	return count;
 }
@@ -326,7 +326,7 @@ int stone_get_tri_count( t_stone *stone)
 	for( node = stone->face->first; node; node = node->next)
 	{
 		face = ( s_face *) node->data;
-		if( !face->d) count++; 
+		if( !face->d && face->status == STONE_FACE_EXISTS) count++; 
 	}
 	return count;
 }
