@@ -320,7 +320,7 @@ function Sphere:new(radius,rx,ry)
 		phi = phi + ay
 	end
 
-	sphere:build()
+	--sphere:build()
 
 	return sphere
 
