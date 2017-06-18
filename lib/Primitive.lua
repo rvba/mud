@@ -257,7 +257,10 @@ function Sphere:new(radius,rx,ry)
 					b = circle[p+1]
 				end
 
-				sphere:add_face(b,top,a)
+				-- hack
+				if b and top and a then
+				--sphere:add_face(b,top,a)
+				end
 			end
 
 		-- bottom triangles pole
@@ -275,7 +278,7 @@ function Sphere:new(radius,rx,ry)
 					b = circle[p+1]
 				end
 
-				sphere:add_face(a,down,b)
+				--sphere:add_face(a,down,b)
 			end
 
 		-- quads
@@ -312,7 +315,8 @@ function Sphere:new(radius,rx,ry)
 
 				d = previous[p]
 
-				sphere:add_face(a,b,c,d)
+				-- hack
+				--sphere:add_face(a,b,c,d)
 
 			end
 		end
