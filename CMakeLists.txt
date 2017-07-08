@@ -25,6 +25,16 @@ set(
 	stone_tessellate.c
 	)
 
+if(OPT_LUA_5_1)
+	set(
+		SRC_COMPAT
+		lib/lua-compat-5.3/c-api/compat-5.3.c
+		lib/lua-compat-5.3/c-api/compat-5.3.h
+		)
+	message("COMPAT!!!!!!!!!!!!!!")
+	add_library(luacompat ${LIB_TYPE} ${SRC_COMPAT})
+endif()
+
 if(OPT_TINYSPLINE)
 	set(
 		SRC_STONE
@@ -51,7 +61,9 @@ set(
 	stdmath_mat3_lua.c
 	stdmath_mat4_lua.c
 	stdmath_lua.c
+
 	)
+
 
 set(
 	SWIG_FILES
@@ -102,8 +114,10 @@ set(
 
 find_library(LIB_STONE stone ${PATH_STONE} REQUIRED)
 find_library(LIB_UTIL stdutil ${PATH_STONE} REQUIRED)
+#find_library(LIB_COMPAT  luacompat ${PATH_STONE} REQUIRED)
 
 add_library(lua_stone ${LIB_TYPE} ${STONE_LUA_SRC})
+#add_library(lua_stone ${LIB_TYPE} ${STONE_LUA_SRC} ${LIB_COMPAT})
 
 # SWIG
 if(OPT_SWIG)

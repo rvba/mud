@@ -11,6 +11,10 @@
 #include "lauxlib.h"
 #include "lualib.h"
 
+#ifdef HAVE_LUA_5_1
+#include "compat-5.3.h"
+#endif
+
 #include <stdlib.h>
 #include <string.h>
 

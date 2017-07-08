@@ -10,6 +10,11 @@
 #include "lua.h"
 #include "lauxlib.h"
 #include "lualib.h"
+
+#ifdef HAVE_LUA_5_1
+#include "compat-5.3.h"
+#endif
+
 #include "lua_util.h"
 
 #include "stone_spline.h"
