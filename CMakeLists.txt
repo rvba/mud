@@ -60,10 +60,18 @@ set(
 
 include_directories(lib/blenlib/blenlib)
 include_directories(lib/blenlib/guardedalloc)
-include_directories(lib/lua/src)
+if(OPT_LUA_5_1)
+	message("LUA 5.1")
+	include_directories(lib/lua_5.1/src)
+	add_subdirectory(lib/lua_5.1)
+else()
+	message("LUA 5.3")
+	include_directories(lib/lua/src)
+	add_subdirectory(lib/lua)
+endif()
+
 include_directories(umber)
 add_subdirectory(lib/blenlib)
-add_subdirectory(lib/lua)
 add_subdirectory(umber)
 
 if(OPT_TINYSPLINE)
