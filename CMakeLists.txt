@@ -25,13 +25,12 @@ set(
 	stone_tessellate.c
 	)
 
-if(OPT_LUA_5_1)
+if(OPT_LUA_5_1 OR OPT_LUAJIT)
 	set(
 		SRC_COMPAT
 		lib/lua-compat-5.3/c-api/compat-5.3.c
 		lib/lua-compat-5.3/c-api/compat-5.3.h
 		)
-	message("COMPAT!!!!!!!!!!!!!!")
 	add_library(luacompat ${LIB_TYPE} ${SRC_COMPAT})
 endif()
 
@@ -76,6 +75,10 @@ if(OPT_LUA_5_1)
 	message("LUA 5.1")
 	include_directories(lib/lua_5.1/src)
 	add_subdirectory(lib/lua_5.1)
+elseif(OPT_LUAJIT)
+	message("LUAJIT")
+	include_directories(lib/luajit)
+	add_subdirectory(lib/luajit)
 else()
 	message("LUA 5.3")
 	include_directories(lib/lua/src)

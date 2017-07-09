@@ -1,0 +1,5 @@
+PROJECT(lua)
+CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
+ADD_DEFINITIONS(-D_fPIC ) 
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O2 -Wall -Wl,-E -Wextra -DLUA_USE_LINUX") 
+add_subdirectory(src)
