@@ -1,5 +1,22 @@
-PROJECT(lua)
-CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
-ADD_DEFINITIONS(-D_fPIC ) 
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O2 -Wall -Wl,-E -Wextra -DLUA_USE_LINUX") 
-add_subdirectory(src)
+# NOT IN USE
+include(ExternalProject)
+message("ENTERING LUAJIT")
+set(
+	SRC_TEST
+	test.c
+	)
+add_library(fffrag ${SRC_TEST})
+
+add_custom_target(
+	mytarget
+	${PATH_MODUS_SRC}/src/stone/lib/luajit/build.sh
+	)
+
+add_dependencies(fffrag mytarget)
+
+#add_library(lualib STATIC IMPORTED)
+#set_target_properties(luajit PROPERTIES IMPORTED_LOCATION ${CMAKE_BINARY_DIR}/thirdparty/libluajit.a )
+#add_dependencies(lualib luajit)
+
+
+#add_subdirectory(src)

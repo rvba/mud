@@ -5,12 +5,12 @@ project(Stone)
 
 option(OPT_SWIG OFF)
 
-add_executable(
-    stone
-    stonec.c
-)
+#add_executable(
+#    stone
+#    stonec.c
+#)
 
-target_link_libraries(stone lualib m dl readline)
+#target_link_libraries(stone lualib m dl readline)
 set(
 	SRC_STONE
 
@@ -76,9 +76,9 @@ if(OPT_LUA_5_1)
 	include_directories(lib/lua_5.1/src)
 	add_subdirectory(lib/lua_5.1)
 elseif(OPT_LUAJIT)
-	message("LUAJIT")
+	message("USING LUAJIT")
 	include_directories(lib/luajit)
-	add_subdirectory(lib/luajit)
+	#add_subdirectory(lib/luajit)
 else()
 	message("LUA 5.3")
 	include_directories(lib/lua/src)
