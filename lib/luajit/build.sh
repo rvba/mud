@@ -1,7 +1,12 @@
 #!/bin/bash
 echo "[BUILD LUAJIT]"
-src_dir=/home/milovann/SOURCES/MINUIT/modus/src/stone/lib/luajit
-build_dir=/home/milovann/SOURCES/MINUIT/modus-build/luajit
+ls
+#src_dir=/home/milovann/SOURCES/MINUIT/modus/src/stone/lib/luajit
+#build_dir=/home/milovann/SOURCES/MINUIT/modus-build/luajit
+src_dir="$1"/src/stone/lib/luajit
+build_dir="$2"/luajit
+echo $src_dir
+echo $build_dir
 if [[ ! -d $build_dir ]]
 then
 	echo "MAKE DIR"
