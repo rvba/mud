@@ -25,7 +25,7 @@
 #include "stdmath.h"
 #include "base.h"
 
-static short debug_merge = 1;
+static short debug_merge = 0;
 
 // New
 
