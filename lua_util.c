@@ -17,6 +17,27 @@
 
 #include "lua_util.h"
 
+#ifdef HAVE_NO_COMPAT
+void luaL_setmetatable (lua_State *L, const char *tname) {
+  luaL_checkstack(L, 1, "not enough stack slots");
+  luaL_getmetatable(L, tname);
+  lua_setmetatable(L, -2);
+}
+
+void luaL_setfuncs (lua_State *L, const luaL_Reg *l, int nup) {
+  luaL_checkstack(L, nup+1, "too many upvalues");
+  for (; l->name != NULL; l++) {  /* fill the table with given functions */
+    int i;
+    lua_pushstring(L, l->name);
+    for (i = 0; i < nup; i++)  /* copy upvalues to the top */
+      lua_pushvalue(L, -(nup + 1));
+    lua_pushcclosure(L, l->func, nup);  /* closure with those upvalues */
+    lua_settable(L, -(nup + 3)); /* table must be below the upvalues, the name and the closure */
+  }
+  lua_pop(L, nup);  /* remove upvalues */
+}
+#endif
+
 
 void Xet_add (lua_State *L, Xet_reg l)
 {

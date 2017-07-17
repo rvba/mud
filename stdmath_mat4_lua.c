@@ -15,6 +15,8 @@
 #include "compat-5.3.h"
 #endif
 
+#include "lua_util.h"
+
 #include <stdlib.h>
 #include <string.h>
 

@@ -14,6 +14,15 @@
 extern "C" {
 #endif
 
+#ifdef HAVE_NO_COMPAT
+extern void luaL_setmetatable (lua_State *L, const char *tname); 
+extern void luaL_setfuncs (lua_State *L, const luaL_Reg *l, int nup);
+#define luaL_newlibtable(L, l) \
+  (lua_createtable(L, 0, sizeof(l)/sizeof(*(l))-1))
+#define luaL_newlib(L, l) \
+  (luaL_newlibtable(L, l), luaL_register(L, NULL, l))
+#endif
+
 typedef int (*Xet_func) (lua_State *L, void *v);
 
 /* member info for get and set handlers */
