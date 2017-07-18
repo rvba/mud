@@ -92,11 +92,10 @@ static int lua_mat4_rotate( lua_State *L)
 	t_lua_mat4 *lua_mat = lua_mat4_check( L, 1);
 	const char *axis = luaL_checkstring( L, 2);
 	float angle = luaL_checknumber( L, 3);
-	float eul[3];
+	float eul[3]={0,0,0};
 	t_mn_mat4 *mat = lua_mat->m;
 	rotate_eul( eul, axis[0], deg_to_rad(angle));
 	eul_to_mat4( mat->m, eul);
-	printf("rotate:%f\n", angle);
 	return 0;
 }
 
@@ -108,7 +107,6 @@ static int lua_mat4_translate( lua_State *L)
 	float z = luaL_checknumber( L, 4);
 	t_mn_mat4 *mat = lua_mat->m;
 	translate_m4( mat->m, x, y, z);
-	printf("translate:%f %f %f\n", x, y, z);
 	return 0;
 }
 
@@ -126,8 +124,6 @@ static int lua_mat4_multiply( lua_State *L)
 	t_mn_mat4 *mat1 = lua_mat_1->m;
 	t_mn_mat4 *mat2 = lua_mat_2->m;
 	mul_m4_m4m4( mat1->m, mat1->m, mat2->m);
-	print_m4(">>>", mat1->m);
-
 	return 0;
 }
 
