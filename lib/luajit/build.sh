@@ -1,9 +1,9 @@
 #!/bin/bash
 echo "[BUILD LUAJIT]"
 ls
-#src_dir=/home/milovann/SOURCES/MINUIT/modus/src/stone/lib/luajit
+#src_dir=/home/milovann/SOURCES/MINUIT/modus/src/mud/lib/luajit
 #build_dir=/home/milovann/SOURCES/MINUIT/modus-build/luajit
-src_dir="$1"/src/stone/lib/luajit
+src_dir="$1"/src/mud/lib/luajit
 build_dir="$2"/luajit
 echo $src_dir
 echo $build_dir
