@@ -12,7 +12,7 @@
 #include <stdlib.h>
 #include <assert.h>
 #include "modifier.h"
-#include "stone.h"
+#include "mud.h"
 #include "llist.h"
 
 static int mod_debug = 0;
@@ -23,7 +23,7 @@ void set_max_name( char *dst, const char *src)
 	dst[MAX_NAME_LENGTH-1]='\0';
 }
 
-s_modifier *modifier_new( const char *name, void *data, void (* f)( t_stone *stone, s_modifier *mod))
+s_modifier *modifier_new( const char *name, void *data, void (* f)( t_mud *mud, s_modifier *mod))
 {
 	s_modifier *mod = ( s_modifier *) calloc( 1, sizeof( s_modifier));
 	mod->data = data;
@@ -38,21 +38,21 @@ void modifier_free( s_modifier *mod)
 	free( mod);
 }
 
-void stone_add_modifier( t_stone *stone, s_modifier *mod)
+void mud_add_modifier( t_mud *mud, s_modifier *mod)
 {
-	llist_push_front( stone->modifier, mod);
+	llist_push_front( mud->modifier, mod);
 }
 
-void stone_apply_modifiers( t_stone *stone)
+void mud_apply_modifiers( t_mud *mud)
 {
 	t_lnode *node;
-	for( node = stone->modifier->first; node; node = node->next)
+	for( node = mud->modifier->first; node; node = node->next)
 	{
 		s_modifier *mod = ( s_modifier *) node->data;
 		if( !mod->done)
 		{
 			mod->done = 1;
-			mod->f( stone, mod);
+			mod->f( mud, mod);
 			if( mod_debug) printf("[Apply Modifier] <%s>\n", mod->name);
 		}
 	}

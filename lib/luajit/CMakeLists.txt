@@ -9,7 +9,7 @@ add_library(fffrag ${SRC_TEST})
 
 add_custom_target(
 	mytarget
-	${PATH_MODUS_SRC}/src/stone/lib/luajit/build.sh
+	${PATH_MODUS_SRC}/src/mud/lib/luajit/build.sh
 	)
 
 add_dependencies(fffrag mytarget)

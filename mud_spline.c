@@ -9,10 +9,10 @@
 
 #include <stdlib.h>
 #include <stdio.h>
-#include "stone_spline.h"
+#include "mud_spline.h"
 
 
-t_spline *stone_spline_new( int degree, int dimension, int count)
+t_spline *mud_spline_new( int degree, int dimension, int count)
 {
 	t_spline *spline = ( t_spline *) malloc( sizeof( t_spline));
 	spline->degree = degree;
@@ -30,7 +30,7 @@ t_spline *stone_spline_new( int degree, int dimension, int count)
 	return spline;
 }
 
-void stone_spline_point_set( t_spline *self, int indice, float x, float y, float z)
+void mud_spline_point_set( t_spline *self, int indice, float x, float y, float z)
 {
 	if( indice < self->count)
 	{
@@ -41,11 +41,11 @@ void stone_spline_point_set( t_spline *self, int indice, float x, float y, float
 	}
 
 	#if 0
-	printf("stone spline set: %d %f %f %f\n",indice,  x, y, z);
+	printf("mud spline set: %d %f %f %f\n",indice,  x, y, z);
 	#endif
 }
 
-void stone_spline_change_type( t_spline *self, int type)
+void mud_spline_change_type( t_spline *self, int type)
 {
 	if( type == SPLINE_BEZIERS)
 	{
@@ -54,13 +54,13 @@ void stone_spline_change_type( t_spline *self, int type)
 	}
 }
 
-void stone_spline_eval( t_spline *self, float p, float r[3])
+void mud_spline_eval( t_spline *self, float p, float r[3])
 {
 	tsDeBoorNet net;
 	ts_bspline_evaluate(&self->spline, p, &net);
 
 	#if 0
-	printf("stone spline eval: (%f) %f %f %f\n", p, net.result[0], net.result[1], net.result[2]);
+	printf("mud spline eval: (%f) %f %f %f\n", p, net.result[0], net.result[1], net.result[2]);
 	#endif
 
 	r[0] = net.result[0];

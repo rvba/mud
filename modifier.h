@@ -21,19 +21,19 @@ typedef struct SModifier
 {
 	char name[MAX_NAME_LENGTH];
 	void *data;
-	void (* f)( struct Stone *stone, struct SModifier *mod);
+	void (* f)( struct Stone *mud, struct SModifier *mod);
 	int done;
 
 }s_modifier;
 
-s_modifier *modifier_new( const char *name, void *data, void (* f)( struct Stone *stone, s_modifier *mod));
+s_modifier *modifier_new( const char *name, void *data, void (* f)( struct Stone *mud, s_modifier *mod));
 void modifier_free( s_modifier *mod);
-void stone_add_modifier( struct Stone *stone, s_modifier *mod);
-void stone_apply_modifiers( struct Stone *stone);
+void mud_add_modifier( struct Stone *mud, s_modifier *mod);
+void mud_apply_modifiers( struct Stone *mud);
 
-void stone_add_modifier_matrix( struct Stone *stone, struct MN_MAT4 *mat);
-void stone_add_modifier_skin( struct Stone *stone);
-void stone_add_modifier_rotation( struct Stone *stone, const float v[3], const float a);
-void stone_add_modifier_array( struct Stone *stone, int count, struct MN_MAT4 *mat);
+void mud_add_modifier_matrix( struct Stone *mud, struct MN_MAT4 *mat);
+void mud_add_modifier_skin( struct Stone *mud);
+void mud_add_modifier_rotation( struct Stone *mud, const float v[3], const float a);
+void mud_add_modifier_array( struct Stone *mud, int count, struct MN_MAT4 *mat);
 
 #endif

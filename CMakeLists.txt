@@ -1,4 +1,4 @@
-# STONE
+# MUD
 cmake_minimum_required(VERSION 2.8) 
 
 project(Stone)
@@ -6,23 +6,23 @@ project(Stone)
 option(OPT_SWIG OFF)
 
 #add_executable(
-#    stone
-#    stonec.c
+#    mud
+#    mudc.c
 #)
 
-#target_link_libraries(stone lualib m dl readline)
+#target_link_libraries(mud lualib m dl readline)
 set(
-	SRC_STONE
+	SRC_MUD
 
-	stone.h
-	stone.c
+	mud.h
+	mud.c
 	modifier.h
 	modifier.c
 	mod_skin.c
 	mod_matrix.c
 	mod_rotation.c
 	mod_array.c
-	stone_tessellate.c
+	mud_tessellate.c
 	)
 
 if(OPT_LUA_5_1 OR OPT_LUAJIT)
@@ -36,12 +36,12 @@ endif()
 
 if(OPT_TINYSPLINE)
 	set(
-		SRC_STONE
-		${SRC_STONE}
-		stone_spline.c
-		stone_spline.h
-		stone_spline_lua.c
-		stone_spline_lua.h
+		SRC_MUD
+		${SRC_MUD}
+		mud_spline.c
+		mud_spline.h
+		mud_spline_lua.c
+		mud_spline_lua.h
 		)
 endif()
 
@@ -66,7 +66,7 @@ set(
 
 set(
 	SWIG_FILES
-	stone.i
+	mud.i
 	)
 
 include_directories(lib/blenlib/blenlib)
@@ -98,29 +98,29 @@ if(OPT_LPEG)
 	add_subdirectory(lib/lpeg)
 endif()
 
-add_library(stonelib ${LIB_TYPE} ${SRC_STONE})
+add_library(mudlib ${LIB_TYPE} ${SRC_MUD})
 add_library(stdutil ${LIB_TYPE} ${SRC_UTIL})
 add_definitions(-lm)
 target_link_libraries(stdutil m)
 
 if(OPT_TINYSPLINE)
-	target_link_libraries(stonelib tinyspline)
+	target_link_libraries(mudlib tinyspline)
 endif()
 
-# STONE LUA LIB
+# MUD LUA LIB
 
 set(
-	STONE_LUA_SRC
-	stone_lua.c
+	MUD_LUA_SRC
+	mud_lua.c
 	lua_util.c
 	)
 
-find_library(LIB_STONE stone ${PATH_STONE} REQUIRED)
-find_library(LIB_UTIL stdutil ${PATH_STONE} REQUIRED)
-#find_library(LIB_COMPAT  luacompat ${PATH_STONE} REQUIRED)
+find_library(LIB_MUD mud ${PATH_MUD} REQUIRED)
+find_library(LIB_UTIL stdutil ${PATH_MUD} REQUIRED)
+#find_library(LIB_COMPAT  luacompat ${PATH_MUD} REQUIRED)
 
-add_library(lua_stone ${LIB_TYPE} ${STONE_LUA_SRC})
-#add_library(lua_stone ${LIB_TYPE} ${STONE_LUA_SRC} ${LIB_COMPAT})
+add_library(lua_mud ${LIB_TYPE} ${MUD_LUA_SRC})
+#add_library(lua_mud ${LIB_TYPE} ${MUD_LUA_SRC} ${LIB_COMPAT})
 
 # SWIG
 if(OPT_SWIG)

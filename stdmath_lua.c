@@ -48,7 +48,7 @@ static t_lua_vector *lua_vector_push( lua_State *L, t_mn_vector *vector)
 }
 */
 
-// STONE
+// MUD
 
 void _lua_vector_new( lua_State *L, float x, float y, float z)
 {

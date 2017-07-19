@@ -10,7 +10,7 @@
 #include "blenlib.h"
 #include "modifier.h"
 #include "llist.h"
-#include "stone.h"
+#include "mud.h"
 #include "stdmath.h"
 #include "stdvec.h"
 
@@ -36,7 +36,7 @@ float unity[4][4] = {
 	{ 0.0, 0.0, 0.0, 1.0}  
 };
 
-void stone_modifier_array( t_stone *stone, s_modifier *mod)
+void mud_modifier_array( t_mud *mud, s_modifier *mod)
 {
 	t_array_data *data = ( t_array_data *) mod->data;
 
@@ -46,11 +46,11 @@ void stone_modifier_array( t_stone *stone, s_modifier *mod)
 	t_mn_mat4 *mat = data->matrix;
 	t_mn_mat4 *matrix = mn_mat4_new( unity);
 
-	t_stone *copy = stone_copy( stone);
+	t_mud *copy = mud_copy( mud);
 
 	for( i = 0; i < count; i++)
 	{
-		t_stone *c = stone_copy( copy);
+		t_mud *c = mud_copy( copy);
 
 		unit_m4( matrix->m);
 		int j;
@@ -59,21 +59,21 @@ void stone_modifier_array( t_stone *stone, s_modifier *mod)
 			mul_m4_m4m4( matrix->m, matrix->m, mat->m);
 		}
 
-		stone_add_modifier_matrix( c, matrix);
-		stone_apply_modifiers( c);
-		stone_merge( c, stone);
+		mud_add_modifier_matrix( c, matrix);
+		mud_apply_modifiers( c);
+		mud_merge( c, mud);
 		// memory leak
-		// "c" stone copy cannot be freed 
+		// "c" mud copy cannot be freed 
 		// his points are used in "final" merge
 	}
 
-	stone_free( copy);
+	mud_free( copy);
 }
 
-void stone_add_modifier_array( struct Stone *stone, int count, t_mn_mat4 *mat)
+void mud_add_modifier_array( struct Stone *mud, int count, t_mn_mat4 *mat)
 {
 	t_array_data *data = array_data_new( count, mat);
-	s_modifier *mod = modifier_new("array", data, stone_modifier_array);
-	stone_add_modifier( stone, mod);
+	s_modifier *mod = modifier_new("array", data, mud_modifier_array);
+	mud_add_modifier( mud, mod);
 }
 

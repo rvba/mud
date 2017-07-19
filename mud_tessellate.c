@@ -1,17 +1,17 @@
 #include <string.h>
 #include "opengl.h"
-#include "stone.h"
+#include "mud.h"
 #include "llist.h"
 
 #include "lua.h"
 #include "lauxlib.h"
 #include "lualib.h"
-#define STONE_TESS_FAN 1
-#define STONE_TESS_STRIP 2
-#define STONE_TESS_TRI 3
-#define STONE_TESS_DB 1
+#define MUD_TESS_FAN 1
+#define MUD_TESS_STRIP 2
+#define MUD_TESS_TRI 3
+#define MUD_TESS_DB 1
 
-static t_stone *STONE = NULL;
+static t_mud *MUD = NULL;
 static s_vertex *a;
 static s_vertex *b;
 static s_vertex *c;
@@ -25,12 +25,12 @@ static int TESS_EVEN = 1;
 static double tess_tolerance = 0;
 static GLenum tess_winding_rule = GLU_TESS_WINDING_NONZERO;
 
-void stone_tess_debug( int val)
+void mud_tess_debug( int val)
 {
 	db = val;
 }
 
-void stone_tess_set( const char *what, void *data)
+void mud_tess_set( const char *what, void *data)
 {
 	if( strcmp( what, "tolerance") == 0)
 	{
@@ -107,13 +107,13 @@ const char* getPrimitiveType(GLenum type)
     }
 }
 
-void stone_tess_begin( GLenum type)
+void mud_tess_begin( GLenum type)
 {
 	if( db) printf("begin %s\n", getPrimitiveType(type));
 
-	if( type == 0x0006) TESS = STONE_TESS_FAN;
-	else if (type == 0x0005) TESS = STONE_TESS_STRIP;
-	else if (type == 0x0004) TESS = STONE_TESS_TRI;
+	if( type == 0x0006) TESS = MUD_TESS_FAN;
+	else if (type == 0x0005) TESS = MUD_TESS_STRIP;
+	else if (type == 0x0004) TESS = MUD_TESS_TRI;
 	else TESS = 999;
 
 	a = NULL;
@@ -127,7 +127,7 @@ void stone_tess_begin( GLenum type)
 	TESS_EVEN = 1;
 }
 
-void stone_tess_reset( void)
+void mud_tess_reset( void)
 {
 	fan_start = NULL;
 	fan_a = NULL;
@@ -140,10 +140,10 @@ void stone_tess_reset( void)
 
 }
 
-void stone_tess_vertex( void *vertex)
+void mud_tess_vertex( void *vertex)
 {
 	//if(db) printf("point\n");
-	if( TESS == STONE_TESS_FAN)
+	if( TESS == MUD_TESS_FAN)
 	{
 		if( fan_start == NULL)
 		{
@@ -157,11 +157,11 @@ void stone_tess_vertex( void *vertex)
 		{
 			fan_b = ( s_vertex *) vertex;
 			if(db) printf("add face %d %d %d\n", fan_start->indice, fan_a->indice, fan_b->indice);
-			stone_add_face( STONE, fan_start, fan_a, fan_b, NULL);
+			mud_add_face( MUD, fan_start, fan_a, fan_b, NULL);
 			fan_a = vertex;
 		}
 	}
-	else if( TESS == STONE_TESS_STRIP)
+	else if( TESS == MUD_TESS_STRIP)
 	{
 		if( fan_start == NULL)
 		{
@@ -176,7 +176,7 @@ void stone_tess_vertex( void *vertex)
 		{
 			fan_b = ( s_vertex *) vertex;
 			if(db) printf("add face %d %d %d\n", fan_start->indice, fan_a->indice, fan_b->indice);
-			stone_add_face( STONE, fan_start, fan_a, fan_b, NULL);
+			mud_add_face( MUD, fan_start, fan_a, fan_b, NULL);
 		}
 		// next
 		else
@@ -187,7 +187,7 @@ void stone_tess_vertex( void *vertex)
 				fan_start = fan_b;
 				fan_a = fan_a;
 				fan_b = ( s_vertex *) vertex;
-				stone_add_face( STONE, fan_start, fan_a, fan_b, NULL);
+				mud_add_face( MUD, fan_start, fan_a, fan_b, NULL);
 				if(db) printf("add face even %d %d %d\n", fan_start->indice, fan_a->indice, fan_b->indice);
 			}
 			else
@@ -196,13 +196,13 @@ void stone_tess_vertex( void *vertex)
 				fan_start = fan_start;
 				fan_a = fan_b;
 				fan_b = ( s_vertex *) vertex;
-				stone_add_face( STONE, fan_start, fan_a, fan_b, NULL);
+				mud_add_face( MUD, fan_start, fan_a, fan_b, NULL);
 				if(db) printf("add face odd %d %d %d\n", fan_start->indice, fan_a->indice, fan_b->indice);
 			}
 		}
 
 	}
-	else if( TESS == STONE_TESS_TRI)
+	else if( TESS == MUD_TESS_TRI)
 	{
 		if( fan_start == NULL)
 		{
@@ -216,7 +216,7 @@ void stone_tess_vertex( void *vertex)
 		{
 			fan_b = ( s_vertex *) vertex;
 			if(db) printf("add face %d %d %d\n", fan_start->indice, fan_a->indice, fan_b->indice);
-			stone_add_face( STONE, fan_start, fan_a, fan_b, NULL);
+			mud_add_face( MUD, fan_start, fan_a, fan_b, NULL);
 		}
 	}
 	else
@@ -227,36 +227,36 @@ void stone_tess_vertex( void *vertex)
 
 }
 
-void stone_tess_end( void)
+void mud_tess_end( void)
 {
 	if(db) printf("tess end\n");
 }
 
-void stone_tess_combine( void)
+void mud_tess_combine( void)
 {
 	if(db) printf("tess combine ???\n");
 }
 
-void stone_tess_error( GLenum err)
+void mud_tess_error( GLenum err)
 {
 	if(db) printf("tess ERROR: %s\n\n", gluErrorString(err));
 }
 
-void stone_tessellate( t_stone *stone)
+void mud_tessellate( t_mud *mud)
 {
-	stone_tess_reset();
+	mud_tess_reset();
 	GLUtesselator* t = gluNewTess();
 
-	gluTessCallback(t, GLU_TESS_BEGIN_DATA, (GLvoid (*)()) stone_tess_begin);
-	gluTessCallback(t, GLU_TESS_VERTEX_DATA, (GLvoid (*)()) stone_tess_vertex);
-	gluTessCallback(t, GLU_TESS_COMBINE_DATA, (GLvoid (*)()) stone_tess_combine);
-	gluTessCallback(t, GLU_TESS_END_DATA, (GLvoid (*)()) stone_tess_end);
-	gluTessCallback(t, GLU_TESS_ERROR_DATA, (GLvoid (*)()) stone_tess_error);
+	gluTessCallback(t, GLU_TESS_BEGIN_DATA, (GLvoid (*)()) mud_tess_begin);
+	gluTessCallback(t, GLU_TESS_VERTEX_DATA, (GLvoid (*)()) mud_tess_vertex);
+	gluTessCallback(t, GLU_TESS_COMBINE_DATA, (GLvoid (*)()) mud_tess_combine);
+	gluTessCallback(t, GLU_TESS_END_DATA, (GLvoid (*)()) mud_tess_end);
+	gluTessCallback(t, GLU_TESS_ERROR_DATA, (GLvoid (*)()) mud_tess_error);
 
 	if(db)
 	{
-		printf("[stone] tess tolerance:%f\n", tess_tolerance);
-		printf("[stone] tess rule:%s\n", get_rule());
+		printf("[mud] tess tolerance:%f\n", tess_tolerance);
+		printf("[mud] tess rule:%s\n", get_rule());
 	}
 
 	gluTessProperty(t, GLU_TESS_WINDING_RULE, tess_winding_rule);
@@ -269,9 +269,9 @@ void stone_tessellate( t_stone *stone)
 
 	s_vertex *vertex;
 	t_lnode *node;
-	STONE = stone;
+	MUD = mud;
 
-	for( node = stone->vertex->first;node;node=node->next)
+	for( node = mud->vertex->first;node;node=node->next)
 	{
 		vertex = ( s_vertex *) node->data;
 		if(db) printf("add point indice:%d %f %f %f\n", vertex->indice, vertex->co[0],vertex->co[1],0.0);

@@ -10,7 +10,7 @@
 #include "blenlib.h"
 #include "modifier.h"
 #include "llist.h"
-#include "stone.h"
+#include "mud.h"
 #include "stdmath.h"
 
 /*
@@ -80,12 +80,12 @@ static void create_frame(t_skin *frame)
 		add_v3_v3v3(frame->co[i], frame->co[i], rx);
 }
 
-void create_points( t_stone *stone, t_skin *skin)
+void create_points( t_mud *mud, t_skin *skin)
 {
-	skin->a = stone_add_vertex( stone, skin->co[0][0], skin->co[0][1], skin->co[0][2]);
-	skin->b = stone_add_vertex( stone, skin->co[1][0], skin->co[1][1], skin->co[1][2]);
-	skin->c = stone_add_vertex( stone, skin->co[2][0], skin->co[2][1], skin->co[2][2]);
-	skin->d = stone_add_vertex( stone, skin->co[3][0], skin->co[3][1], skin->co[3][2]);
+	skin->a = mud_add_vertex( mud, skin->co[0][0], skin->co[0][1], skin->co[0][2]);
+	skin->b = mud_add_vertex( mud, skin->co[1][0], skin->co[1][1], skin->co[1][2]);
+	skin->c = mud_add_vertex( mud, skin->co[2][0], skin->co[2][1], skin->co[2][2]);
+	skin->d = mud_add_vertex( mud, skin->co[3][0], skin->co[3][1], skin->co[3][2]);
 
 }
 	
@@ -126,34 +126,34 @@ t_skin *skin_new( void)
 	return skin;
 }
 
-void stone_modifier_skin( t_stone *stone, s_modifier *mod)
+void mud_modifier_skin( t_mud *mud, s_modifier *mod)
 {
 	skin_nodes = llist_new();
 
 	t_lnode *node;
 	t_skin *s = NULL;
-	for( node = stone->edge->first; node; node = node->next)
+	for( node = mud->edge->first; node; node = node->next)
 	{
 		t_skin *skin = skin_new();
 		s_edge *edge =  ( s_edge *) node->data;
 		skin->edge = edge;
 		calc_edge_mat( skin->mat->m, skin->edge->a->co, skin->edge->b->co);
 		create_frame( skin);
-		create_points( stone, skin);
+		create_points( mud, skin);
 		if( s)
 		{
-			stone_add_face( stone, s->a, s->b, skin->b, skin->a);
-			stone_add_face( stone, s->b, s->c, skin->c, skin->b);
-			stone_add_face( stone, s->c, s->d, skin->d, skin->c);
-			stone_add_face( stone, s->d, s->a, skin->a, skin->d);
+			mud_add_face( mud, s->a, s->b, skin->b, skin->a);
+			mud_add_face( mud, s->b, s->c, skin->c, skin->b);
+			mud_add_face( mud, s->c, s->d, skin->d, skin->c);
+			mud_add_face( mud, s->d, s->a, skin->a, skin->d);
 		}
 		s = skin;
 	}
 }
 
-void stone_add_modifier_skin( struct Stone *stone)
+void mud_add_modifier_skin( struct Stone *mud)
 {
-	s_modifier *mod = modifier_new("skin", NULL, stone_modifier_skin);
-	stone_add_modifier( stone, mod);
+	s_modifier *mod = modifier_new("skin", NULL, mud_modifier_skin);
+	mud_add_modifier( mud, mod);
 }
 

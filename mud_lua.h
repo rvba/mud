@@ -1,15 +1,15 @@
-#ifndef __STONE_LUA_H__
-#define __STONE_LUA_H__
+#ifndef __MUD_LUA_H__
+#define __MUD_LUA_H__
 
 // STRUCTS
 
 typedef struct Lua_Stone
 {
-	t_stone *stone;
+	t_mud *mud;
 	char *name;
 	short is_built;
 
-}t_lua_stone;
+}t_lua_mud;
 
 typedef struct Lua_Vertex
 {
@@ -35,9 +35,9 @@ typedef struct Lua_Face
 }t_lua_face;
 
 
-extern void (* STONE_BUILD_FUNCTION)( t_lua_stone *stone);
-void lua_stone_register( lua_State *L);
-t_lua_stone *lua_stone_get( lua_State * L);
+extern void (* MUD_BUILD_FUNCTION)( t_lua_mud *mud);
+void lua_mud_register( lua_State *L);
+t_lua_mud *lua_mud_get( lua_State * L);
 
 #endif
 

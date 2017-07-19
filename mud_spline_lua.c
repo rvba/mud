@@ -17,16 +17,16 @@
 
 #include "lua_util.h"
 
-#include "stone_spline.h"
-#include "stone_spline_lua.h"
+#include "mud_spline.h"
+#include "mud_spline_lua.h"
 
-static int lua_stone_spline_new( lua_State *L)
+static int lua_mud_spline_new( lua_State *L)
 {
 	int degree = luaL_checkinteger( L, 1);
 	int dimension = luaL_checkinteger( L, 2);
 	int count = luaL_checkinteger( L, 3);
 
-	t_spline *spline = stone_spline_new( degree, dimension, count);
+	t_spline *spline = mud_spline_new( degree, dimension, count);
 	t_lua_spline *lua_spline = ( t_lua_spline *) lua_newuserdata( L, sizeof( t_lua_spline));
 	lua_spline->spline = spline;
 	luaL_setmetatable( L, L_SPLINE); 
@@ -39,7 +39,7 @@ t_lua_spline *lua_spline_get( lua_State * L)
 	return ( t_lua_spline *) luaL_checkudata( L, 1, L_SPLINE);
 }
 
-static int lua_stone_spline_point_set( lua_State *L)
+static int lua_mud_spline_point_set( lua_State *L)
 {
 	t_lua_spline *spline = lua_spline_get( L);
 	int indice = luaL_checkinteger( L, 2);
@@ -47,16 +47,16 @@ static int lua_stone_spline_point_set( lua_State *L)
 	float y = luaL_checknumber( L, 4);
 	float z = luaL_checknumber( L, 5);
 	/* WARNING : indice -1 (lua->c) */
-	stone_spline_point_set( spline->spline, indice -1 , x, y,  z);
+	mud_spline_point_set( spline->spline, indice -1 , x, y,  z);
 	return 0;
 }
 
-static int lua_stone_spline_eval( lua_State *L)
+static int lua_mud_spline_eval( lua_State *L)
 {
 	t_lua_spline *spline = lua_spline_get( L);
 	float p = luaL_checknumber( L, 2);
 	float r[3];
-	stone_spline_eval(spline->spline,p,r);
+	mud_spline_eval(spline->spline,p,r);
 	lua_pushnumber( L, r[0]);
 	lua_pushnumber( L, r[1]);
 	lua_pushnumber( L, r[2]);
@@ -65,14 +65,14 @@ static int lua_stone_spline_eval( lua_State *L)
 
 static const struct luaL_Reg spline_methods[] =
 {
-	{"set_point", lua_stone_spline_point_set},
-	{"eval", lua_stone_spline_eval},
+	{"set_point", lua_mud_spline_point_set},
+	{"eval", lua_mud_spline_eval},
 	{ NULL, NULL}
 };
 
 static const struct luaL_Reg spline[] = 
 {
-	{"new", lua_stone_spline_new},
+	{"new", lua_mud_spline_new},
 	{ NULL, NULL}
 };
 
@@ -111,7 +111,7 @@ void lua_make_table_spline( lua_State *L)
 	lua_set_getters_setters( L, methods, metatable, spline_getters, spline_setters);
 }
 
-void lua_stone_spline_register( lua_State *L)
+void lua_mud_spline_register( lua_State *L)
 {
 	lua_make_table_spline( L);
 	luaL_newlib( L, spline);

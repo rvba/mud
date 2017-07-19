@@ -2,7 +2,7 @@
 -- Primitives
 --
 -- local prim = <Primitive>:new(name,<opt>)
--- local stone = prim.stone
+-- local mud = prim.mud
 --
 
 require "Class"
@@ -120,7 +120,7 @@ function Spline:build()
 		p1 = p2
 	end
 
-	self.stone:build()
+	self.mud:build()
 end
 
 -- Calculate Point on curve at parameter (from 0 to 1)

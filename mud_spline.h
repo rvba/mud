@@ -7,8 +7,8 @@
  *
  */
 
-#ifndef __STONE_SPLINE_H__
-#define __STONE_SPLINE_H__
+#ifndef __MUD_SPLINE_H__
+#define __MUD_SPLINE_H__
 
 #include "tinyspline.h"
 
@@ -25,9 +25,9 @@ typedef struct Spline
 
 }t_spline;
 
-t_spline *stone_spline_new( int degree, int dimension, int count);
-void stone_spline_point_set( t_spline *self, int indice, float x, float y, float z);
-void stone_spline_eval( t_spline *self, float p, float r[3]);
+t_spline *mud_spline_new( int degree, int dimension, int count);
+void mud_spline_point_set( t_spline *self, int indice, float x, float y, float z);
+void mud_spline_eval( t_spline *self, float p, float r[3]);
 
 
 #endif

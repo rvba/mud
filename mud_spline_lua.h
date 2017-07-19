@@ -8,8 +8,8 @@
  */
 
 
-#ifndef __STONE_SPLINE_LUA_H__
-#define __STONE_SPLINE_LUA_H__
+#ifndef __MUD_SPLINE_LUA_H__
+#define __MUD_SPLINE_LUA_H__
 
 #define L_SPLINE "L_SPLINE"
 
@@ -19,7 +19,7 @@ typedef struct Lua_Spline
 
 }t_lua_spline;
 
-void lua_stone_spline_register( lua_State *L);
+void lua_mud_spline_register( lua_State *L);
 
 
 #endif

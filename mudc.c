@@ -21,7 +21,7 @@
 
 static lua_State *LUA_STATE = NULL; 
 
-static void stone_main_lua_init( void)
+static void mud_main_lua_init( void)
 {
 	// New Lua state
 	LUA_STATE = luaL_newstate();
@@ -35,7 +35,7 @@ static void mn_lua_error( void)
 	printf( "[ERROR] %s\n", lua_tostring( LUA_STATE, -1));
 }
 
-static void stone_main_exe( const char *file_path)
+static void mud_main_exe( const char *file_path)
 {
 
 	printf("[LOADING] %s\n", file_path);
@@ -87,7 +87,7 @@ int main( int argc, char **argv)
 	if( argc == 1)
 	{
 		printf("Stone\n");
-		printf("Usage: stone file [options]\n\n");
+		printf("Usage: mud file [options]\n\n");
 		return 0;
 	}
 
@@ -97,8 +97,8 @@ int main( int argc, char **argv)
 	else
 	{
 		char *file = argv[1];
-		stone_main_lua_init();
-		stone_main_exe( file);
+		mud_main_lua_init();
+		mud_main_exe( file);
 	}
 
 	return 0;
