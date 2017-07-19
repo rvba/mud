@@ -1,7 +1,7 @@
 # MUD
 cmake_minimum_required(VERSION 2.8) 
 
-project(Stone)
+project(Mud)
 
 option(OPT_SWIG OFF)
 

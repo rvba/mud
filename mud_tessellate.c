@@ -44,7 +44,7 @@ void mud_tess_set( const char *what, void *data)
 		else if( strcmp( which, "positive") != -1) tess_winding_rule = GLU_TESS_WINDING_POSITIVE;
 		else if( strcmp( which, "negative") != -1) tess_winding_rule = GLU_TESS_WINDING_NEGATIVE;
 		else if( strcmp( which, "abs") != -1) tess_winding_rule = GLU_TESS_WINDING_ABS_GEQ_TWO;
-		else printf("Stone tesselate error: can't set winding rule\n");
+		else printf("Mud tesselate error: can't set winding rule\n");
 	}
 }
 

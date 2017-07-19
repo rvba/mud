@@ -1,7 +1,7 @@
 /* 
  * Copyright (c) 2015 Milovann Yanatchkov 
  *
- * This file is part of Stone, a free software
+ * This file is part of Mud, a free software
  * licensed under the GNU General Public License v2
  * see /LICENSE for more information
  *
@@ -46,7 +46,7 @@ void mud_modifier_rotation( t_mud *mud, s_modifier *mod)
 	}
 }
 
-void mud_add_modifier_rotation( struct Stone *mud, const float v[3], const float a)
+void mud_add_modifier_rotation( struct Mud *mud, const float v[3], const float a)
 {
 	t_rotation_data *data = rotation_data_new( v, a);
 	s_modifier *mod = modifier_new("rotation", data, mud_modifier_rotation);

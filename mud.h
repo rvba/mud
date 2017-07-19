@@ -1,7 +1,7 @@
 /* 
  * Copyright (c) 2015 Milovann Yanatchkov 
  *
- * This file is part of Stone, a free software
+ * This file is part of Mud, a free software
  * licensed under the GNU General Public License v2
  * see /LICENSE for more information
  *
@@ -9,7 +9,7 @@
 
 /**
  * @mainpage
- * Stone
+ * Mud
  * =====
  *
  * A very simple mesh modeling toolkit.
@@ -18,7 +18,7 @@
  * -----
  *  [**Project wiki page**](http://rvba.fr/waki/doku.php?id=code:dev:minuit:modules:mud)
  *
- * A Stone object is composed of lists of:
+ * A Mud object is composed of lists of:
  * - SVertex
  * - SEdge
  * - SFace
@@ -39,7 +39,7 @@
 #define MUD_FACE_DELETED 2
 
 struct Stash;
-struct Stone;
+struct Mud;
 struct Context;
 
 /**
@@ -74,7 +74,7 @@ typedef struct SEdge
 }s_edge;
 
 /**
- * @ref Stone
+ * @ref Mud
  * @brief Main Object.
  *
  * Stores lists of
@@ -83,7 +83,7 @@ typedef struct SEdge
  *- edges
  *- faces
  */
-typedef struct Stone 
+typedef struct Mud 
 {
 	char name[MUD_NAME];
 	struct LNode *node;

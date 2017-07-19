@@ -1,7 +1,7 @@
 /* 
  * Copyright (c) 2015 Milovann Yanatchkov 
  *
- * This file is part of Stone, a free software
+ * This file is part of Mud, a free software
  * licensed under the GNU General Public License v2
  * see /LICENSE for more information
  *
@@ -70,7 +70,7 @@ void mud_modifier_array( t_mud *mud, s_modifier *mod)
 	mud_free( copy);
 }
 
-void mud_add_modifier_array( struct Stone *mud, int count, t_mn_mat4 *mat)
+void mud_add_modifier_array( struct Mud *mud, int count, t_mn_mat4 *mat)
 {
 	t_array_data *data = array_data_new( count, mat);
 	s_modifier *mod = modifier_new("array", data, mud_modifier_array);

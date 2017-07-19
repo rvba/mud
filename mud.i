@@ -3,10 +3,10 @@
         #include "mud.h"
 %}
 
-%rename (Stone) mud_new;
+%rename (Mud) mud_new;
 
 %include "mud.h"
-%extend Stone
+%extend Mud
 {
         void add_vertex( float x, float y, float z)
         {

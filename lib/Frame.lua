@@ -169,7 +169,7 @@ function Frame:new(o,a,b,c)
 
 	local _frame = {}
 
-	-- Set Stone proto
+	-- Set Mud proto
 	setproto(_frame,self,U.set_name("frame"))
 
 	_frame.vo = o

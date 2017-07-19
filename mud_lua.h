@@ -3,7 +3,7 @@
 
 // STRUCTS
 
-typedef struct Lua_Stone
+typedef struct Lua_Mud
 {
 	t_mud *mud;
 	char *name;

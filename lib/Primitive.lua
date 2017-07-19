@@ -39,7 +39,7 @@ function Spline:new()
 	local spline = {}
 	local name = Util.set_name("spline")
 
-	-- Set Stone proto
+	-- Set Mud proto
 	setproto(spline,self,name)
 
 	spline.knots= {}
@@ -104,7 +104,7 @@ function Spline:make()
 	end
 end
 
--- Build a Stone Line by edges
+-- Build a Mud Line by edges
 function Spline:build()
 
 	local p1 = nil
@@ -163,7 +163,7 @@ function Circle:new(resolution,radius)
 	local _circle = {}
 	local name = Util.set_name("circle")
 
-	-- Set Stone proto
+	-- Set Mud proto
 	setproto(_circle,self,name)
 
 	pt = nil
@@ -203,7 +203,7 @@ function Sphere:new(radius,rx,ry)
 	local sphere = {}
 	local name = Util.set_name("sphere")
 
-	-- Set Stone proto
+	-- Set Mud proto
 	setproto(sphere,self,name)
 
 	-- Fraction of angles
@@ -337,7 +337,7 @@ function Quad:new()
 	local _quad = {}
 	local name = Util.set_name("quad")
 
-	-- Set Stone proto
+	-- Set Mud proto
 	setproto(_quad,self,name)
 
 	local d = 2.1
@@ -359,7 +359,7 @@ function Cube:new(x,y,z)
 	local cube =  {}
 	local name = Util.set_name("cube")
 
-	-- Set Stone proto
+	-- Set Mud proto
 	setproto(cube,self,name)
 
 	cube.x = x

@@ -1,7 +1,7 @@
 /* 
  * Copyright (c) 2016 Milovann Yanatchkov 
  *
- * This file is part of Stone, a free software
+ * This file is part of Mud, a free software
  * licensed under the GNU General Public License v2
  * see /LICENSE for more information
  *

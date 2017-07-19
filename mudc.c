@@ -1,7 +1,7 @@
 /* 
  * Copyright (c) 2015 Milovann Yanatchkov 
  *
- * This file is part of Stone, a free software
+ * This file is part of Mud, a free software
  * licensed under the GNU General Public License v2
  * see /LICENSE for more information
  *
@@ -86,7 +86,7 @@ int main( int argc, char **argv)
 {
 	if( argc == 1)
 	{
-		printf("Stone\n");
+		printf("Mud\n");
 		printf("Usage: mud file [options]\n\n");
 		return 0;
 	}

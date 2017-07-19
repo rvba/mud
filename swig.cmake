@@ -12,7 +12,7 @@ SWIG_ADD_MODULE(mud python mud.i stucco.c)
 SWIG_LINK_LIBRARIES(mud ${PYTHON})
 SWIG_LINK_LIBRARIES(mud stdutil)
 
-message("Making Stone Package")
+message("Making Mud Package")
 set(MUD_PATH ${PATH_MODUS_SRC}/libs/mud)
 #message(".." ${MUD_PATH})
 execute_process(COMMAND ${MUD_PATH}/make.sh WORKING_DIRECTORY ${MUD_PATH} RESULT_VARIABLE RES OUTPUT_VARIABLE LOG)

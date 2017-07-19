@@ -1,7 +1,7 @@
 /* 
  * Copyright (c) 2015 Milovann Yanatchkov 
  *
- * This file is part of Stone, a free software
+ * This file is part of Mud, a free software
  * licensed under the GNU General Public License v2
  * see /LICENSE for more information
  *
@@ -151,7 +151,7 @@ void mud_modifier_skin( t_mud *mud, s_modifier *mod)
 	}
 }
 
-void mud_add_modifier_skin( struct Stone *mud)
+void mud_add_modifier_skin( struct Mud *mud)
 {
 	s_modifier *mod = modifier_new("skin", NULL, mud_modifier_skin);
 	mud_add_modifier( mud, mod);

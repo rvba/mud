@@ -23,7 +23,7 @@ function wrapper:__index(key)
 			return f
 		end
 	else
-		-- Stone's functions
+		-- Mud's functions
 		local proto = rawget(self,"__proto__")
 		if use_debug then
 			if pcall(proto,find(key)) then
