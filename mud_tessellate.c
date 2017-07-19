@@ -12,15 +12,15 @@
 #define MUD_TESS_DB 1
 
 static t_mud *MUD = NULL;
-static s_vertex *a;
-static s_vertex *b;
-static s_vertex *c;
+static mud_vertex *a;
+static mud_vertex *b;
+static mud_vertex *c;
 
 static int db = 0;
 static int TESS;
-static s_vertex *fan_start = NULL;
-static s_vertex *fan_a = NULL;
-static s_vertex *fan_b = NULL;
+static mud_vertex *fan_start = NULL;
+static mud_vertex *fan_a = NULL;
+static mud_vertex *fan_b = NULL;
 static int TESS_EVEN = 1;
 static double tess_tolerance = 0;
 static GLenum tess_winding_rule = GLU_TESS_WINDING_NONZERO;
@@ -140,22 +140,22 @@ void mud_tess_reset( void)
 
 }
 
-void mud_tess_vertex( void *vertex)
+void mud_tesmud_vertex( void *vertex)
 {
 	//if(db) printf("point\n");
 	if( TESS == MUD_TESS_FAN)
 	{
 		if( fan_start == NULL)
 		{
-			fan_start = (s_vertex *) vertex;
+			fan_start = (mud_vertex *) vertex;
 		}
 		else if( fan_a == NULL)
 		{
-			fan_a = ( s_vertex *) vertex;
+			fan_a = ( mud_vertex *) vertex;
 		}
 		else
 		{
-			fan_b = ( s_vertex *) vertex;
+			fan_b = ( mud_vertex *) vertex;
 			if(db) printf("add face %d %d %d\n", fan_start->indice, fan_a->indice, fan_b->indice);
 			mud_add_face( MUD, fan_start, fan_a, fan_b, NULL);
 			fan_a = vertex;
@@ -165,16 +165,16 @@ void mud_tess_vertex( void *vertex)
 	{
 		if( fan_start == NULL)
 		{
-			fan_start = (s_vertex *) vertex;
+			fan_start = (mud_vertex *) vertex;
 		}
 		else if( fan_a == NULL)
 		{
-			fan_a = ( s_vertex *) vertex;
+			fan_a = ( mud_vertex *) vertex;
 		}
 		// fisrt
 		else if( fan_b == NULL)
 		{
-			fan_b = ( s_vertex *) vertex;
+			fan_b = ( mud_vertex *) vertex;
 			if(db) printf("add face %d %d %d\n", fan_start->indice, fan_a->indice, fan_b->indice);
 			mud_add_face( MUD, fan_start, fan_a, fan_b, NULL);
 		}
@@ -186,7 +186,7 @@ void mud_tess_vertex( void *vertex)
 				TESS_EVEN = 0;
 				fan_start = fan_b;
 				fan_a = fan_a;
-				fan_b = ( s_vertex *) vertex;
+				fan_b = ( mud_vertex *) vertex;
 				mud_add_face( MUD, fan_start, fan_a, fan_b, NULL);
 				if(db) printf("add face even %d %d %d\n", fan_start->indice, fan_a->indice, fan_b->indice);
 			}
@@ -195,7 +195,7 @@ void mud_tess_vertex( void *vertex)
 				TESS_EVEN = 1;
 				fan_start = fan_start;
 				fan_a = fan_b;
-				fan_b = ( s_vertex *) vertex;
+				fan_b = ( mud_vertex *) vertex;
 				mud_add_face( MUD, fan_start, fan_a, fan_b, NULL);
 				if(db) printf("add face odd %d %d %d\n", fan_start->indice, fan_a->indice, fan_b->indice);
 			}
@@ -206,15 +206,15 @@ void mud_tess_vertex( void *vertex)
 	{
 		if( fan_start == NULL)
 		{
-			fan_start = (s_vertex *) vertex;
+			fan_start = (mud_vertex *) vertex;
 		}
 		else if( fan_a == NULL)
 		{
-			fan_a = ( s_vertex *) vertex;
+			fan_a = ( mud_vertex *) vertex;
 		}
 		else
 		{
-			fan_b = ( s_vertex *) vertex;
+			fan_b = ( mud_vertex *) vertex;
 			if(db) printf("add face %d %d %d\n", fan_start->indice, fan_a->indice, fan_b->indice);
 			mud_add_face( MUD, fan_start, fan_a, fan_b, NULL);
 		}
@@ -248,7 +248,7 @@ void mud_tessellate( t_mud *mud)
 	GLUtesselator* t = gluNewTess();
 
 	gluTessCallback(t, GLU_TESS_BEGIN_DATA, (GLvoid (*)()) mud_tess_begin);
-	gluTessCallback(t, GLU_TESS_VERTEX_DATA, (GLvoid (*)()) mud_tess_vertex);
+	gluTessCallback(t, GLU_TESS_VERTEX_DATA, (GLvoid (*)()) mud_tesmud_vertex);
 	gluTessCallback(t, GLU_TESS_COMBINE_DATA, (GLvoid (*)()) mud_tess_combine);
 	gluTessCallback(t, GLU_TESS_END_DATA, (GLvoid (*)()) mud_tess_end);
 	gluTessCallback(t, GLU_TESS_ERROR_DATA, (GLvoid (*)()) mud_tess_error);
@@ -267,13 +267,13 @@ void mud_tessellate( t_mud *mud)
 	gluTessBeginPolygon(t, NULL);
 	gluTessBeginContour(t);
 
-	s_vertex *vertex;
+	mud_vertex *vertex;
 	t_lnode *node;
 	MUD = mud;
 
 	for( node = mud->vertex->first;node;node=node->next)
 	{
-		vertex = ( s_vertex *) node->data;
+		vertex = ( mud_vertex *) node->data;
 		if(db) printf("add point indice:%d %f %f %f\n", vertex->indice, vertex->co[0],vertex->co[1],0.0);
 		double p[3] = {(double)vertex->co[0],(double)vertex->co[1],0};
 		gluTessVertex(t,p,vertex);

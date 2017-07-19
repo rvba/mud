@@ -12,7 +12,7 @@
 #include "stdmath.h"
 #include "blenlib.h"
 
-void _mud_modifier_matrix( s_vertex *v, void *data)
+void _mud_modifier_matrix( mud_vertex *v, void *data)
 {
 	t_mn_mat4 *mat = ( t_mn_mat4 *) data;
 	mul_m4_v3( mat->m, v->co);

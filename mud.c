@@ -31,17 +31,17 @@ static short debug_merge = 0;
 
 /**
  * @ref mud_vertex_set
- * @fn void mud_vertex_set( s_vertex *vert, float *v)
+ * @fn void mud_vertex_set( mud_vertex *vert, float *v)
  * set x y z
  */
-void mud_vertex_set( s_vertex *vert, float *v)
+void mud_vertex_set( mud_vertex *vert, float *v)
 {
 	vert->co[0] = v[0];
 	vert->co[1] = v[1];
 	vert->co[2] = v[2];
 }
 
-void mud_face_set( s_face *face, s_vertex *a, s_vertex *b, s_vertex *c, s_vertex *d)
+void mud_face_set( mud_face *face, mud_vertex *a, mud_vertex *b, mud_vertex *c, mud_vertex *d)
 {
 	face->a = a;
 	face->b = b;
@@ -49,25 +49,25 @@ void mud_face_set( s_face *face, s_vertex *a, s_vertex *b, s_vertex *c, s_vertex
 	face->d = d;
 }
 
-s_vertex *mud_vertex_new( int indice, float *v)
+mud_vertex *mud_vertex_new( int indice, float *v)
 {
-	s_vertex *vert = ( s_vertex *) calloc( 1, sizeof( s_vertex));
+	mud_vertex *vert = ( mud_vertex *) calloc( 1, sizeof( mud_vertex));
 	vert->indice = indice;
 	mud_vertex_set( vert, v);
 	return vert;
 }
 
-s_edge *mud_edge_new( s_vertex *a, s_vertex *b)
+mud_edge *mud_edge_new( mud_vertex *a, mud_vertex *b)
 {
-	s_edge *edge = ( s_edge *) calloc( 1, sizeof( s_edge));
+	mud_edge *edge = ( mud_edge *) calloc( 1, sizeof( mud_edge));
 	edge->a = a;
 	edge->b = b;
 	return edge;
 }
 
-s_face *mud_face_new( s_vertex *a, s_vertex *b, s_vertex *c, s_vertex *d)
+mud_face *mud_face_new( mud_vertex *a, mud_vertex *b, mud_vertex *c, mud_vertex *d)
 {
-	s_face *face = ( s_face *) calloc( 1, sizeof( s_face));
+	mud_face *face = ( mud_face *) calloc( 1, sizeof( mud_face));
 	mud_face_set( face, a, b, c, d);
 	face->status = MUD_FACE_EXISTS;
 	return face;
@@ -87,21 +87,21 @@ t_mud *mud_new( const char *name)
 
 /* Get */
 
-s_vertex *mud_get_vertex_by_indice( t_mud *mud, int indice)
+mud_vertex *mud_get_vertex_by_indice( t_mud *mud, int indice)
 {
 	t_lnode *node = llist_get_lnode_by_indice( mud->vertex, indice);
 	assert( node);
-	return ( s_vertex *) node->data;
+	return ( mud_vertex *) node->data;
 }
 
-s_face *mud_get_face( t_mud *mud, int indice)
+mud_face *mud_get_face( t_mud *mud, int indice)
 {
 	t_lnode *node = llist_get_lnode_by_indice( mud->face, indice);
 	assert( node);
-	return ( s_face *) node->data;
+	return ( mud_face *) node->data;
 }
 
-s_vertex *mud_get_vertex( t_mud *mud, int indice)
+mud_vertex *mud_get_vertex( t_mud *mud, int indice)
 {
 	return mud_get_vertex_by_indice( mud, indice);
 }
@@ -110,24 +110,24 @@ s_vertex *mud_get_vertex( t_mud *mud, int indice)
 
 void mud_vertex_update( t_mud *mud, int indice, float *vector)
 {
-	s_vertex *vertex = mud_get_vertex( mud, indice);
+	mud_vertex *vertex = mud_get_vertex( mud, indice);
 	if( vertex) mud_vertex_set( vertex, vector);
 	else printf("[mud] Error, can't get vertex %d\n", indice);
 }
 
 // Free
 
-void mud_vertex_free( s_vertex *v)
+void mud_vertex_free( mud_vertex *v)
 {
 	free(v);
 }
 
-void mud_edge_free( s_edge *e)
+void mud_edge_free( mud_edge *e)
 {
 	free(e);
 }
 
-void mud_face_free( s_face *f)
+void mud_face_free( mud_face *f)
 {
 	free(f);
 }
@@ -138,19 +138,19 @@ void mud_free( t_mud *mud)
 
 	for( node = mud->vertex->first; node; node = node->next)
 	{
-		s_vertex *v = ( s_vertex *) node->data;
+		mud_vertex *v = ( mud_vertex *) node->data;
 		mud_vertex_free( v);
 	}
 
 	for( node = mud->edge->first; node; node = node->next)
 	{
-		s_edge *e = ( s_edge *) node->data;
+		mud_edge *e = ( mud_edge *) node->data;
 		mud_edge_free( e);
 	}
 
 	for( node = mud->face->first; node; node = node->next)
 	{
-		s_face *f = ( s_face *) node->data;
+		mud_face *f = ( mud_face *) node->data;
 		mud_face_free( f);
 	}
 
@@ -175,12 +175,12 @@ void mud_free( t_mud *mud)
 static int print_tri_count = 0;
 static int print_quad_count = 0;
 
-void mud_vertex_show( s_vertex *v)
+void mud_vertex_show( mud_vertex *v)
 {
 	printf("Vertex %d [%f %f %f]\n", v->indice, v->co[0], v->co[1], v->co[2]);
 }
 
-void mud_face_show( s_face *f)
+void mud_face_show( mud_face *f)
 {
 	if(f->d)
 	{
@@ -194,26 +194,26 @@ void mud_face_show( s_face *f)
 	}
 }
 
-void mud_edge_show( s_edge *e)
+void mud_edge_show( mud_edge *e)
 {
 	printf("Edge [%d %d]\n", e->a->indice, e->b->indice);
 }
 
 void mud_show_vertex( void *d)
 {
-	s_vertex *s = ( s_vertex *) d;
+	mud_vertex *s = ( mud_vertex *) d;
 	mud_vertex_show( s);
 }
 
 void mud_show_face( void *d)
 {
-	s_face *f = ( s_face *) d;
+	mud_face *f = ( mud_face *) d;
 	mud_face_show( f);
 }
 
 void mud_show_edge( void *d)
 {
-	s_edge *e = ( s_edge *) d;
+	mud_edge *e = ( mud_edge *) d;
 	mud_edge_show( e);
 }
 
@@ -240,31 +240,31 @@ void mud_show( t_mud *mud)
 
 // Add
 
-s_vertex *mud_add_vertex_v( t_mud *mud, float *vec)
+mud_vertex *mud_add_vertex_v( t_mud *mud, float *vec)
 {
-	s_vertex *s = mud_vertex_new( mud->vertex_count, vec);
+	mud_vertex *s = mud_vertex_new( mud->vertex_count, vec);
 	llist_push_front( mud->vertex, s);
 	mud->vertex_count++;
 	return s;
 }
 
-s_vertex *mud_add_vertex( t_mud *mud, float x, float y, float z)
+mud_vertex *mud_add_vertex( t_mud *mud, float x, float y, float z)
 {
 	float p[3] = { x, y, z};
 	return mud_add_vertex_v( mud, p);
 }
 
-s_face *mud_add_face( t_mud *mud, s_vertex *a, s_vertex *b, s_vertex *c, s_vertex *d)
+mud_face *mud_add_face( t_mud *mud, mud_vertex *a, mud_vertex *b, mud_vertex *c, mud_vertex *d)
 {
-	s_face *f = mud_face_new( a, b, c, d);
+	mud_face *f = mud_face_new( a, b, c, d);
 	llist_push_front( mud->face, f);
 	mud->face_count++;
 	return f;
 }
 
-s_edge *mud_add_edge( t_mud *mud, s_vertex *a, s_vertex *b)
+mud_edge *mud_add_edge( t_mud *mud, mud_vertex *a, mud_vertex *b)
 {
-	s_edge *e = mud_edge_new( a, b);
+	mud_edge *e = mud_edge_new( a, b);
 	llist_push_front( mud->edge, e);
 	mud->edge_count++;
 	return e;
@@ -281,7 +281,7 @@ void mud_add_next( t_mud *this, t_mud *next)
 /* TODO: use this deleted face to be filled with new faces
  * TODO: add a resize function to get rid off unused faces
  */
-void mud_delete_face( t_mud *mud, s_face *face)
+void mud_delete_face( t_mud *mud, mud_face *face)
 {
 	face->status = MUD_FACE_DELETED;
 }
@@ -292,11 +292,11 @@ float *mud_get_vertex_buffer( t_mud *mud)
 {
 	float *v = ( float *) malloc( sizeof(float) * mud->vertex_count * 3);
 	int j = 0;
-	s_vertex *p;
+	mud_vertex *p;
 	t_lnode *node;
 	for( node = mud->vertex->first; node; node = node->next)
 	{
-		p = ( s_vertex *) node->data;
+		p = ( mud_vertex *) node->data;
 		v[j] = p->co[0];
 		v[j+1] = p->co[1];
 		v[j+2] = p->co[2];
@@ -308,11 +308,11 @@ float *mud_get_vertex_buffer( t_mud *mud)
 int mud_get_quad_count( t_mud *mud)
 {
 	int count = 0;
-	s_face *face;
+	mud_face *face;
 	t_lnode *node;
 	for( node = mud->face->first; node; node = node->next)
 	{
-		face = ( s_face *) node->data;
+		face = ( mud_face *) node->data;
 		if( face->d && face->status == MUD_FACE_EXISTS) count++; 
 	}
 	return count;
@@ -321,11 +321,11 @@ int mud_get_quad_count( t_mud *mud)
 int mud_get_tri_count( t_mud *mud)
 {
 	int count = 0;
-	s_face *face;
+	mud_face *face;
 	t_lnode *node;
 	for( node = mud->face->first; node; node = node->next)
 	{
-		face = ( s_face *) node->data;
+		face = ( mud_face *) node->data;
 		if( !face->d && face->status == MUD_FACE_EXISTS) count++; 
 	}
 	return count;
@@ -334,7 +334,7 @@ int mud_get_tri_count( t_mud *mud)
 int *mud_get_quad_buffer( t_mud *mud, int count)
 {
 	int *f = NULL;
-	s_face *face;
+	mud_face *face;
 	t_lnode *node;
 
 	if( count != 0)
@@ -344,7 +344,7 @@ int *mud_get_quad_buffer( t_mud *mud, int count)
 
 		for( node = mud->face->first; node; node = node->next)
 		{
-			face = ( s_face *) node->data;
+			face = ( mud_face *) node->data;
 
 			if( face->d && face->status == MUD_FACE_EXISTS)
 			{
@@ -369,7 +369,7 @@ int *mud_get_quad_buffer( t_mud *mud, int count)
 int *mud_get_tri_buffer( t_mud *mud, int count)
 {
 	int *f = NULL;
-	s_face *face;
+	mud_face *face;
 	t_lnode *node;
 
 	if( count != 0)
@@ -380,7 +380,7 @@ int *mud_get_tri_buffer( t_mud *mud, int count)
 		// Make buffer
 		for( node = mud->face->first; node; node = node->next)
 		{
-			face = ( s_face *) node->data;
+			face = ( mud_face *) node->data;
 
 			if( !face->d && face->status == MUD_FACE_EXISTS)
 			{
@@ -406,11 +406,11 @@ int *mud_get_edge_buffer( t_mud *mud)
 	{
 		int *e = ( int *) malloc( sizeof(int) * mud->edge_count * 2);
 		int j = 0;
-		s_edge *edge;
+		mud_edge *edge;
 		t_lnode *node;
 		for( node = mud->edge->first; node; node = node->next)
 		{
-			edge = ( s_edge *) node->data;
+			edge = ( mud_edge *) node->data;
 
 			assert(edge->a);
 			assert(edge->b);
@@ -434,17 +434,17 @@ int *mud_get_edge_buffer( t_mud *mud)
 /**
  * @anchor extrude_vertex
  * @ref extrude_vertex
- * @fn s_vertex *_mud_extrude_vertex( t_mud *mud, s_vertex *vertex, float *v)
+ * @fn mud_vertex *_mud_extrude_vertex( t_mud *mud, mud_vertex *vertex, float *v)
  * @brief Extrude a single vertex
  *
  */
-s_vertex *_mud_extrude_vertex( t_mud *mud, s_vertex *vertex, float *v)
+mud_vertex *_mud_extrude_vertex( t_mud *mud, mud_vertex *vertex, float *v)
 {
 	float extrude[3];
 	copy_v3_v3( extrude, vertex->co);
 	add_v3_v3( extrude, v);
 
-	s_vertex *p2 = mud_add_vertex_v( mud, extrude);
+	mud_vertex *p2 = mud_add_vertex_v( mud, extrude);
 	return p2;
 }
 
@@ -453,41 +453,41 @@ s_vertex *_mud_extrude_vertex( t_mud *mud, s_vertex *vertex, float *v)
  * @brief Extrude a single vertex
  * @param[in] v (x,y,z) Vector 
  */
-s_edge *mud_extrude_vertex( t_mud *mud, s_vertex *p1, float *v)
+mud_edge *mud_extrude_vertex( t_mud *mud, mud_vertex *p1, float *v)
 {
-	s_vertex *p2 = _mud_extrude_vertex( mud, p1, v);
-	s_edge *e = mud_add_edge( mud, p1, p2);
+	mud_vertex *p2 = _mud_extrude_vertex( mud, p1, v);
+	mud_edge *e = mud_add_edge( mud, p1, p2);
 	return e;
 }
 
-s_face *mud_extrude_edge( t_mud *mud, s_edge *e, float *v)
+mud_face *mud_extrude_edge( t_mud *mud, mud_edge *e, float *v)
 {
-	s_vertex *v3 = _mud_extrude_vertex( mud, e->a, v);
-	s_vertex *v4 = _mud_extrude_vertex( mud, e->b, v);
-	s_face *face = mud_add_face( mud, e->a, e->b, v4, v3);
+	mud_vertex *v3 = _mud_extrude_vertex( mud, e->a, v);
+	mud_vertex *v4 = _mud_extrude_vertex( mud, e->b, v);
+	mud_face *face = mud_add_face( mud, e->a, e->b, v4, v3);
 
 	return face;
 }
 
-s_face *mud_extrude_face( t_mud *mud, s_face *face, float *v)
+mud_face *mud_extrude_face( t_mud *mud, mud_face *face, float *v)
 {
-	s_vertex *a = face->a;
-	s_vertex *b = face->b;
-	s_vertex *c = face->c;
-	s_vertex *d = face->d;
+	mud_vertex *a = face->a;
+	mud_vertex *b = face->b;
+	mud_vertex *c = face->c;
+	mud_vertex *d = face->d;
 
-	s_edge *ea = mud_extrude_vertex( mud, a, v);
-	s_edge *eb = mud_extrude_vertex( mud, b, v);
-	s_edge *ec = mud_extrude_vertex( mud, c, v);
-	s_edge *ed = NULL;
+	mud_edge *ea = mud_extrude_vertex( mud, a, v);
+	mud_edge *eb = mud_extrude_vertex( mud, b, v);
+	mud_edge *ec = mud_extrude_vertex( mud, c, v);
+	mud_edge *ed = NULL;
 
 	/* quad */
 	if(d) ed = mud_extrude_vertex( mud, d, v);
 
-	s_vertex *aa = ea->b;
-	s_vertex *bb = eb->b;
-	s_vertex *cc = ec->b;
-	s_vertex *dd = NULL;
+	mud_vertex *aa = ea->b;
+	mud_vertex *bb = eb->b;
+	mud_vertex *cc = ec->b;
+	mud_vertex *dd = NULL;
 
 	/* quad */
 	if(d) dd = ed->b;
@@ -507,7 +507,7 @@ s_face *mud_extrude_face( t_mud *mud, s_face *face, float *v)
 	}
 
 	/* quad */
-	s_face *f = NULL;
+	mud_face *f = NULL;
 	f = mud_add_face( mud, aa, bb, cc, dd);
 
 	return f;
@@ -515,17 +515,17 @@ s_face *mud_extrude_face( t_mud *mud, s_face *face, float *v)
 
 // Transform
 
-void mud_apply_vertex( t_mud *mud, void (* f)( s_vertex *v, void *d), void *data)
+void mud_apply_vertex( t_mud *mud, void (* f)( mud_vertex *v, void *d), void *data)
 {
 	t_lnode *node;
 	for( node = mud->vertex->first; node; node = node->next)
 	{
-		s_vertex *v = ( s_vertex *) node->data;
+		mud_vertex *v = ( mud_vertex *) node->data;
 		f( v, data);
 	}
 }
 
-void mud_translate_f( s_vertex *v, void *d)
+void mud_translate_f( mud_vertex *v, void *d)
 {
 	float *vec = ( float *) d;
 	add_v3_v3( v->co, vec);
@@ -538,7 +538,7 @@ void mud_translate( t_mud *mud, float *v)
 
 // Merge
 
-void mud_insert_vertex( t_mud *mud, s_vertex *v, int offset)
+void mud_insert_vertex( t_mud *mud, mud_vertex *v, int offset)
 {
 	v->indice += offset;
 	llist_push_front( mud->vertex, v);
@@ -552,12 +552,12 @@ void mud_insert_vertex( t_mud *mud, s_vertex *v, int offset)
 
 void mud_merge_points( t_mud *mud, t_mud *root)
 {
-	s_vertex *point;
+	mud_vertex *point;
 	t_lnode *node;
 	int offset = root->vertex_count;
 	for( node = mud->vertex->first; node; node = node->next)
 	{
-		point = ( s_vertex *) node->data;
+		point = ( mud_vertex *) node->data;
 		assert( point != NULL);
 		mud_insert_vertex( root, point, offset);
 	}
@@ -565,11 +565,11 @@ void mud_merge_points( t_mud *mud, t_mud *root)
 
 void mud_merge_faces( t_mud *mud, t_mud *root)
 {
-	s_face *face;
+	mud_face *face;
 	t_lnode *node;
 	for( node = mud->face->first; node; node = node->next)
 	{
-		face = ( s_face *) node->data;
+		face = ( mud_face *) node->data;
 		assert( face != NULL);
 		mud_add_face( root, face->a, face->b, face->c, face->d);
 	}
@@ -609,7 +609,7 @@ void mud_merge( t_mud *mud, t_mud *root)
 }
 
 // Copy a single "detached" vertex
-s_vertex *mud_copy_vertex( s_vertex *v)
+mud_vertex *mud_copy_vertex( mud_vertex *v)
 {
 	return mud_vertex_new( 0, v->co);
 }
@@ -617,11 +617,11 @@ s_vertex *mud_copy_vertex( s_vertex *v)
 // Copy vertices: create new vertices from src 
 void mud_copy_points( t_mud *mud, t_mud *src)
 {
-	s_vertex *point;
+	mud_vertex *point;
 	t_lnode *node;
 	for( node = src->vertex->first; node; node = node->next)
 	{
-		point = ( s_vertex *) node->data;
+		point = ( mud_vertex *) node->data;
 		assert( point != NULL);
 		mud_add_vertex( mud, point->co[0], point->co[1], point->co[2]);
 	}
@@ -631,16 +631,16 @@ void mud_copy_points( t_mud *mud, t_mud *src)
 // Copy faces: add new face with updated vertex pointers
 void mud_copy_faces( t_mud *mud, t_mud *src)
 {
-	s_face *face;
+	mud_face *face;
 	t_lnode *node;
 	for( node = src->face->first; node; node = node->next)
 	{
-		face = ( s_face *) node->data;
+		face = ( mud_face *) node->data;
 		assert( face != NULL);
-		s_vertex *a = mud_get_vertex_by_indice( mud, face->a->indice);
-		s_vertex *b = mud_get_vertex_by_indice( mud, face->b->indice);
-		s_vertex *c = mud_get_vertex_by_indice( mud, face->c->indice);
-		s_vertex *d = NULL;
+		mud_vertex *a = mud_get_vertex_by_indice( mud, face->a->indice);
+		mud_vertex *b = mud_get_vertex_by_indice( mud, face->b->indice);
+		mud_vertex *c = mud_get_vertex_by_indice( mud, face->c->indice);
+		mud_vertex *d = NULL;
 		if(face->d) d = mud_get_vertex_by_indice( mud, face->d->indice);
 
 		mud_add_face( mud, a, b, c, d);

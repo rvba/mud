@@ -25,9 +25,9 @@
 #include <stddef.h>
 
 #define L_MUD "L_MUD"
-#define L_VERTEX "s_vertex"
-#define L_EDGE "s_edge"
-#define L_FACE "s_face"
+#define L_VERTEX "mud_vertex"
+#define L_EDGE "mud_edge"
+#define L_FACE "mud_face"
 
 #include "stdmath_lua.h"
 #include "mud_lua.h"
@@ -99,7 +99,7 @@ static t_lua_face *lua_mud_check_face( lua_State *L, int index)
 
 // PUSH
 
-static t_lua_face *lua_mud_push_face( lua_State *L, s_face *face)
+static t_lua_face *lua_mud_push_face( lua_State *L, mud_face *face)
 {
 	t_lua_face *f = ( t_lua_face *) lua_newuserdata( L, sizeof( t_lua_face));
 	f->f = face;
@@ -108,7 +108,7 @@ static t_lua_face *lua_mud_push_face( lua_State *L, s_face *face)
 	return f;
 }
 
-static t_lua_edge *lua_mud_push_edge( lua_State *L, s_edge *edge)
+static t_lua_edge *lua_mud_push_edge( lua_State *L, mud_edge *edge)
 {
 	t_lua_edge *e = ( t_lua_edge *) lua_newuserdata( L, sizeof( t_lua_edge));
 	e->e = edge;
@@ -117,7 +117,7 @@ static t_lua_edge *lua_mud_push_edge( lua_State *L, s_edge *edge)
 	return e;
 }
 
-static t_lua_vertex *lua_mud_push_vertex( lua_State *L, s_vertex *vertex)
+static t_lua_vertex *lua_mud_push_vertex( lua_State *L, mud_vertex *vertex)
 {
 	t_lua_vertex *v = ( t_lua_vertex *) lua_newuserdata( L, sizeof( t_lua_vertex));
 	v->v = vertex;
@@ -152,7 +152,7 @@ static int get_number (lua_State *L, void *v)
 static int get_vertex_a( lua_State *L, void *v)
 {
 	t_lua_edge *e = ( t_lua_edge *) v;
-	s_edge *edge = e->e;
+	mud_edge *edge = e->e;
 	lua_mud_push_vertex( L, edge->a);
 
 	return 1;
@@ -161,7 +161,7 @@ static int get_vertex_a( lua_State *L, void *v)
 static int get_vertex_b( lua_State *L, void *v)
 {
 	t_lua_edge *e = ( t_lua_edge *) v;
-	s_edge *edge = e->e;
+	mud_edge *edge = e->e;
 	lua_mud_push_vertex( L, edge->b);
 	return 1;
 }
@@ -227,7 +227,7 @@ static int lua_mud_get_vertex_location( lua_State *L)
 {
 	t_lua_mud *lua_mud = lua_mud_get( L);
 	int i = luaL_checkinteger( L, 2);
-	s_vertex *vertex = mud_get_vertex( lua_mud->mud, i);
+	mud_vertex *vertex = mud_get_vertex( lua_mud->mud, i);
 	if( vertex)
 	{
 		lua_pushnumber(L, vertex->co[0]);
@@ -351,7 +351,7 @@ static int lua_mud_get_vertex_list( lua_State *L, void *v)
 	t_lnode *node;
 	for( node = mud->vertex->first; node; node = node->next)
 	{
-		s_vertex *vertex = ( s_vertex *) node->data;
+		mud_vertex *vertex = ( mud_vertex *) node->data;
 		lua_mud_push_vertex( L, vertex);
 		lua_rawseti(L, newTable, index);
 		++index;
@@ -374,7 +374,7 @@ static int lua_mud_get_edge_list( lua_State *L, void *v)
 	t_lnode *node;
 	for( node = mud->edge->first; node; node = node->next)
 	{
-		s_edge *edge = ( s_edge *) node->data;
+		mud_edge *edge = ( mud_edge *) node->data;
 		lua_mud_push_edge( L, edge);
 		lua_rawseti(L, newTable, index);
 		++index;
@@ -397,7 +397,7 @@ static int lua_mud_get_face_list( lua_State *L, void *v)
 	t_lnode *node;
 	for( node = mud->face->first; node; node = node->next)
 	{
-		s_face *face = ( s_face *) node->data;
+		mud_face *face = ( mud_face *) node->data;
 		lua_mud_push_face( L, face);
 		lua_rawseti(L, newTable, index);
 		++index;
@@ -411,7 +411,7 @@ static int lua_mud_get_face_list( lua_State *L, void *v)
 static int lua_mud_vertex_print( lua_State *L)
 {
 	t_lua_vertex *vertex = lua_mud_check_vertex( L, 1);
-	s_vertex *v = vertex->v;
+	mud_vertex *v = vertex->v;
 	printf("[mud lua] vertex: %d %f %f %f\n",v->indice,v->co[0],v->co[1],v->co[2]);
 	return 0;
 }
@@ -419,7 +419,7 @@ static int lua_mud_vertex_print( lua_State *L)
 static int lua_mud_vertex_x( lua_State *L, void *v)
 {
 	t_lua_vertex *vertex = ( t_lua_vertex *) v;
-	s_vertex *_v = vertex->v;
+	mud_vertex *_v = vertex->v;
 	lua_pushnumber(L, _v->co[0]);
 	return 1;
 }
@@ -427,7 +427,7 @@ static int lua_mud_vertex_x( lua_State *L, void *v)
 static int lua_mud_vertex_y( lua_State *L, void *v)
 {
 	t_lua_vertex *vertex = ( t_lua_vertex *) v;
-	s_vertex *_v = vertex->v;
+	mud_vertex *_v = vertex->v;
 	lua_pushnumber(L, _v->co[1]);
 	return 1;
 }
@@ -435,7 +435,7 @@ static int lua_mud_vertex_y( lua_State *L, void *v)
 static int lua_mud_vertex_z( lua_State *L, void *v)
 {
 	t_lua_vertex *vertex = ( t_lua_vertex *) v;
-	s_vertex *_v = vertex->v;
+	mud_vertex *_v = vertex->v;
 	lua_pushnumber(L, _v->co[2]);
 	return 1;
 }
@@ -443,8 +443,8 @@ static int lua_mud_vertex_z( lua_State *L, void *v)
 static int lua_mud_vertex_copy( lua_State *L)
 {
 	t_lua_vertex *vertex = lua_mud_check_vertex( L, 1);
-	s_vertex *_v = vertex->v;
-	s_vertex *copy = mud_copy_vertex(_v);
+	mud_vertex *_v = vertex->v;
+	mud_vertex *copy = mud_copy_vertex(_v);
 	lua_mud_push_vertex( L, copy);
 	return 1;
 }
@@ -455,7 +455,7 @@ static int lua_mud_vertex_translate( lua_State *L)
 	float x = luaL_checknumber( L, 2);
 	float y = luaL_checknumber( L, 3);
 	float z = luaL_checknumber( L, 4);
-	s_vertex *_v = vertex->v;
+	mud_vertex *_v = vertex->v;
 	_v->co[0]+= x;
 	_v->co[1]+= y;
 	_v->co[2]+= z;
@@ -465,7 +465,7 @@ static int lua_mud_vertex_translate( lua_State *L)
 static int lua_mud_get_vertex_co( lua_State *L, void *v)
 {
 	t_lua_vertex *_v = ( t_lua_vertex *) v;
-	s_vertex *vertex = ( s_vertex *) _v->v;
+	mud_vertex *vertex = ( mud_vertex *) _v->v;
 
 	lua_createtable(L, 3, 0);
 	int newTable = lua_gettop(L);
@@ -489,7 +489,7 @@ static int lua_mud_get_vertex_co( lua_State *L, void *v)
 static int lua_mud_get_indice( lua_State *L, void *v)
 {
 	t_lua_vertex *_v = ( t_lua_vertex *) v;
-	s_vertex *vertex = ( s_vertex *) _v->v;
+	mud_vertex *vertex = ( mud_vertex *) _v->v;
 
 	lua_pushinteger(L, vertex->indice);
 
@@ -515,7 +515,7 @@ static int lua_mud_add_vertex( lua_State *L)
 	float y = luaL_checknumber( L, 3);
 	float z = luaL_checknumber( L, 4);
 
-	s_vertex *v = mud_add_vertex( lua_mud->mud, x, y, z);
+	mud_vertex *v = mud_add_vertex( lua_mud->mud, x, y, z);
 	lua_mud_push_vertex( L, v);
 
 	return 1;
@@ -529,7 +529,7 @@ static int lua_mud_add_edge( lua_State *L)
 	t_lua_vertex *a = lua_mud_check_vertex( L, 2);
 	t_lua_vertex *b = lua_mud_check_vertex( L, 3);
 
-	s_edge *e = mud_add_edge( lua_mud->mud, a->v, b->v);
+	mud_edge *e = mud_add_edge( lua_mud->mud, a->v, b->v);
 	lua_mud_push_edge( L, e);
 
 	return 1;
@@ -545,7 +545,7 @@ static int lua_mud_add_face( lua_State *L)
 	t_lua_vertex *d = NULL;
 
 	int n = lua_gettop( L);
-	s_face *face;
+	mud_face *face;
 
 	if( n == 5)
 	{
@@ -567,7 +567,7 @@ static int lua_mud_delete_face( lua_State *L)
 	t_lua_mud *lua_mud = lua_mud_get( L);
 	t_lua_face *face = lua_mud_check_face( L, 2);
 	t_mud *s = lua_mud->mud;
-	s_face *f = face->f;
+	mud_face *f = face->f;
 	mud_delete_face(s,f);
 
 	return 0;
@@ -626,7 +626,7 @@ static int lua_mud_extrude_vertex( lua_State *L)
 	float z = luaL_checknumber( L, 5);
 	float v[] = {x,y,z};
 
-	s_edge *edge = mud_extrude_vertex( lua_mud->mud, p->v, v);
+	mud_edge *edge = mud_extrude_vertex( lua_mud->mud, p->v, v);
 	lua_mud_push_edge( L, edge);
 	return 1;
 }
@@ -640,7 +640,7 @@ static int lua_mud_extrude_edge( lua_State *L)
 	float z = luaL_checknumber( L, 5);
 	float v[] = {x,y,z};
 
-	s_face *extrude = mud_extrude_edge( lua_mud->mud, e->e, v);
+	mud_face *extrude = mud_extrude_edge( lua_mud->mud, e->e, v);
 	lua_mud_push_face( L, extrude);
 	return 1;
 }
@@ -653,7 +653,7 @@ static int lua_mud_extrude_face( lua_State *L)
 	float y = luaL_checknumber( L, 4);
 	float z = luaL_checknumber( L, 5);
 	float v[] = {x,y,z};
-	s_face *f = mud_extrude_face( lua_mud->mud, face->f, v);
+	mud_face *f = mud_extrude_face( lua_mud->mud, face->f, v);
 	lua_mud_push_face( L, f);
 	return 1;
 }
@@ -741,7 +741,7 @@ static const Xet_reg_pre mud_setters[] = {
 static int lua_mud_edge_get_a( lua_State *L)
 {
 	t_lua_edge *edge = lua_mud_check_edge( L, 1);
-	s_vertex *v = edge->e->a;
+	mud_vertex *v = edge->e->a;
 	lua_mud_push_vertex( L, v);
 	return 1;
 }
@@ -749,7 +749,7 @@ static int lua_mud_edge_get_a( lua_State *L)
 static int lua_mud_edge_get_b( lua_State *L)
 {
 	t_lua_edge *edge = lua_mud_check_edge( L, 1);
-	s_vertex *v = edge->e->b;
+	mud_vertex *v = edge->e->b;
 	lua_mud_push_vertex( L, v);
 	return 1;
 }
@@ -757,7 +757,7 @@ static int lua_mud_edge_get_b( lua_State *L)
 static int lua_mud_edge_print( lua_State *L)
 {
 	t_lua_edge *edge = lua_mud_check_edge( L, 1);
-	//s_vertex *v = edge->e->b;
+	//mud_vertex *v = edge->e->b;
 	printf("[mud lua] edge: a:%d b:%d\n",edge->e->a->indice, edge->e->b->indice);
 	return 0;
 }

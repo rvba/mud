@@ -20,13 +20,13 @@
 
 typedef struct Skin
 {
-	s_edge *edge;
+	mud_edge *edge;
 	t_mn_mat3 *mat;
 	float co[4][3];
-	s_vertex *a;
-	s_vertex *b;
-	s_vertex *c;
-	s_vertex *d;
+	mud_vertex *a;
+	mud_vertex *b;
+	mud_vertex *c;
+	mud_vertex *d;
 
 }t_skin;
 
@@ -135,7 +135,7 @@ void mud_modifier_skin( t_mud *mud, s_modifier *mod)
 	for( node = mud->edge->first; node; node = node->next)
 	{
 		t_skin *skin = skin_new();
-		s_edge *edge =  ( s_edge *) node->data;
+		mud_edge *edge =  ( mud_edge *) node->data;
 		skin->edge = edge;
 		calc_edge_mat( skin->mat->m, skin->edge->a->co, skin->edge->b->co);
 		create_frame( skin);

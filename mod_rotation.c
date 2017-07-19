@@ -41,7 +41,7 @@ void mud_modifier_rotation( t_mud *mud, s_modifier *mod)
 	printf("%f %f %f\n", v[0], v[1], v[2]);
 	for( node = mud->vertex->first; node; node = node->next)
 	{
-		s_vertex *v = ( s_vertex *) node->data;
+		mud_vertex *v = ( mud_vertex *) node->data;
 		rotate_v3_v3v3fl( v->co, v->co, data->v, angle);
 	}
 }

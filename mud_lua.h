@@ -13,13 +13,13 @@ typedef struct Lua_Mud
 
 typedef struct Lua_Vertex
 {
-	s_vertex *v;
+	mud_vertex *v;
 
 }t_lua_vertex;
 
 typedef struct Lua_Edge
 {
-	s_edge *e;
+	mud_edge *e;
 
 }t_lua_edge;
 
@@ -30,7 +30,7 @@ typedef struct Lua_Edge
  */
 typedef struct Lua_Face
 {
-	s_face *f;
+	mud_face *f;
 
 }t_lua_face;
 
