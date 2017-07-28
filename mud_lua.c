@@ -47,20 +47,20 @@ void (* MUD_BUILD_FUNCTION)( t_lua_mud *mud) = NULL;
 static int lua_mud_set( lua_State * L)
 {
 	const char *name = luaL_checkstring( L ,1);
-	if( is(name,"tesselate"))
+	if( iseq(name,"tesselate"))
 	{
 		const char *what = luaL_checkstring( L ,2);
-		if( is(what,"debug"))
+		if( iseq(what,"debug"))
 		{
 			int val = lua_toboolean( L, 3);
 			mud_tess_debug(val);
 		}
-		else if( is( what, "tolerance"))
+		else if( iseq( what, "tolerance"))
 		{
 			double val = luaL_checknumber( L, 3);
 			mud_tess_set("tolerance", &val);
 		}
-		else if( is( what, "winding"))
+		else if( iseq( what, "winding"))
 		{
 			/* odd, nonzero, positive, negative, abs */
 			const char *which = luaL_checkstring( L ,3);
