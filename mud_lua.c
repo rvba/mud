@@ -33,13 +33,6 @@
 #include "mud_lua.h"
 #include "lua_util.h"
 
-#include "object.h"
-#include "scene.h"
-#include "ctx.h"
-#include "op.h"
-#include "mesh.h"
-#include "vlst.h"
-
 void (* MUD_BUILD_FUNCTION)( t_lua_mud *mud) = NULL;
 
 // CHECK
@@ -241,18 +234,14 @@ static int lua_mud_get_vertex_location( lua_State *L)
 	}
 }
 
-
 // MUD
 
 static t_lua_mud *lua_mud_userdata_new( lua_State *L)
 {
-	// Push a new userdata on the stack
 	t_lua_mud *lua_mud = ( t_lua_mud *) lua_newuserdata( L, sizeof( t_lua_mud));
 	lua_mud->mud = NULL;
 	lua_mud->name = NULL;
 	lua_mud->is_built = 0;
-
-	// Set the metatable on the userdata
 	luaL_setmetatable( L, L_MUD); 
 
 	return lua_mud;
@@ -305,21 +294,7 @@ static int lua_mud_copy_with_name( lua_State *L)
 static int lua_mud_delete( lua_State *L)
 {
 	t_lua_mud *lua_mud = lua_mud_get( L);
-	// Free Object
-	/*
-	 
-
-
-	mn_lua_free_object( lua_mud->object);
-
-
-
-	*/
-	// Free Mud
 	mud_free( lua_mud->mud);
-	// Free Mud_Lua
-	// Garbage collector ??
-	//lua_mud_free( lua_mud);
 	return 0;
 }
 
@@ -792,18 +767,12 @@ static const struct luaL_Reg mud_edge_methods[] =
 };
 
 static const Xet_reg_pre edge_getters[] = {
-	//{"id",   get_int,    offsetof(t_lua_edge,id)   },
 	{"a",    get_vertex_a, 0   },
 	{"b",    get_vertex_b, 0   },
 	{0,0}
 };
 
 static const Xet_reg_pre edge_setters[] = {
-	/*
-	{"id",  set_int,    offsetof(t_lua_edge,id)  },
-	{"x",    set_number, offsetof(t_lua_edge,x)    },
-	{"y",    set_number, offsetof(t_lua_edge,y)    },
-	*/
 	{0,0}
 };
 
@@ -820,22 +789,10 @@ void lua_mud_make_table_mud( lua_State *L)
 {
 	int methods, metatable;
 
-	// Create a metable and put it on the stack
 	luaL_newmetatable( L, L_MUD);
-
 	metatable = lua_gettop(L);
-
-	/* Duplicate the metatable on the stack (We know have 2). */
 	lua_pushvalue(L, -1);
-	/* Pop the first metatable off the stack and assign it to __index
-	 *of the second one. We set the metatable for the table to itself.
-	 *This is equivalent to the following in lua:
-	 *metatable = {}
-	 *metatable.__index = metatable
-	 **/
 	lua_setfield(L, -2, "__index");
-
-	/* Set the methods to the metatable that should be accessed via object:func */
 	luaL_setfuncs(L, mud_methods, 0);
 
 	methods = lua_gettop(L);
@@ -886,8 +843,6 @@ void lua_mud_init( lua_State *L)
 	lua_mud_make_table_vertex( L);
 	lua_mud_make_table_edge( L);
 	lua_mud_make_table_face( L);
-	/* Register the object.func functions into the table that is at the top of the
-	 * * stack. */
 	luaL_newlib( L, mud);
 }
 

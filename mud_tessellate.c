@@ -1,5 +1,6 @@
 #include <string.h>
-#include "opengl.h"
+#include <GL/gl.h>
+#include <GL/glut.h>
 #include "mud.h"
 #include "llist.h"
 

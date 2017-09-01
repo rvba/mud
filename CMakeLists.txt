@@ -4,6 +4,7 @@ cmake_minimum_required(VERSION 2.8)
 project(Mud)
 
 option(OPT_SWIG OFF)
+add_definitions(-std=gnu89)
 
 #add_executable(
 #    mud

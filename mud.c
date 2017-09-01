@@ -23,7 +23,6 @@
 
 #include "blenlib.h"
 #include "stdmath.h"
-#include "base.h"
 
 static short debug_merge = 0;
 
