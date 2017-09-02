@@ -38,6 +38,10 @@
 #define MUD_FACE_EXISTS 1
 #define MUD_FACE_DELETED 2
 
+#if !defined(LUA_OK)
+#define LUA_OK 0
+#endif
+
 struct Stash;
 struct Mud;
 struct Context;

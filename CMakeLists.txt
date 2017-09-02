@@ -3,16 +3,9 @@ cmake_minimum_required(VERSION 2.8)
 
 project(Mud)
 
-option(OPT_SWIG OFF)
 add_definitions(-std=gnu89)
 
 
-#add_executable(
-#    mud
-#    mudc.c
-#)
-
-#target_link_libraries(mud lualib m dl readline)
 set(
 	SRC_MUD
 
@@ -126,7 +119,15 @@ find_library(LIB_UTIL stdutil ${PATH_MUD} REQUIRED)
 add_library(lua_mud ${LIB_TYPE} ${MUD_LUA_SRC})
 #add_library(lua_mud ${LIB_TYPE} ${MUD_LUA_SRC} ${LIB_COMPAT})
 
+#add_executable(
+#    mud
+#    mudc.c
+#)
+
+target_link_libraries(mud lua_mud m dl readline)
+
 # SWIG
+option(OPT_SWIG OFF)
 if(OPT_SWIG)
 	include("swig.cmake")
 endif()
