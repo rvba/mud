@@ -1,3 +1,11 @@
+/* 
+ * Copyright (c) 2017 Milovann Yanatchkov 
+ *
+ * This file is part of Mud, a free software
+ * licensed under the GNU General Public License v2
+ * see /LICENSE for more information
+ *
+ */
 #include <string.h>
 #include <GL/gl.h>
 #include <GL/glut.h>
