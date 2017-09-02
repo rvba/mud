@@ -18,8 +18,8 @@
 
 #include "mud.h"
 #include "modifier.h"
-#include "stash.h"
 #include "llist.h"
+#include "umber.h"
 
 #include "blenlib.h"
 #include "stdmath.h"

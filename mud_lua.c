@@ -37,7 +37,6 @@
 void (* MUD_BUILD_FUNCTION)( t_lua_mud *mud) = NULL;
 
 // CHECK
-int dze;
 
 static int lua_mud_set( lua_State * L)
 {
