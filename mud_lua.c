@@ -19,6 +19,7 @@
 #include "modifier.h"
 #include "stash.h"
 #include "llist.h"
+#include "umber.h"
 
 #include <stdlib.h>
 #include <string.h>
@@ -36,6 +37,7 @@
 void (* MUD_BUILD_FUNCTION)( t_lua_mud *mud) = NULL;
 
 // CHECK
+int dze;
 
 static int lua_mud_set( lua_State * L)
 {

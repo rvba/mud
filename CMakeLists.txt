@@ -6,6 +6,7 @@ project(Mud)
 option(OPT_SWIG OFF)
 add_definitions(-std=gnu89)
 
+
 #add_executable(
 #    mud
 #    mudc.c
@@ -72,6 +73,7 @@ set(
 
 include_directories(lib/blenlib/blenlib)
 include_directories(lib/blenlib/guardedalloc)
+include_directories(umber)
 
 if(OPT_LUA_5_1)
 	message("LUA 5.1")
