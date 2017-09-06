@@ -1,7 +1,7 @@
 # MUD
-cmake_minimum_required(VERSION 2.8) 
 
 project(Mud)
+include(ExternalProject)
 
 add_definitions(-std=gnu89)
 
@@ -119,14 +119,40 @@ find_library(LIB_UTIL stdutil ${PATH_MUD} REQUIRED)
 add_library(lua_mud ${LIB_TYPE} ${MUD_LUA_SRC})
 #add_library(lua_mud ${LIB_TYPE} ${MUD_LUA_SRC} ${LIB_COMPAT})
 
-#add_executable(
-#    mud
-#    mudc.c
-#)
+add_executable(
+    mud
+    mudc.c
+)
 
+
+
+ExternalProject_Add(
+	project_luajit
+	URL http://luajit.org/download/LuaJIT-2.0.1.tar.gz
+	PREFIX ${CMAKE_CURRENT_BINARY_DIR}/luajit
+	#SOURCE_DIR "${CMAKE_CURRENT_BINARY_DIR}/luajit/src"
+	UPDATE_COMMAND ""
+	CONFIGURE_COMMAND ""
+	#BUILD_COMMAND make -f ${CMAKE_CURRENT_BINARY_DIR}/luajit/src/Makefile
+	#BUILD_COMMAND "cd ${CMAKE_CURRENT_BINARY_DIR}/luajit/src && make "
+	#BUILD_COMMAND cd ${CMAKE_CURRENT_BINARY_DIR}/luajit && make
+	BUILD_COMMAND ${MAKE} 
+	BUILD_IN_SOURCE 1
+	INSTALL_COMMAND ""
+	LOG_CONFIGURE 1
+	LOG_BUILD 1
+	)
+
+#ExternalProject_Get_Property(project_luajit install_dir)
+#add_library(luajit STATIC IMPORTED)
+#set_target_property(TARGET luajit PROPERTY IMPORTED_LOCATION ${install_dir}/lib/libluajit-5.1.a)
+#add_dependencies(luajit project_luajit)
+include_directories(${install_dir}/include/luajit-2.0)
+target_link_libraries(mud luajit)
 target_link_libraries(mud lua_mud m dl readline)
 
-# SWIG
+#SWIG
+
 option(OPT_SWIG OFF)
 if(OPT_SWIG)
 	include("swig.cmake")
