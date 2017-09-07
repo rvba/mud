@@ -62,6 +62,7 @@ static void mud_main_exe( const char *file_path)
 
 		if( luaL_loadbuffer( LUA_STATE, data, data_size, "buffer") == LUA_OK )
 		{
+/*
 			printf("[PROCCESSING] ... ");
 			if( !lua_pcall( LUA_STATE, 0, 0, 0))
 			{
@@ -72,6 +73,7 @@ static void mud_main_exe( const char *file_path)
 				printf("\n");
 				mn_lua_error();
 			}
+*/
 		}
 		else
 		{
