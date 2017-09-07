@@ -124,8 +124,9 @@ add_executable(
     mudc.c
 )
 
+
 ExternalProject_Add(
-	luajit
+	_luajit
 	URL http://luajit.org/download/LuaJIT-2.0.1.tar.gz
 	PREFIX ${CMAKE_CURRENT_SOURCE_DIR}/luajit
 	#SOURCE_DIR "${CMAKE_CURRENT_BINARY_DIR}/luajit/src"
@@ -140,10 +141,11 @@ ExternalProject_Add(
 
 #ExternalProject_Get_Property(luajit install_dir)
 add_library(libluajit STATIC IMPORTED)
-set(libluajit_path ${CMAKE_CURRENT_SOURCE_DIR}/luajit/src/luajit/src/libluajit.a)
+set(libluajit_path ${CMAKE_CURRENT_SOURCE_DIR}/luajit/src/_luajit/src)
+include_directories(${libluajit_path})
 message("Libluajit: " ${libluajit_path})
-set_target_properties(libluajit PROPERTIES IMPORTED_LOCATION ${libluajit_path})
-add_dependencies(libluajit luajit)
+set_target_properties(libluajit PROPERTIES IMPORTED_LOCATION ${libluajit_path}/libluajit.a)
+add_dependencies(libluajit _luajit)
 include_directories(${install_dir}/src)
 target_link_libraries(mud lua_mud)
 target_link_libraries(mud libluajit dl readline m)
