@@ -125,7 +125,7 @@ add_executable(
 )
 
 ExternalProject_Add(
-	project_luajit
+	luajit
 	URL http://luajit.org/download/LuaJIT-2.0.1.tar.gz
 	PREFIX ${CMAKE_CURRENT_SOURCE_DIR}/luajit
 	#SOURCE_DIR "${CMAKE_CURRENT_BINARY_DIR}/luajit/src"
@@ -138,15 +138,15 @@ ExternalProject_Add(
 	LOG_BUILD 1
 	)
 
-ExternalProject_Get_Property(project_luajit install_dir)
-add_library(luajit STATIC IMPORTED)
-set(libluajit ${CMAKE_CURRENT_SOURCE_DIR}/luajit/src/project_luajit/src/libluajit.a)
-message("Libluajit: " ${libluajit})
-set_target_properties(luajit PROPERTIES IMPORTED_LOCATION ${libluajit})
-add_dependencies(luajit project_luajit)
+#ExternalProject_Get_Property(luajit install_dir)
+add_library(libluajit STATIC IMPORTED)
+set(libluajit_path ${CMAKE_CURRENT_SOURCE_DIR}/luajit/src/luajit/src/libluajit.a)
+message("Libluajit: " ${libluajit_path})
+set_target_properties(libluajit PROPERTIES IMPORTED_LOCATION ${libluajit_path})
+add_dependencies(libluajit luajit)
 include_directories(${install_dir}/src)
 target_link_libraries(mud lua_mud)
-target_link_libraries(mud luajit dl readline m)
+target_link_libraries(mud libluajit dl readline m)
 
 #SWIG
 
