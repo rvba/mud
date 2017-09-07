@@ -128,7 +128,7 @@ add_executable(
 ExternalProject_Add(
 	project_luajit
 	URL http://luajit.org/download/LuaJIT-2.0.1.tar.gz
-	PREFIX ${CMAKE_CURRENT_BINARY_DIR}/luajit
+	PREFIX ${CMAKE_CURRENT_SOURCE_DIR}/luajit
 	#SOURCE_DIR "${CMAKE_CURRENT_BINARY_DIR}/luajit/src"
 	UPDATE_COMMAND ""
 	CONFIGURE_COMMAND ""
