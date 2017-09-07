@@ -146,8 +146,8 @@ message("Libluajit: " ${libluajit})
 set_target_properties(luajit PROPERTIES IMPORTED_LOCATION ${libluajit})
 add_dependencies(luajit project_luajit)
 include_directories(${install_dir}/src)
-target_link_libraries(mud luajit)
-target_link_libraries(mud lua_mud m dl readline)
+target_link_libraries(mud lua_mud)
+target_link_libraries(mud luajit dl readline m)
 
 #SWIG
 
