@@ -141,8 +141,9 @@ ExternalProject_Add(
 
 ExternalProject_Get_Property(project_luajit install_dir)
 add_library(luajit STATIC IMPORTED)
-message("LuaJit install dir: " ${install_dir})
-set_target_properties(luajit PROPERTIES IMPORTED_LOCATION ${CMAKE_BINARY_DIR}/src/mud/luajit/src/project_luajit/src/libluajit.a)
+set(libluajit ${CMAKE_BINARY_DIR}/luajit/src/project_luajit/src/libluajit.a)
+message("Libluajit: " ${libluajit})
+set_target_properties(luajit PROPERTIES IMPORTED_LOCATION ${libluajit})
 add_dependencies(luajit project_luajit)
 include_directories(${install_dir}/src)
 target_link_libraries(mud luajit)
