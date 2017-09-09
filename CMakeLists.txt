@@ -7,6 +7,7 @@ project(Mud)
 include(lua/CMakeLists.txt)
 
 add_definitions(-std=gnu89)
+add_definitions(-DHAVE_NO_COMPAT)
 
 
 set(
@@ -51,6 +52,8 @@ set(
 	stdmath_mat4_lua.c
 	stdmath_lua.c
 
+	lua_util.c
+	lua_util.h
 	)
 
 
