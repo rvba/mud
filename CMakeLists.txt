@@ -23,14 +23,6 @@ set(
 	mud_tessellate.c
 	)
 
-if(OPT_LUA_5_1 OR OPT_LUAJIT)
-	set(
-		SRC_COMPAT
-		lib/lua-compat-5.3/c-api/compat-5.3.c
-		lib/lua-compat-5.3/c-api/compat-5.3.h
-		)
-	add_library(luacompat ${LIB_TYPE} ${SRC_COMPAT})
-endif()
 
 if(OPT_TINYSPLINE)
 	set(
