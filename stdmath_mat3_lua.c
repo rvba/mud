@@ -10,6 +10,7 @@
 #include "lua.h"
 #include "lauxlib.h"
 #include "lualib.h"
+#include "lua_util.h"
 
 #ifdef HAVE_LUA_5_1
 #include "compat-5.3.h"
