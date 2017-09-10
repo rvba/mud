@@ -3,11 +3,11 @@
 cmake_minimum_required(VERSION 2.8) 
 project(Mud)
 
+add_definitions(-DHAVE_NO_COMPAT)
 #add_subdirectory(lua)
 include(lua/CMakeLists.txt)
 
 add_definitions(-std=gnu89)
-add_definitions(-DHAVE_NO_COMPAT)
 
 
 set(
@@ -121,7 +121,10 @@ add_executable(
     mudc.c
 )
 
-target_link_libraries(mud libluajit dl m)
+#target_link_libraries(mud libluajit dl m)
+target_link_libraries(mud ${CMAKE_CURRENT_LIST_DIR}/lua/luajit/src/libluajit.a)
+target_link_libraries(mud dl m)
+target_link_libraries(mud lua_util)
 include_directories(lua/luajit/src)
 
 
