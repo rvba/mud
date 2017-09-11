@@ -122,10 +122,10 @@ add_executable(
 )
 
 #target_link_libraries(mud libluajit dl m)
-target_link_libraries(mud ${CMAKE_CURRENT_LIST_DIR}/lua/luajit/src/libluajit.a)
+target_link_libraries(mud ${CMAKE_CURRENT_LIST_DIR}/lune/luajit/src/libluajit.a)
 target_link_libraries(mud dl m)
 target_link_libraries(mud lua_util)
-include_directories(lua/luajit/src)
+include_directories(lune/luajit/src)
 
 
 #SWIG
