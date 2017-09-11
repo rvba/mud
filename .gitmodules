@@ -1,3 +1,6 @@
 [submodule "umber"]
 	path = umber
 	url = ../umber.git
+[submodule "lune"]
+	path = lune
+	url = ../lune.git

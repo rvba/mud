@@ -5,7 +5,7 @@ project(Mud)
 
 add_definitions(-DHAVE_NO_COMPAT)
 #add_subdirectory(lua)
-include(lua/CMakeLists.txt)
+include(lune/CMakeLists.txt)
 
 add_definitions(-std=gnu89)
 
