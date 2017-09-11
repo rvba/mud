@@ -1,6 +1,3 @@
 [submodule "umber"]
 	path = umber
 	url = ../umber.git
-[submodule "lua"]
-	path = lua
-	url = ../lua
