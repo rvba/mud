@@ -1,6 +1,18 @@
 # MUD
 
 cmake_minimum_required(VERSION 2.8) 
+
+GET_PROPERTY(_MUD_LIB GLOBAL PROPERTY MUD_LIB)
+
+if( NOT DEFINED _MUD_LIB)
+	SET_PROPERTY(GLOBAL PROPERTY MUD_LIB "not set")
+	set(_MUD_LIB "not set")
+endif() 
+
+
+if( NOT ${_MUD_LIB} STREQUAL "set")
+	SET_PROPERTY(GLOBAL PROPERTY MUD_LIB "set")
+
 project(Mud)
 
 add_definitions(-DHAVE_NO_COMPAT)
