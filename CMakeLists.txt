@@ -147,3 +147,5 @@ if(OPT_SWIG)
 	include("swig.cmake")
 endif()
 
+endif() # GUARD
+
