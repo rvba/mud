@@ -16,7 +16,6 @@ if( NOT ${_MUD_LIB} STREQUAL "set")
 project(Mud)
 
 add_definitions(-DHAVE_NO_COMPAT)
-#add_subdirectory(lua)
 include(lune/CMakeLists.txt)
 
 add_definitions(-std=gnu89)
@@ -78,19 +77,6 @@ include_directories(lib/blenlib/blenlib)
 include_directories(lib/blenlib/guardedalloc)
 include_directories(umber)
 
-if(OPT_LUA_5_1)
-	message("LUA 5.1")
-	include_directories(lib/lua_5.1/src)
-	add_subdirectory(lib/lua_5.1)
-elseif(OPT_LUA_5_3)
-	message("LUA 5.3")
-	include_directories(lib/lua/src)
-	add_subdirectory(lib/lua)
-else()
-	message("USING LUAJIT")
-	#include_directories(luajit)
-endif()
-
 include_directories(umber)
 add_subdirectory(lib/blenlib)
 add_subdirectory(umber)
@@ -123,17 +109,13 @@ set(
 
 find_library(LIB_MUD mud ${PATH_MUD} REQUIRED)
 find_library(LIB_UTIL stdutil ${PATH_MUD} REQUIRED)
-#find_library(LIB_COMPAT  luacompat ${PATH_MUD} REQUIRED)
-
 add_library(lua_mud ${LIB_TYPE} ${MUD_LUA_SRC})
-#add_library(lua_mud ${LIB_TYPE} ${MUD_LUA_SRC} ${LIB_COMPAT})
 
 add_executable(
     mud
     mudc.c
 )
 
-#target_link_libraries(mud libluajit dl m)
 target_link_libraries(mud ${CMAKE_CURRENT_LIST_DIR}/lune/luajit/src/libluajit.a)
 target_link_libraries(mud dl m)
 target_link_libraries(mud lua_util)
